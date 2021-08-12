@@ -19,8 +19,18 @@ func move(path):
 
 # Activate function (when this unit enters it's turn)
 func activate():
-	# Find path to player
+	# Find closest player & its path
+	var targetPlayer = GameManager.players[0]
 	var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
+	var shortestPathSize = path.size()
+	for player in GameManager.players:
+		var currentPlayerPath = TileMapAStar.find_path(get_global_position(), player.get_global_position())
+		if (currentPlayerPath.size() < shortestPathSize):
+			targetPlayer = player
+			path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
+			shortestPathSize = path.size()
+	
+	# Fix path
 	path.remove(0) # remove the tile already on
 	path.remove(path.size() - 1) # remove the tile that the target is on
 	
@@ -32,7 +42,7 @@ func activate():
 		Ray.set_cast_to(dir)
 		Ray.force_raycast_update()
 		if (Ray.get_collider() != null):
-			if (Ray.get_collider().get_parent() == GameManager.players[0]): # !!!!!!!!!!!!
+			if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
 				targetInAttackRange = true
 				print('** ATTACK **') # attack action
 				

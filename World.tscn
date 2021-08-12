@@ -38,7 +38,7 @@
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 48, 48 )
 
 [node name="World" type="Node2D"]
@@ -60,25 +60,18 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Creatures" type="Node2D" parent="."]
 
-[node name="Player" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 768, 480 )
-
 [node name="Rat" type="Node2D" parent="Creatures"]
-position = Vector2( 864, 768 )
+position = Vector2( 672, 192 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite" type="Sprite" parent="Creatures/Rat"]
-texture = ExtResource( 6 )
-centered = false
-
 [node name="Area2D" type="Area2D" parent="Creatures/Rat"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat/Area2D"]
 position = Vector2( 48, 48 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat/Area2D"]
 position = Vector2( 48, 48 )
@@ -89,109 +82,18 @@ collide_with_bodies = false
 
 [node name="Tween" type="Tween" parent="Creatures/Rat"]
 
-[node name="Rat3" type="Node2D" parent="Creatures"]
-position = Vector2( 1632, 96 )
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" type="Sprite" parent="Creatures/Rat3"]
+[node name="Sprite" type="Sprite" parent="Creatures/Rat"]
 texture = ExtResource( 6 )
 centered = false
 
-[node name="Area2D" type="Area2D" parent="Creatures/Rat3"]
+[node name="Player" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 768, 480 )
+playerClass = "Warrior"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat3/Area2D"]
-position = Vector2( 48, 48 )
-shape = SubResource( 3 )
-
-[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat3/Area2D"]
-position = Vector2( 48, 48 )
-enabled = true
-cast_to = Vector2( 0, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Tween" type="Tween" parent="Creatures/Rat3"]
-
-[node name="Rat2" type="Node2D" parent="Creatures"]
-position = Vector2( 672, 288 )
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" type="Sprite" parent="Creatures/Rat2"]
-texture = ExtResource( 6 )
-centered = false
-
-[node name="Area2D" type="Area2D" parent="Creatures/Rat2"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat2/Area2D"]
-position = Vector2( 48, 48 )
-shape = SubResource( 3 )
-
-[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat2/Area2D"]
-position = Vector2( 48, 48 )
-enabled = true
-cast_to = Vector2( 0, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Tween" type="Tween" parent="Creatures/Rat2"]
-
-[node name="Rat4" type="Node2D" parent="Creatures"]
-position = Vector2( 768, 288 )
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" type="Sprite" parent="Creatures/Rat4"]
-texture = ExtResource( 6 )
-centered = false
-
-[node name="Area2D" type="Area2D" parent="Creatures/Rat4"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat4/Area2D"]
-position = Vector2( 48, 48 )
-shape = SubResource( 3 )
-
-[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat4/Area2D"]
-position = Vector2( 48, 48 )
-enabled = true
-cast_to = Vector2( 0, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Tween" type="Tween" parent="Creatures/Rat4"]
-
-[node name="Rat5" type="Node2D" parent="Creatures"]
-position = Vector2( 864, 288 )
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" type="Sprite" parent="Creatures/Rat5"]
-texture = ExtResource( 6 )
-centered = false
-
-[node name="Area2D" type="Area2D" parent="Creatures/Rat5"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat5/Area2D"]
-position = Vector2( 48, 48 )
-shape = SubResource( 3 )
-
-[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat5/Area2D"]
-position = Vector2( 48, 48 )
-enabled = true
-cast_to = Vector2( 0, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Tween" type="Tween" parent="Creatures/Rat5"]
+[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 192, 672 )
+playerClass = "Priest"
+playerColor = "orange"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )

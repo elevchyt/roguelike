@@ -11,10 +11,70 @@ var isPlayer = true
 var hasPlayed = false
 var active = false
 
+export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
+export(String, "blue", "pink", "orange") var playerColor
+
+# Set sprites
+func _ready():
+	# Class Sprite & Colors
+	match playerClass:
+		"Warrior":
+			match playerColor:
+				"blue":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_020.png")
+				"pink":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_030.png")
+				"orange":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_040.png")
+		"Mage":
+			match playerColor:
+				"blue":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_021.png")
+				"pink":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_031.png")
+				"orange":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_041.png")
+		"Rogue":
+			match playerColor:
+				"blue":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_022.png")
+				"pink":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_032.png")
+				"orange":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_042.png")
+		"Priest":
+			match playerColor:
+				"blue":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_023.png")
+				"pink":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_033.png")
+				"orange":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_043.png")
+		"Monk":
+			match playerColor:
+				"blue":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_024.png")
+				"pink":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_034.png")
+				"orange":
+					$Sprite.texture = load("res://Sprites/sprite_all frames_044.png")
+					
+	# Cursor color
+	match playerColor:
+		"blue":
+			$CursorSprite.animation = "cursor_blue"
+		"pink":
+			$CursorSprite.animation = "cursor_pink"
+		"orange":
+			$CursorSprite.animation = "cursor_orange"
+
 # Activate function (when this unit enters its turn)
 func activate():
 	# Reset values
 	active = true
+	
+	# Activate cursor (selector on top of sprite's head)
+	$CursorSprite.visible = true
 	
 func _process(delta):
 	# Check if the player has the ability to take an action
@@ -55,5 +115,9 @@ func move_to_position(direction):
 
 # Go to next creature's turn
 func end_turn():
+	# Hide Cursor
+	$CursorSprite.visible = false
+	
+	# End Turn
 	GameManager.calc_turn_order()
 	GameManager.next_player_turn()
