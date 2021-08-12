@@ -1,15 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Sprites/sprite_all frames_020.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/sprite_all frames_000.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/sprite_all frames_010.png" type="Texture" id=3]
-[ext_resource path="res://TileMapAStar.gd" type="Script" id=4]
-[ext_resource path="res://Player.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/TileMapAStar.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/sprite_all frames_071.png" type="Texture" id=6]
-[ext_resource path="res://Enemy.gd" type="Script" id=7]
-[ext_resource path="res://GameManager.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Enemy.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/GameManager.gd" type="Script" id=8]
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=1]
 0/name = "sprite_all frames_000.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
@@ -39,9 +38,6 @@
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 48, 48 )
-
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 48, 48 )
 
@@ -55,7 +51,7 @@ format = 1
 script = ExtResource( 4 )
 
 [node name="TileMap" type="TileMap" parent="TileMapAStar"]
-tile_set = SubResource( 2 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 96, 96 )
 cell_quadrant_size = 96
 cell_custom_transform = Transform2D( 96, 0, 0, 96, 0, 0 )
@@ -64,34 +60,11 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Creatures" type="Node2D" parent="."]
 
-[node name="Player" type="Node2D" parent="Creatures"]
+[node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 768, 480 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" type="Sprite" parent="Creatures/Player"]
-texture = ExtResource( 1 )
-centered = false
-
-[node name="Area2D" type="Area2D" parent="Creatures/Player"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Player/Area2D"]
-position = Vector2( 48, 48 )
-shape = SubResource( 1 )
-
-[node name="RayCast2D" type="RayCast2D" parent="Creatures/Player/Area2D"]
-position = Vector2( 48, 48 )
-enabled = true
-cast_to = Vector2( 0, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Tween" type="Tween" parent="Creatures/Player"]
 
 [node name="Rat" type="Node2D" parent="Creatures"]
-position = Vector2( 768, 288 )
+position = Vector2( 864, 768 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
@@ -115,6 +88,110 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="Tween" type="Tween" parent="Creatures/Rat"]
+
+[node name="Rat3" type="Node2D" parent="Creatures"]
+position = Vector2( 1632, 96 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat3"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat3/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 3 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat3/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat3"]
+
+[node name="Rat2" type="Node2D" parent="Creatures"]
+position = Vector2( 672, 288 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat2"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat2/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 3 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat2/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat2"]
+
+[node name="Rat4" type="Node2D" parent="Creatures"]
+position = Vector2( 768, 288 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat4"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat4/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 3 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat4/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat4"]
+
+[node name="Rat5" type="Node2D" parent="Creatures"]
+position = Vector2( 864, 288 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat5"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat5"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat5/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 3 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat5/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat5"]
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
