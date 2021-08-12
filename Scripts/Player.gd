@@ -21,43 +21,43 @@ func _ready():
 		"Warrior":
 			match playerColor:
 				"blue":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_020.png")
+					$Sprite.texture = load("res://Sprites/warrior_blue.png")
 				"pink":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_030.png")
+					$Sprite.texture = load("res://Sprites/warrior_pink.png")
 				"orange":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_040.png")
+					$Sprite.texture = load("res://Sprites/warrior_orange.png")
 		"Mage":
 			match playerColor:
 				"blue":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_021.png")
+					$Sprite.texture = load("res://Sprites/mage_blue.png")
 				"pink":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_031.png")
+					$Sprite.texture = load("res://Sprites/mage_pink.png")
 				"orange":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_041.png")
+					$Sprite.texture = load("res://Sprites/mage_orange.png")
 		"Rogue":
 			match playerColor:
 				"blue":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_022.png")
+					$Sprite.texture = load("res://Sprites/rogue_blue.png")
 				"pink":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_032.png")
+					$Sprite.texture = load("res://Sprites/rogue_pink.png")
 				"orange":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_042.png")
+					$Sprite.texture = load("res://Sprites/rogue_orange.png")
 		"Priest":
 			match playerColor:
 				"blue":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_023.png")
+					$Sprite.texture = load("res://Sprites/priest_blue.png")
 				"pink":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_033.png")
+					$Sprite.texture = load("res://Sprites/priest_pink.png")
 				"orange":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_043.png")
+					$Sprite.texture = load("res://Sprites/priest_orange.png")
 		"Monk":
 			match playerColor:
 				"blue":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_024.png")
+					$Sprite.texture = load("res://Sprites/monk_blue.png")
 				"pink":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_034.png")
+					$Sprite.texture = load("res://Sprites/monk_pink.png")
 				"orange":
-					$Sprite.texture = load("res://Sprites/sprite_all frames_044.png")
+					$Sprite.texture = load("res://Sprites/monk_orange.png")
 					
 	# Cursor color
 	match playerColor:

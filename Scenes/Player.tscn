@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/sprite_all frames_020.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/sprite_all frames_026.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/sprite_all frames_025.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/sprite_all frames_035.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/sprite_all frames_045.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/sprite_all frames_036.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/sprite_all frames_046.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/warrior_blue.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/cursor_blue_2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/cursor_blue_1.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/cursor_pink_1.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/cursor_orange_1.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/cursor_pink_2.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/cursor_orange_2.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 48 )
@@ -61,6 +61,5 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 2 )
 animation = "cursor_blue"
-frame = 1
 playing = true
 centered = false

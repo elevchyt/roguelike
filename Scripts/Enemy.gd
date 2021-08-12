@@ -16,6 +16,8 @@ func move(path):
 		if (stepsCounter > 0):
 			stepsCounter -= 1
 			position = step
+			#Tween.interpolate_property(self, "position", position, step, 0.1, Tween.EASE_IN, Tween.EASE_OUT)
+			#Tween.start()
 
 # Activate function (when this unit enters it's turn)
 func activate():

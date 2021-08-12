@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Sprites/sprite_all frames_000.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/sprite_all frames_010.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/wall.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/floor.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/TileMapAStar.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Sprites/sprite_all frames_071.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/rat.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/Enemy.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/GameManager.gd" type="Script" id=8]
 
@@ -61,7 +61,7 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Creatures" type="Node2D" parent="."]
 
 [node name="Rat" type="Node2D" parent="Creatures"]
-position = Vector2( 672, 192 )
+position = Vector2( 768, 288 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
@@ -87,18 +87,8 @@ texture = ExtResource( 6 )
 centered = false
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 1440, 384 )
+position = Vector2( 672, 480 )
 playerClass = "Warrior"
-
-[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 192, 672 )
-playerClass = "Priest"
-playerColor = "orange"
-
-[node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 1440, 288 )
-playerClass = "Rogue"
-playerColor = "pink"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
