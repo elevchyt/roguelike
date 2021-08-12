@@ -87,13 +87,18 @@ texture = ExtResource( 6 )
 centered = false
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 768, 480 )
+position = Vector2( 1440, 384 )
 playerClass = "Warrior"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 192, 672 )
 playerClass = "Priest"
 playerColor = "orange"
+
+[node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 1440, 288 )
+playerClass = "Rogue"
+playerColor = "pink"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )

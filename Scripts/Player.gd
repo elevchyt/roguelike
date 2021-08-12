@@ -68,6 +68,7 @@ func _ready():
 		"orange":
 			$CursorSprite.animation = "cursor_orange"
 
+
 # Activate function (when this unit enters its turn)
 func activate():
 	# Reset values
