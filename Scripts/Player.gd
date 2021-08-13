@@ -104,7 +104,12 @@ func _ready():
 			$CursorSprite.animation = "cursor_pink"
 		"orange":
 			$CursorSprite.animation = "cursor_orange"
-
+	
+	# Re-Calculate HP & MP based on mana
+	healthMax = ceil(5 + strength * 1.2 + level * 2)
+	manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+	health = healthMax
+	mana = manaMax
 
 # Activate function (when this unit enters its turn)
 func activate():
@@ -140,7 +145,6 @@ func move_to_position(direction):
 	Ray.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
-	
 	if (Ray.get_collider() == null):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != 0 

@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var CameraNode = get_node("/root/World/Camera2D")
+onready var HUD = get_node("/root/World/HUD")
 onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
@@ -37,6 +38,7 @@ func next_player_turn():
 	# Activate players in order
 	elif (playerCurrentIndex != players.size() && players[playerCurrentIndex].state != 'dead'):
 		players[playerCurrentIndex].activate()
+		HUD.currentPlayer = players[playerCurrentIndex]
 		CameraNode.position = players[playerCurrentIndex].position
 		playerCurrentIndex += 1
 	else:
