@@ -8,17 +8,35 @@ onready var Sprite = $Sprite
 onready var Area2D = $Area2D
 
 var isPlayer = true
+var isMonster = false
 var hasPlayed = false
 var active = false
 
+# Stats
+var level = 1
+var strength = 1
+var dexterity = 1
+var intelligence = 1
+var healthMax = 5 + strength * 1.2 + level * 2
+var manaMax = 5 + intelligence * 1.2 + level * 2
+var xpCurrent = 0
+var xpToLevel = 5 + level * 2
+var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
+var weaponDamage = 0
+
+# Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
 export(String, "blue", "pink", "orange") var playerColor
 
-# Set sprites
+# Initialize object
 func _ready():
-	# Class Sprite & Colors
+	# Class Sprite, Colors & Starting Stats
 	match playerClass:
 		"Warrior":
+			strength = 6
+			dexterity = 3
+			intelligence = 1
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/warrior_blue.png")
@@ -27,6 +45,10 @@ func _ready():
 				"orange":
 					$Sprite.texture = load("res://Sprites/warrior_orange.png")
 		"Mage":
+			strength = 3
+			dexterity = 2
+			intelligence = 5
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/mage_blue.png")
@@ -35,6 +57,10 @@ func _ready():
 				"orange":
 					$Sprite.texture = load("res://Sprites/mage_orange.png")
 		"Rogue":
+			strength = 3
+			dexterity = 4
+			intelligence = 3
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/rogue_blue.png")
@@ -43,6 +69,10 @@ func _ready():
 				"orange":
 					$Sprite.texture = load("res://Sprites/rogue_orange.png")
 		"Priest":
+			strength = 2
+			dexterity = 2
+			intelligence = 6
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/priest_blue.png")
@@ -51,6 +81,10 @@ func _ready():
 				"orange":
 					$Sprite.texture = load("res://Sprites/priest_orange.png")
 		"Monk":
+			strength = 5
+			dexterity = 4
+			intelligence = 1
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/monk_blue.png")
@@ -89,13 +123,15 @@ func _process(delta):
 			move_to_position(Vector2(-96, 0))
 		elif (Input.is_action_just_pressed("key_d")):
 			move_to_position(Vector2(96, 0))
-	
+
+# Move To Position
 func move_to_position(direction):
 	# Cast the ray (for non-tilemap solid objects)
 	Ray.set_cast_to(direction)
 	Ray.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
+	
 	if (Ray.get_collider() == null):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != 0 
@@ -111,14 +147,44 @@ func move_to_position(direction):
 				#Tween.start()
 				
 				# End Turn
-				yield(get_tree().create_timer(0.2), "timeout") # a delay between button presses (must last more than tween!)
 				end_turn()
+	# Attack (if monster is at position)
+	elif (Ray.get_collider().get_parent().isMonster == true):
+		animation_attack(direction)
+		attack(Ray.get_collider().get_parent())
+
+# Attack
+func attack(target):
+	hasPlayed = true
+	active = false
+	
+	# Reduce health
+	target.health -= strength + weaponDamage
+	print(str(target.health) + ' / ' + str(target.healthMax))
+	
+	# Check if killed
+	if (target.health <= 0):
+		target.queue_free()
+	
+	# End Turn
+	end_turn()
 
 # Go to next creature's turn
 func end_turn():
+	# Delay between button presses (must last more than tweens!)
+	yield(get_tree().create_timer(0.2), "timeout") 
+	
 	# Hide Cursor
 	$CursorSprite.visible = false
 	
 	# End Turn
 	GameManager.calc_turn_order()
 	GameManager.next_player_turn()
+
+# ANIMATIONS (Duration must be lower than 0.2 always)
+func animation_attack(direction):
+	Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position + direction, 0.06, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+	yield(get_tree().create_timer(0.07), "timeout")
+	Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position - direction, 0.06, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()

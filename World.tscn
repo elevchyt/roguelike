@@ -66,6 +66,10 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
+level = 3
+strength = 6
+dexterity = 3
+intelligence = 3
 
 [node name="Area2D" type="Area2D" parent="Creatures/Rat"]
 
@@ -83,6 +87,66 @@ collide_with_bodies = false
 [node name="Tween" type="Tween" parent="Creatures/Rat"]
 
 [node name="Sprite" type="Sprite" parent="Creatures/Rat"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Rat2" type="Node2D" parent="Creatures"]
+position = Vector2( 864, 576 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+level = 3
+strength = 6
+dexterity = 3
+intelligence = 3
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat2/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat2/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat2"]
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat2"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Rat3" type="Node2D" parent="Creatures"]
+position = Vector2( 384, 576 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+level = 3
+strength = 6
+dexterity = 3
+intelligence = 3
+
+[node name="Area2D" type="Area2D" parent="Creatures/Rat3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Creatures/Rat3/Area2D"]
+position = Vector2( 48, 48 )
+shape = SubResource( 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Creatures/Rat3/Area2D"]
+position = Vector2( 48, 48 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Tween" type="Tween" parent="Creatures/Rat3"]
+
+[node name="Sprite" type="Sprite" parent="Creatures/Rat3"]
 texture = ExtResource( 6 )
 centered = false
 

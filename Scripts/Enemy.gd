@@ -5,9 +5,21 @@ onready var GameManager = get_node("/root/World/GameManager")
 onready var Ray = $Area2D/RayCast2D
 onready var Tween = $Tween
 
-export var visionRange = 999 # the number of steps where this unit will become aggressive towards the player
+export(int) var visionRange = 3 # the number of steps where this unit will become aggressive towards the player
 var isPlayer = false
+var isMonster = true
 var hasPlayed = false
+
+# Stats
+export(int) var level
+export(int) var strength
+export(int) var dexterity
+export(int) var intelligence
+onready var healthMax = ceil(5 + strength * 1.2 + level * 2)
+onready var health = healthMax
+onready var manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+onready var mana = manaMax
+onready var evasionPerc = clamp(dexterity * 1.4, 0, 40) # clamp to 40% (0.4)
 
 # Moves next to target
 func move(path):

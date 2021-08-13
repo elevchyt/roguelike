@@ -11,10 +11,6 @@ onready var rootNode = get_node("/root/World")
 
 var floorCells : PoolVector2Array
 
-func _process(delta):
-	if (Input.is_action_just_released("ui_accept")):
-		print(floorCells)
-
 func _ready():
 	generate_grid()
 
