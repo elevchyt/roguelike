@@ -33,7 +33,8 @@ func next_player_turn():
 	# Check if all players are dead
 	if (players.empty()):
 		print('** ALL PLAYERS ARE DEAD! **')
-	# Create player turn order
+		print('** GAME OVER **')
+	# Activate players in order
 	elif (playerCurrentIndex != players.size() && players[playerCurrentIndex].state != 'dead'):
 		players[playerCurrentIndex].activate()
 		CameraNode.position = players[playerCurrentIndex].position

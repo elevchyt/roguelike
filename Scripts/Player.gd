@@ -130,6 +130,8 @@ func _process(delta):
 			move_to_position(Vector2(-96, 0))
 		elif (Input.is_action_just_pressed("key_d")):
 			move_to_position(Vector2(96, 0))
+		elif (Input.is_action_just_pressed("key_escape")):
+			end_turn()
 
 # Move To Position
 func move_to_position(direction):
@@ -143,9 +145,6 @@ func move_to_position(direction):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != 0 
 			&& tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
-				hasPlayed = true
-				active = false
-				
 				# Move
 				position = get_global_position() + direction
 				
@@ -155,6 +154,7 @@ func move_to_position(direction):
 				
 				# End Turn
 				end_turn()
+				
 	# Attack (if monster is at position)
 	elif (Ray.get_collider().get_parent().isMonster == true):
 		animation_attack(direction)
@@ -178,6 +178,9 @@ func attack(target):
 
 # Go to next creature's turn
 func end_turn():
+	hasPlayed = true
+	active = false
+	
 	# Delay between button presses (must last more than tweens!)
 	yield(get_tree().create_timer(0.2), "timeout") 
 	
