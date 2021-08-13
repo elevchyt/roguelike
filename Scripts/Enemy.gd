@@ -32,6 +32,7 @@ func move(path):
 # Activate function (when this unit enters it's turn)
 func activate():
 	# Find closest player & its path
+	print(GameManager.players)
 	var targetPlayer = GameManager.players[0]
 	var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
 	var shortestPathSize = path.size()
@@ -74,12 +75,15 @@ func activate():
 
 # Attack
 func attack(target):
-	yield(get_tree().create_timer(0.2), "timeout") 
-	hasPlayed = true
+	#yield(get_tree().create_timer(0.2), "timeout") 
 	
 	# Reduce health
 	target.health -= strength
 	
-	# Check if killed
+	# Check if killed & remove from players array & set his state to dead
 	if (target.health <= 0):
-		target.queue_free()
+		target.state = 'dead'
+		target.modulate.a = 0.5
+		#GameManager.players.erase(target)
+		GameManager.calc_turn_order()
+		#target.queue_free()

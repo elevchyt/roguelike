@@ -11,6 +11,7 @@ var isPlayer = true
 var isMonster = false
 var hasPlayed = false
 var active = false
+var state = 'alive' # alive, dead, sleep, stun, root
 
 # Stats
 var level = 1
@@ -107,6 +108,10 @@ func _ready():
 
 # Activate function (when this unit enters its turn)
 func activate():
+	# If dead skip turn
+	if (state == 'dead'):
+		end_turn()
+	
 	# Reset values
 	active = true
 	

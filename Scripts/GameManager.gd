@@ -1,15 +1,11 @@
 extends Node2D
 
+onready var CameraNode = get_node("/root/World/Camera2D")
 onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
 
 func _ready():
-	# Create array of all available players first
-	for creature in get_node("/root/World/Creatures").get_children():
-		if (creature.isPlayer):
-			players.append(creature)
-	
 	# Launch game!
 	calc_turn_order()
 	next_player_turn() # activate first player's turn
@@ -19,9 +15,12 @@ func _ready():
 # must be called at the beginning of every creature's turn to make sure it doesn't look for destroyed creatures
 func calc_turn_order():
 	turnOrder.clear()
+	players.clear()
 	for creature in get_node("/root/World/Creatures").get_children():
 		if (creature.isPlayer == false):
 			turnOrder.append(creature)
+		elif (creature.isPlayer && creature.state != 'dead'):
+			players.append(creature)
 	turnOrder = players + turnOrder
 	
 	print('- TURN ORDER -')
@@ -31,9 +30,13 @@ func calc_turn_order():
 	
 # Activate the next available player, otherwise run the AI turns & reset index
 func next_player_turn():
-	if (playerCurrentIndex != players.size()):
-		print(playerCurrentIndex)
+	# Check if all players are dead
+	if (players.empty()):
+		print('** ALL PLAYERS ARE DEAD! **')
+	# Create player turn order
+	elif (playerCurrentIndex != players.size() && players[playerCurrentIndex].state != 'dead'):
 		players[playerCurrentIndex].activate()
+		CameraNode.position = players[playerCurrentIndex].position
 		playerCurrentIndex += 1
 	else:
 		playerCurrentIndex = 0
