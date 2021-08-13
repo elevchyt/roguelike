@@ -75,8 +75,6 @@ func activate():
 
 # Attack
 func attack(target):
-	#yield(get_tree().create_timer(0.2), "timeout") 
-	
 	# Reduce health
 	target.health -= strength
 	
@@ -84,6 +82,4 @@ func attack(target):
 	if (target.health <= 0):
 		target.state = 'dead'
 		target.modulate.a = 0.5
-		#GameManager.players.erase(target)
 		GameManager.calc_turn_order()
-		#target.queue_free()

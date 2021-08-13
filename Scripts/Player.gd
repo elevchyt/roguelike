@@ -105,9 +105,10 @@ func _ready():
 		"orange":
 			$CursorSprite.animation = "cursor_orange"
 	
-	# Re-Calculate HP & MP based on mana
+	# Re-Calculate HP, MP & Evasion based on mana
 	healthMax = ceil(5 + strength * 1.2 + level * 2)
 	manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+	evasionPerc = dexterity * 1.4
 	health = healthMax
 	mana = manaMax
 

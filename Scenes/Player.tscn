@@ -17,11 +17,6 @@ extents = Vector2( 48, 48 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "cursor_blue",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "cursor_orange",
@@ -30,6 +25,11 @@ animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "cursor_pink",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "cursor_blue",
 "speed": 5.0
 } ]
 
@@ -58,16 +58,6 @@ collide_with_bodies = false
 texture = ExtResource( 2 )
 centered = false
 
-[node name="CursorSprite" type="AnimatedSprite" parent="."]
-visible = false
-position = Vector2( 0, -96 )
-z_index = 10
-frames = SubResource( 2 )
-animation = "cursor_blue"
-frame = 1
-playing = true
-centered = false
-
 [node name="HealthBar" type="Sprite" parent="."]
 z_index = 10
 
@@ -81,3 +71,13 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CursorSprite" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 0, -96 )
+z_index = 10
+frames = SubResource( 2 )
+animation = "cursor_blue"
+frame = 1
+playing = true
+centered = false
