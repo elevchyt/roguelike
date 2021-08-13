@@ -17,11 +17,13 @@ var level = 1
 var strength = 1
 var dexterity = 1
 var intelligence = 1
-var healthMax = 5 + strength * 1.2 + level * 2
-var manaMax = 5 + intelligence * 1.2 + level * 2
+onready var healthMax = ceil(5 + strength * 1.2 + level * 2)
+onready var health = healthMax
+onready var manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+onready var mana = manaMax
 var xpCurrent = 0
-var xpToLevel = 5 + level * 2
-var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
+onready var xpToLevel = ceil(5 + level * 2)
+onready var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
 var weaponDamage = 0
 
 # Sprites
@@ -181,6 +183,7 @@ func end_turn():
 	GameManager.calc_turn_order()
 	GameManager.next_player_turn()
 
+##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
 	Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position + direction, 0.06, Tween.EASE_IN, Tween.EASE_OUT)

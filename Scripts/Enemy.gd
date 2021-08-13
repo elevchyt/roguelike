@@ -15,9 +15,9 @@ export(int) var level
 export(int) var strength
 export(int) var dexterity
 export(int) var intelligence
-onready var healthMax = ceil(5 + strength * 1.2 + level * 2)
+onready var healthMax = ceil(strength * 1.2 + level * 2)
 onready var health = healthMax
-onready var manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+onready var manaMax = ceil(intelligence * 1.2 + level * 2)
 onready var mana = manaMax
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 40) # clamp to 40% (0.4)
 
@@ -28,8 +28,6 @@ func move(path):
 		if (stepsCounter > 0):
 			stepsCounter -= 1
 			position = step
-			#Tween.interpolate_property(self, "position", position, step, 0.1, Tween.EASE_IN, Tween.EASE_OUT)
-			#Tween.start()
 
 # Activate function (when this unit enters it's turn)
 func activate():
@@ -58,6 +56,7 @@ func activate():
 		if (Ray.get_collider() != null):
 			if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
 				targetInAttackRange = true
+				attack(targetPlayer)
 				print('** ATTACK **') # attack action
 				
 	# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
@@ -72,3 +71,15 @@ func activate():
 		
 	# End Turn
 	hasPlayed = true
+
+# Attack
+func attack(target):
+	yield(get_tree().create_timer(0.2), "timeout") 
+	hasPlayed = true
+	
+	# Reduce health
+	target.health -= strength
+	
+	# Check if killed
+	if (target.health <= 0):
+		target.queue_free()
