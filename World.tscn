@@ -40,15 +40,15 @@
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="DynamicFont" id=4]
-size = 96
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=2]
 size = 96
 font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 96
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 96
 font_data = ExtResource( 9 )
 
@@ -73,6 +73,15 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 672, 288 )
+
+[node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 864, 288 )
+
+[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 1056, 384 )
+
+[node name="Rat4" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 768, 672 )
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 480 )
@@ -101,7 +110,7 @@ margin_left = 584.0
 margin_top = 16.0
 margin_right = 1208.0
 margin_bottom = 235.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -113,7 +122,7 @@ margin_left = 576.0
 margin_top = 8.0
 margin_right = 1200.0
 margin_bottom = 227.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -124,7 +133,7 @@ margin_left = 16.0
 margin_top = 16.0
 margin_right = 651.0
 margin_bottom = 124.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "HP: 9/9"
 text = "HP: 9/9"
@@ -138,7 +147,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 643.0
 margin_bottom = 116.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "HP: 9/9"
 text = "HP: 9/9"
@@ -149,7 +158,7 @@ margin_left = 16.0
 margin_top = 112.0
 margin_right = 690.0
 margin_bottom = 220.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "MP: 9/9"
 text = "MP: 9/9"
@@ -163,7 +172,7 @@ margin_left = 8.0
 margin_top = 104.0
 margin_right = 682.0
 margin_bottom = 212.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "MP: 9/9"
 text = "MP: 9/9"
@@ -177,7 +186,7 @@ margin_left = 8.0
 margin_top = 296.0
 margin_right = 266.0
 margin_bottom = 404.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "STR: 2"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -188,7 +197,7 @@ margin_left = 8.0
 margin_top = 392.0
 margin_right = 266.0
 margin_bottom = 500.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "DEX: 2"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -199,7 +208,7 @@ margin_left = 8.0
 margin_top = 488.0
 margin_right = 266.0
 margin_bottom = 596.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "INT: 2"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -210,7 +219,7 @@ margin_left = 8.0
 margin_top = 672.0
 margin_right = 266.0
 margin_bottom = 780.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "EV: 4.8%"
 __meta__ = {
 "_edit_use_anchors_": false

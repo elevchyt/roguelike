@@ -171,8 +171,20 @@ func attack(target):
 	active = false
 	
 	# Reduce health
-	target.health -= strength + weaponDamage
+	var damageTotal = strength + weaponDamage
+	target.health -= damageTotal
 	print(str(target.health) + ' / ' + str(target.healthMax))
+	
+	# Show damage text above target
+	var damageText = target.get_node('TextDamage')
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -96), 0.4, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+	damageText.visible = true
+	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+	damageText.visible = false
+	damageText.position = Vector2.ZERO
 	
 	# Check if killed
 	if (target.health <= 0):

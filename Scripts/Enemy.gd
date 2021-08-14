@@ -33,53 +33,68 @@ func move(path):
 func activate():
 	# Find closest player & its path
 	print(GameManager.players)
-	var targetPlayer = GameManager.players[0]
-	var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
-	var shortestPathSize = path.size()
-	for player in GameManager.players:
-		var currentPlayerPath = TileMapAStar.find_path(get_global_position(), player.get_global_position())
-		if (currentPlayerPath.size() < shortestPathSize):
-			targetPlayer = player
-			path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
-			shortestPathSize = path.size()
 	
-	# Fix path
-	path.remove(0) # remove the tile already on
-	path.remove(path.size() - 1) # remove the tile that the target is on
-	
-	print('-Distance to target from ' + name + ': ' + str(path.size()))
-	# Check if target is within attack range (for basic melee attack)
-	var directions = [Vector2(0, -48), Vector2(0, 48), Vector2(-48, 0), Vector2(48, 0)]
-	var targetInAttackRange = false
-	for dir in directions:
-		Ray.set_cast_to(dir)
-		Ray.force_raycast_update()
-		if (Ray.get_collider() != null):
-			if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
-				targetInAttackRange = true
-				attack(targetPlayer)
-				print('** ATTACK **') # attack action
-				
-	# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
-	if (path.size() <= visionRange && path.size() != 0):
-		move(path)
-	# If there is no path to the target
-	elif (path.size() == 0 && targetInAttackRange == false):
-		print('** IDLE (no path) **')
-	# If target is out of vision range
-	elif (path.size() > visionRange):
-		print('** IDLE (no vision) **')
+	if (GameManager.players.empty() == false):
+		var targetPlayer = GameManager.players[0]
+		var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
+		var shortestPathSize = path.size()
+		for player in GameManager.players:
+			var currentPlayerPath = TileMapAStar.find_path(get_global_position(), player.get_global_position())
+			if (currentPlayerPath.size() < shortestPathSize):
+				targetPlayer = player
+				path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
+				shortestPathSize = path.size()
 		
-	# End Turn
-	hasPlayed = true
+		# Fix path
+		path.remove(0) # remove the tile already on
+		path.remove(path.size() - 1) # remove the tile that the target is on
+		
+		print('-Distance to target from ' + name + ': ' + str(path.size()))
+		# Check if target is within attack range (for basic melee attack)
+		var directions = [Vector2(0, -48), Vector2(0, 48), Vector2(-48, 0), Vector2(48, 0)]
+		var targetInAttackRange = false
+		for dir in directions:
+			Ray.set_cast_to(dir)
+			Ray.force_raycast_update()
+			if (Ray.get_collider() != null):
+				if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
+					targetInAttackRange = true
+					attack(targetPlayer)
+					print('** ATTACK **') # attack action
+					
+		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
+		if (path.size() <= visionRange && path.size() != 0):
+			move(path)
+		# If there is no path to the target
+		elif (path.size() == 0 && targetInAttackRange == false):
+			print('** IDLE (no path) **')
+		# If target is out of vision range
+		elif (path.size() > visionRange):
+			print('** IDLE (no vision) **')
+			
+		# End Turn
+		hasPlayed = true
 
 # Attack
 func attack(target):
 	# Reduce health
-	target.health -= strength
+	var damageTotal = strength
+	target.health -= damageTotal
 	
 	# Check if killed & remove from players array & set his state to dead
 	if (target.health <= 0):
+		target.health = 0
 		target.state = 'dead'
 		target.modulate.a = 0.5
 		GameManager.calc_turn_order()
+	
+	# Show damage text above target
+	var damageText = target.get_node('TextDamage')
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -96), 0.4, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+	damageText.visible = true
+	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+	damageText.visible = false
+	damageText.position = Vector2.ZERO
