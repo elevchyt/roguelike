@@ -6,6 +6,7 @@ onready var Ray = $Area2D/RayCast2D
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
+onready var healthBar = get_node('HealthBar/HealthBar')
 
 var isPlayer = true
 var isMonster = false
@@ -26,6 +27,7 @@ var xpCurrent = 0
 onready var xpToLevel = ceil(5 + level * 2)
 onready var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
 var weaponDamage = 0
+
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -177,6 +179,7 @@ func attack(target):
 	
 	# Show damage text above target
 	var damageText = target.get_node('TextDamage')
+	
 	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
 	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -96), 0.4, Tween.EASE_IN, Tween.EASE_OUT)

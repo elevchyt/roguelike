@@ -4,6 +4,7 @@ onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Ray = $Area2D/RayCast2D
 onready var Tween = $Tween
+onready var healthBar = get_node('HealthBar/HealthBar')
 
 export(int) var visionRange = 3 # the number of steps where this unit will become aggressive towards the player
 var isPlayer = false
@@ -85,7 +86,7 @@ func attack(target):
 	if (target.health <= 0):
 		target.health = 0
 		target.state = 'dead'
-		target.modulate.a = 0.5
+		target.get_node('Sprite').modulate.a = 0.5
 		GameManager.calc_turn_order()
 	
 	# Show damage text above target
