@@ -282,25 +282,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Skill1" type="Sprite" parent="HUD"]
-position = Vector2( 870, 1008 )
+[node name="Skill4" type="Sprite" parent="HUD"]
+position = Vector2( 1158, 1008 )
 texture = ExtResource( 10 )
-offset = Vector2( -6, 0 )
-
-[node name="Skill2" type="Sprite" parent="HUD"]
-position = Vector2( 966, 1008 )
-texture = ExtResource( 10 )
-offset = Vector2( -2, 0 )
+offset = Vector2( 6, 0 )
 
 [node name="Skill3" type="Sprite" parent="HUD"]
 position = Vector2( 1062, 1008 )
 texture = ExtResource( 10 )
 offset = Vector2( 2, 0 )
 
-[node name="Skill4" type="Sprite" parent="HUD"]
-position = Vector2( 1158, 1008 )
+[node name="Skill2" type="Sprite" parent="HUD"]
+position = Vector2( 966, 1008 )
 texture = ExtResource( 10 )
-offset = Vector2( 6, 0 )
+offset = Vector2( -2, 0 )
+
+[node name="Skill1" type="Sprite" parent="HUD"]
+position = Vector2( 870, 1008 )
+texture = ExtResource( 10 )
+offset = Vector2( -6, 0 )
 
 [node name="Tween" type="Tween" parent="HUD"]
 

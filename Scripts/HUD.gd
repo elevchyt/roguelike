@@ -5,6 +5,13 @@ var currentPlayer
 func _process(delta):
 	# Update HUD
 	if (currentPlayer != null):
+		# Toggle hud visibility (H)
+		if (Input.is_action_just_pressed("key_h")):
+			scale = Vector2(0, 0)
+		elif (Input.is_action_just_released("key_h")):
+			scale = Vector2(1, 1)
+		
+		# SET HUD VALUES
 		match (currentPlayer.playerColor):
 			"blue":
 				$ClassLevel.bbcode_text = '[center]' + '[color=#ff4b80ca]' + str(currentPlayer.playerClass) + '[/color]' + ', Level ' + str(currentPlayer.level) + '[/center]'
