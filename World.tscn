@@ -74,15 +74,6 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 672, 288 )
 
-[node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 864, 288 )
-
-[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 1056, 384 )
-
-[node name="Rat4" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 768, 672 )
-
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 480 )
 playerClass = "Warrior"
@@ -129,10 +120,10 @@ __meta__ = {
 }
 
 [node name="HealthShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 651.0
-margin_bottom = 124.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 643.0
+margin_bottom = 116.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "HP: 9/9"
@@ -143,20 +134,21 @@ __meta__ = {
 }
 
 [node name="Health" type="RichTextLabel" parent="HUD"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 643.0
-margin_bottom = 116.0
+margin_right = 635.0
+margin_bottom = 108.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
 bbcode_text = "HP: 9/9"
 text = "HP: 9/9"
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ManaShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 16.0
+margin_left = 8.0
 margin_top = 112.0
-margin_right = 690.0
+margin_right = 682.0
 margin_bottom = 220.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
@@ -168,9 +160,8 @@ __meta__ = {
 }
 
 [node name="Mana" type="RichTextLabel" parent="HUD"]
-margin_left = 8.0
 margin_top = 104.0
-margin_right = 682.0
+margin_right = 674.0
 margin_bottom = 212.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
@@ -181,49 +172,120 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="STR" type="Label" parent="HUD"]
+[node name="XPShadow" type="RichTextLabel" parent="HUD"]
 margin_left = 8.0
-margin_top = 296.0
-margin_right = 266.0
-margin_bottom = 404.0
-custom_fonts/font = SubResource( 4 )
-text = "STR: 2"
+margin_top = 220.0
+margin_right = 682.0
+margin_bottom = 328.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "XP: 3/10"
+text = "XP: 3/10"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DEX" type="Label" parent="HUD"]
-margin_left = 8.0
-margin_top = 392.0
-margin_right = 266.0
-margin_bottom = 500.0
-custom_fonts/font = SubResource( 4 )
-text = "DEX: 2"
+[node name="XP" type="RichTextLabel" parent="HUD"]
+margin_top = 212.0
+margin_right = 674.0
+margin_bottom = 320.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "XP: 3/10"
+text = "XP: 3/10"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="INT" type="Label" parent="HUD"]
-margin_left = 8.0
-margin_top = 488.0
-margin_right = 266.0
-margin_bottom = 596.0
-custom_fonts/font = SubResource( 4 )
-text = "INT: 2"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="STRShadow" type="RichTextLabel" parent="HUD"]
+margin_left = 12.0
+margin_top = 388.0
+margin_right = 270.0
+margin_bottom = 496.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "STR: 9"
+text = "STR: 9"
+scroll_active = false
 
-[node name="Evasion" type="Label" parent="HUD"]
+[node name="STR" type="RichTextLabel" parent="HUD"]
 margin_left = 8.0
-margin_top = 672.0
+margin_top = 384.0
 margin_right = 266.0
-margin_bottom = 780.0
-custom_fonts/font = SubResource( 4 )
-text = "EV: 4.8%"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 492.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "STR: 9"
+text = "STR: 9"
+scroll_active = false
+
+[node name="DEXShadow" type="RichTextLabel" parent="HUD"]
+margin_left = 12.0
+margin_top = 484.0
+margin_right = 270.0
+margin_bottom = 592.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "DEX: 9"
+text = "DEX: 9"
+scroll_active = false
+
+[node name="DEX" type="RichTextLabel" parent="HUD"]
+margin_left = 8.0
+margin_top = 480.0
+margin_right = 266.0
+margin_bottom = 588.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "DEX: 9"
+text = "DEX: 9"
+scroll_active = false
+
+[node name="INTShadow" type="RichTextLabel" parent="HUD"]
+margin_left = 12.0
+margin_top = 580.0
+margin_right = 270.0
+margin_bottom = 688.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "INT: 9"
+text = "INT: 9"
+scroll_active = false
+
+[node name="INT" type="RichTextLabel" parent="HUD"]
+margin_left = 8.0
+margin_top = 576.0
+margin_right = 266.0
+margin_bottom = 684.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "INT: 9"
+text = "INT: 9"
+scroll_active = false
+
+[node name="EvasionShadow" type="RichTextLabel" parent="HUD"]
+margin_left = 12.0
+margin_top = 764.0
+margin_right = 348.0
+margin_bottom = 872.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "Ev: 2.3%"
+text = "Ev: 2.3%"
+scroll_active = false
+
+[node name="Evasion" type="RichTextLabel" parent="HUD"]
+margin_left = 8.0
+margin_top = 760.0
+margin_right = 344.0
+margin_bottom = 868.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "Ev: 2.3%"
+text = "Ev: 2.3%"
+scroll_active = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

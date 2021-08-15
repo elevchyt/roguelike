@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/warrior_blue.png" type="Texture" id=2]
@@ -23,19 +23,23 @@ animations = [ {
 "name": "cursor_orange",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "cursor_pink",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "cursor_blue",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "cursor_pink",
 "speed": 5.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
 size = 96
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 80
 font_data = ExtResource( 12 )
 
 [node name="Player" type="Node2D"]
@@ -92,10 +96,10 @@ visible = false
 z_index = 12
 
 [node name="TextDamageShadow" type="RichTextLabel" parent="TextDamage"]
-margin_left = -47.0
-margin_top = 1.0
-margin_right = 145.0
-margin_bottom = 97.0
+margin_left = -44.0
+margin_top = 4.0
+margin_right = 148.0
+margin_bottom = 100.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]-123[/center]"
@@ -113,6 +117,37 @@ custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]-123[/center]"
 text = "-123"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextLevelUp" type="Sprite" parent="."]
+visible = false
+z_index = 12
+
+[node name="TextLevelUpShadow" type="RichTextLabel" parent="TextLevelUp"]
+margin_left = -140.0
+margin_top = 4.0
+margin_right = 291.0
+margin_bottom = 100.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center]Level-Up![/center]"
+text = "Level-Up!"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextLevelUp" type="RichTextLabel" parent="TextLevelUp"]
+margin_left = -144.0
+margin_right = 287.0
+margin_bottom = 96.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center]Level-Up![/center]"
+text = "Level-Up!"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false

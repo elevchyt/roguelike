@@ -16,12 +16,17 @@ func _process(delta):
 				
 		$ClassLevelShadow.bbcode_text = '[center]' + '[color=#ff212123]' + str(currentPlayer.playerClass) + ', Level ' + str(currentPlayer.level) + '[/color][/center]'
 		
-		
+		$XP.bbcode_text = '[color=#ffffff]XP: ' + str(currentPlayer.xpCurrent) + '/' + str(currentPlayer.xpToLevel) + '[/color]'
+		$XPShadow.bbcode_text = '[color=#ff212123]XP: ' + str(currentPlayer.xpCurrent) + '/' + str(currentPlayer.xpToLevel) + '[/color]'
 		$Health.bbcode_text = 'HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax)
 		$HealthShadow.bbcode_text = '[color=#ff212123]HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax) + '[/color]'
 		$ManaShadow.bbcode_text = '[color=#ff212123]MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax) + '[/color]'
 		$Mana.bbcode_text = 'MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax)
-		$STR.text = 'STR: ' + str(currentPlayer.strength)
-		$DEX.text = 'DEX: ' + str(currentPlayer.dexterity)
-		$INT.text = 'STR: ' + str(currentPlayer.intelligence)
-		$Evasion.text = 'Ev: ' + str(currentPlayer.evasionPerc) + '%'
+		$STR.bbcode_text = 'STR: ' + str(currentPlayer.strength)
+		$STRShadow.bbcode_text = '[color=#ff212123]STR: ' + str(currentPlayer.strength) + '[/color]'
+		$DEX.bbcode_text = 'DEX: ' + str(currentPlayer.dexterity)
+		$DEXShadow.bbcode_text = '[color=#ff212123]DEX: ' + str(currentPlayer.dexterity) + '[/color]'
+		$INT.bbcode_text = 'INT: ' + str(currentPlayer.intelligence)
+		$INTShadow.bbcode_text = '[color=#ff212123]INT: ' + str(currentPlayer.intelligence) + '[/color]'
+		$Evasion.bbcode_text = 'Ev: ' + str(currentPlayer.evasionPerc) + '%'
+		$EvasionShadow.bbcode_text = '[color=#ff212123]Ev: ' + str(currentPlayer.evasionPerc) + '%' + '[/color]'

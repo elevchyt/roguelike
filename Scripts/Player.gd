@@ -24,7 +24,7 @@ onready var health = healthMax
 onready var manaMax = ceil(5 + intelligence * 1.2 + level * 2)
 onready var mana = manaMax
 var xpCurrent = 0
-onready var xpToLevel = ceil(5 + level * 2)
+onready var xpToLevel = ceil(10 + level * 2)
 onready var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
 var weaponDamage = 0
 
@@ -189,8 +189,13 @@ func attack(target):
 	damageText.visible = false
 	damageText.position = Vector2.ZERO
 	
-	# Check if killed
+	# Check if killed & gain xp (check for level-up)
 	if (target.health <= 0):
+		# Check for level-up
+		xpCurrent += target.level
+		level_up_check()
+			
+		# Destroy target
 		target.queue_free()
 	
 	# End Turn
@@ -210,6 +215,53 @@ func end_turn():
 	# End Turn
 	GameManager.calc_turn_order()
 	GameManager.next_player_turn()
+
+# Level-Up
+func level_up_check():
+	while (xpCurrent >= xpToLevel):
+		# Level-Up Text
+		$TextLevelUp.get_node("TextLevelUp").bbcode_text = '[center]Level-Up![/center]'
+		$TextLevelUp.get_node('TextLevelUpShadow').bbcode_text = '[center][color=#ff212123]Level-Up![/color][/center]'
+		Tween.interpolate_property($TextLevelUp, "position", Vector2.ZERO, Vector2(0, -96), 0.5, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		$TextLevelUp.visible = true
+		
+		print('*** LEVEL-UP! ***')
+		
+		# XP
+		xpCurrent = xpCurrent - xpToLevel
+		level += 1
+		healthMax = ceil(5 + strength * 1.2 + level * 2)
+		manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+		xpToLevel = ceil(10 + level * 2)
+		
+		# Raise stats based on class
+		match playerClass:
+			"Warrior":
+				strength += 2
+				dexterity += 1
+				intelligence += 1
+			"Rogue":
+				strength += 1
+				dexterity += 2
+				intelligence += 1
+			"Mage":
+				strength += 1
+				dexterity += 1
+				intelligence += 2
+			"Priest":
+				strength += 1
+				dexterity += 1
+				intelligence += 2
+			"Monk":
+				strength += 2
+				dexterity += 1
+				intelligence += 1
+		
+	# Reset text
+	yield(get_tree().create_timer(1.2), "timeout") # DELAYS NEXT TURN, TOO
+	$TextLevelUp.visible = false
+	$TextLevelUp.position = Vector2.ZERO
 
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
