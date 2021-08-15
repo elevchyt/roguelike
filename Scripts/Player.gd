@@ -14,6 +14,8 @@ var hasPlayed = false
 var active = false
 var state = 'alive' # alive, dead, sleep, stun, root
 
+var targetMode = false # true when using targeted skills
+
 # Stats
 var level = 1
 var strength = 1
@@ -102,10 +104,13 @@ func _ready():
 	match playerColor:
 		"blue":
 			$CursorSprite.animation = "cursor_blue"
+			$Target/TargetSprite.animation = "target_blue"
 		"pink":
 			$CursorSprite.animation = "cursor_pink"
+			$Target/TargetSprite.animation = "target_pink"
 		"orange":
 			$CursorSprite.animation = "cursor_orange"
+			$Target/TargetSprite.animation = "target_orange"
 	
 	# Re-Calculate HP, MP & Evasion based on mana
 	healthMax = ceil(5 + strength * 1.2 + level * 2)
@@ -128,7 +133,7 @@ func activate():
 	
 func _process(delta):
 	# Check if the player has the ability to take an action
-	if (active == true):
+	if (active == true && targetMode == false):
 		# Movement
 		if (Input.is_action_just_pressed("key_w")):
 			move_to_position(Vector2(0, -96))
@@ -182,7 +187,7 @@ func attack(target):
 	
 	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -96), 0.4, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 	Tween.start()
 	damageText.visible = true
 	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
