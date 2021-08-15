@@ -7,6 +7,7 @@ onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
 onready var healthBar = get_node('HealthBar/HealthBar')
+onready var HUD = get_node("/root/World/HUD")
 
 var isPlayer = true
 var isMonster = false
@@ -14,6 +15,11 @@ var hasPlayed = false
 var active = false
 var state = 'alive' # alive, dead, sleep, stun, root
 
+# Skills
+# MAGE: flare, thunderclap, arcane shield, curse
+var skills : Array # Array of current skills
+var skillsClass : Array # Array of total class skills
+var skillSlots : Array # Array of skill slot sprites
 var targetMode = false # true when using targeted skills
 
 # Stats
@@ -37,6 +43,12 @@ export(String, "blue", "pink", "orange") var playerColor
 
 # Initialize object
 func _ready():
+	# Assign skill slot sprites
+	skillSlots.append(HUD.get_node('Skill1'))
+	skillSlots.append(HUD.get_node('Skill2'))
+	skillSlots.append(HUD.get_node('Skill3'))
+	skillSlots.append(HUD.get_node('Skill4'))
+	
 	# Class Sprite, Colors & Starting Stats
 	match playerClass:
 		"Warrior":
@@ -55,6 +67,14 @@ func _ready():
 			strength = 3
 			dexterity = 2
 			intelligence = 5
+			
+			skillsClass.append('Flare')
+			skillsClass.append('Thunderclap')
+			skillsClass.append('Arcane Shield')
+			skillsClass.append('Curse')
+			
+			skills.append(skillsClass[0])
+			print(skills)
 			
 			match playerColor:
 				"blue":
@@ -130,8 +150,10 @@ func activate():
 	
 	# Activate cursor (selector on top of sprite's head)
 	$CursorSprite.visible = true
-	
+
 func _process(delta):
+	if (Input.is_action_just_pressed("key_space")):
+		add_skill('Flare')
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false):
 		# Movement
@@ -267,6 +289,22 @@ func level_up_check():
 	yield(get_tree().create_timer(1.2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
 	$TextLevelUp.position = Vector2.ZERO
+
+# Gives a skill to the player
+func add_skill(skillName):
+	for slot in skillSlots:
+		if (slot.texture.resource_path == 'res://Sprites/skill_slot.png'):
+			var index = GameManager.skillsNames.find(skillName)
+			slot.texture = load(GameManager.skillsSlotSprites[index])
+			
+			# Animation
+			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+			HUD.get_node('Tween').start()
+			yield(get_tree().create_timer(1.3), "timeout")
+			HUD.get_node('Tween').interpolate_property(slot, "scale", scale * 1.5, scale, 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			HUD.get_node('Tween').start()
+			
+			break
 
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)

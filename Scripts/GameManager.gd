@@ -6,6 +6,11 @@ onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
 
+# DEBUG BUTTONS
+func _process(delta):
+	if (Input.is_action_just_pressed("key_r")):
+		get_tree().reload_current_scene()
+
 func _ready():
 	# Launch game!
 	calc_turn_order()
@@ -54,3 +59,12 @@ func launch_ai_turns():
 	
 	# Start players' turns 
 	next_player_turn()
+##################################################################################################
+# SKILLS LIBRARY (is referred after skill is granted to a player)
+var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse']
+var skillsDescription = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse']
+var skillsSlotSprites = ['res://Sprites/skill_flare.png', 'res://Sprites/skill_thunderclap.png', 'res://Sprites/skill_arcane_shield.png', 'res://Sprites/skill_curse.png']
+var skillsCooldowns
+var skillsFormula
+var skillType
+var skillsTargetType
