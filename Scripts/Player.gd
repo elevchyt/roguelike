@@ -18,6 +18,9 @@ var state = 'alive' # alive, dead, sleep, stun, root
 # Skills
 # MAGE: flare, thunderclap, arcane shield, curse
 var skills : Array # Array of current skills
+var skillsDescription : Array # Array of skills' descriptions
+var skillsType : Array # Array of skills' type
+var skillsTargetType : Array # Array of skills' target type
 var skillsClass : Array # Array of total class skills
 var skillSlots : Array # Array of skill slot sprites
 var targetMode = false # true when using targeted skills
@@ -291,11 +294,19 @@ func level_up_check():
 func add_skill(skillName):
 	for slot in skillSlots:
 		if (slot.texture.resource_path == 'res://Sprites/skill_slot.png'):
-			# Add skill & skill sprite
+			# Add skill data & set skill sprite
 			var index = GameManager.skillsNames.find(skillName)
-			skills.append(GameManager.skillsNames[index])
 			slot.texture = load(GameManager.skillsSlotSprites[index])
+			
+			skills.append(GameManager.skillsNames[index])
+			skillsDescription.append(GameManager.skillsDescription[index])
+			skillsType.append(GameManager.skillsType[index])
+			skillsTargetType.append(GameManager.skillsTargetType[index])
+			
 			print(skills)
+			print(skillsDescription)
+			print(skillsType)
+			print(skillsTargetType)
 			
 			# Animation
 			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
