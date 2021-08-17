@@ -23,6 +23,9 @@ var skillsType : Array # Array of skills' type
 var skillsTargetType : Array # Array of skills' target type
 var skillsClass : Array # Array of total class skills
 var skillSlots : Array # Array of skill slot sprites
+var skillMode = false # true when pressing skill choose button (Left-Shift)
+var skillChoose : String # The current skill highlighted before usage; during skillMode
+var skillChooseIndex : int # index of current highlighted skill
 var targetMode = false # true when using targeted skills
 
 # Stats
@@ -151,11 +154,15 @@ func activate():
 	# Activate cursor (selector on top of sprite's head)
 	$CursorSprite.visible = true
 
+# Get input
 func _process(delta):
+	# TEST
 	if (Input.is_action_just_pressed("key_space")):
 		add_skill('Flare')
+		add_skill('Thunderclap')
+	
 	# Check if the player has the ability to take an action
-	if (active == true && targetMode == false):
+	if (active == true && targetMode == false && skillMode == false):
 		# Movement
 		if (Input.is_action_just_pressed("key_w")):
 			move_to_position(Vector2(0, -96))
@@ -165,9 +172,47 @@ func _process(delta):
 			move_to_position(Vector2(-96, 0))
 		elif (Input.is_action_just_pressed("key_d")):
 			move_to_position(Vector2(96, 0))
+			
+		# Skip turn
 		elif (Input.is_action_just_pressed("key_escape")):
 			end_turn()
+			
+		# Skills
+		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false):
+			skillMode = true
+			active = false
+			
+			skillChooseIndex = 0
+			skillChoose = skills[skillChooseIndex]
+			
+			HUD.get_node('Tween').stop_all()
+			HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+			HUD.get_node('Tween').start()
+	# Skills mode scroll right/left
+	if (skillMode == true && Input.is_action_just_pressed("key_d") && skillChooseIndex < skills.size() - 1):
+		skillChooseIndex += 1
+		skillChoose = skills[skillChooseIndex]
 
+		skillSlots[skillChooseIndex].z_index = 1
+		skillSlots[skillChooseIndex - 1].z_index = 0
+		
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').start()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').start()
+	elif (skillMode == true && Input.is_action_just_pressed("key_a") && skillChooseIndex > 0):
+		skillChooseIndex -= 1
+		skillChoose = skills[skillChooseIndex]
+
+		skillSlots[skillChooseIndex - 1].z_index = 1
+		skillSlots[skillChooseIndex + 1].z_index = 0
+		
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').start()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').start()
 # Move To Position
 func move_to_position(direction):
 	# Cast the ray (for non-tilemap solid objects)
