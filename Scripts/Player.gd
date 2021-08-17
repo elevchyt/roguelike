@@ -73,9 +73,6 @@ func _ready():
 			skillsClass.append('Arcane Shield')
 			skillsClass.append('Curse')
 			
-			skills.append(skillsClass[0])
-			print(skills)
-			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/mage_blue.png")
@@ -294,8 +291,11 @@ func level_up_check():
 func add_skill(skillName):
 	for slot in skillSlots:
 		if (slot.texture.resource_path == 'res://Sprites/skill_slot.png'):
+			# Add skill & skill sprite
 			var index = GameManager.skillsNames.find(skillName)
+			skills.append(GameManager.skillsNames[index])
 			slot.texture = load(GameManager.skillsSlotSprites[index])
+			print(skills)
 			
 			# Animation
 			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
@@ -304,7 +304,7 @@ func add_skill(skillName):
 			HUD.get_node('Tween').interpolate_property(slot, "scale", scale * 1.5, scale, 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			HUD.get_node('Tween').start()
 			
-			break
+			break # stop searching
 
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
