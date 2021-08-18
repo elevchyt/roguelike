@@ -42,6 +42,7 @@ func find_path(start, end):
 	for creature in get_node("/root/World/Creatures").get_children():
 		if(creature.get_global_position() != start && creature.get_global_position() != end):
 			occupiedCells.append(world_to_map(creature.get_global_position()))
+			
 	
 	for cell in floorCells:
 		astar.set_point_disabled(id_generate(cell), false)

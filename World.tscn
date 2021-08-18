@@ -75,6 +75,12 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 672, 288 )
 
+[node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 768, 288 )
+
+[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 576, 384 )
+
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 480 )
 playerClass = "Mage"

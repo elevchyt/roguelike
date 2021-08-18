@@ -4,6 +4,7 @@ onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Ray = $Area2D/RayCast2D
 onready var Tween = $Tween
+onready var Sprite = $Sprite
 onready var healthBar = get_node('HealthBar/HealthBar')
 
 export(int) var visionRange = 3 # the number of steps where this unit will become aggressive towards the player
@@ -33,8 +34,6 @@ func move(path):
 # Activate function (when this unit enters it's turn)
 func activate():
 	# Find closest player & its path
-	print(GameManager.players)
-	
 	if (GameManager.players.empty() == false):
 		var targetPlayer = GameManager.players[0]
 		var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
@@ -60,6 +59,7 @@ func activate():
 			if (Ray.get_collider() != null):
 				if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
 					targetInAttackRange = true
+					animation_attack(dir)
 					attack(targetPlayer)
 					print('** ATTACK **') # attack action
 					
@@ -99,3 +99,11 @@ func attack(target):
 	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
 	damageText.visible = false
 	damageText.position = Vector2.ZERO
+##########################################################################################
+# ANIMATIONS (Duration must be lower than 0.2 always)
+func animation_attack(direction):
+	Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position + direction, 0.06, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+	yield(get_tree().create_timer(0.07), "timeout")
+	Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position - direction, 0.06, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
