@@ -58,6 +58,7 @@ func launch_ai_turns():
 			creature.activate()
 	
 	# Start players' turns 
+	yield(get_tree().create_timer(0.2), "timeout")
 	next_player_turn()
 
 ##################################################################################################

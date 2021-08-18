@@ -90,13 +90,15 @@ func attack(target):
 		GameManager.calc_turn_order()
 	
 	# Show damage text above target
+	z_index = 1
 	var damageText = target.get_node('TextDamage')
 	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
 	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 	Tween.start()
 	damageText.visible = true
-	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+	yield(get_tree().create_timer(1), "timeout")
+	z_index = 0
 	damageText.visible = false
 	damageText.position = Vector2.ZERO
 ##########################################################################################
