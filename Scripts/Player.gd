@@ -159,9 +159,14 @@ func activate():
 # Get input
 func _process(delta):
 	# TEST
-	if (Input.is_action_just_pressed("key_space")):
+	if (Input.is_action_just_pressed("key_t")):
 		add_skill('Flare')
+	elif (Input.is_action_just_pressed("key_y")):
 		add_skill('Thunderclap')
+	elif (Input.is_action_just_pressed("key_u")):
+		add_skill('Arcane Shield')
+	elif (Input.is_action_just_pressed("key_i")):
+		add_skill('Curse')
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false):
@@ -231,10 +236,7 @@ func _process(delta):
 		targetMode = false
 		
 		# Leave skills toolbar
-		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale * 1.4, scale, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
 		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
-		HUD.get_node('Tween').start()
 		skillSlots[skillChooseIndex].scale = Vector2(1, 1)
 		skillSlots[skillChooseIndex].modulate.a = 1
 		
@@ -249,7 +251,6 @@ func _process(delta):
 			targetMode = true
 			
 			# Highlight skill on toolbar
-			HUD.get_node('Tween').reset_all()
 			skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
 			skillSlots[skillChooseIndex].modulate.a = 0.8
 			
