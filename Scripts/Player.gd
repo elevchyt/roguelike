@@ -20,6 +20,8 @@ var state = 'alive' # alive, dead, sleep, stun, root
 var skills : Array # Array of current skills
 var skillsDescription : Array # Array of skills' descriptions
 var skillsType : Array # Array of skills' type
+var skillsCooldown : Array # Array of skills' cooldown
+var skillsRange : Array # Array of skills' range
 var skillsTargetType : Array # Array of skills' target type
 var skillsClass : Array # Array of total class skills
 var skillSlots : Array # Array of skill slot sprites
@@ -180,16 +182,17 @@ func _process(delta):
 		# Skills
 		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false):
 			skillMode = true
-			active = false
 			
 			skillChooseIndex = 0
 			skillChoose = skills[skillChooseIndex]
 			
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+			HUD.get_node('Tween').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('Tween').start()
-	# Skills mode scroll right/left
-	if (skillMode == true && Input.is_action_just_pressed("key_d") && skillChooseIndex < skills.size() - 1):
+	# Skills mode scroll 
+	# Right
+	elif (skillMode == true && Input.is_action_just_pressed("key_d") && skillChooseIndex < skills.size() - 1):
 		skillChooseIndex += 1
 		skillChoose = skills[skillChooseIndex]
 
@@ -197,10 +200,11 @@ func _process(delta):
 		skillSlots[skillChooseIndex - 1].z_index = 0
 		
 		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
+	# Left
 	elif (skillMode == true && Input.is_action_just_pressed("key_a") && skillChooseIndex > 0):
 		skillChooseIndex -= 1
 		skillChoose = skills[skillChooseIndex]
@@ -209,10 +213,60 @@ func _process(delta):
 		skillSlots[skillChooseIndex + 1].z_index = 0
 		
 		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
+	# Cancel
+	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
+		skillMode = false
+		
+		# Leave skills toolbar
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale * 1.4, scale, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+		HUD.get_node('Tween').start()
+	# Cancel Target (leaves from targetMode AND skillMode)
+	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
+		targetMode = false
+		
+		# Leave skills toolbar
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale * 1.4, scale, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+		HUD.get_node('Tween').start()
+		skillSlots[skillChooseIndex].scale = Vector2(1, 1)
+		skillSlots[skillChooseIndex].modulate.a = 1
+		
+		# Disable target
+		$Target.visible = false
+		$Target/CollisionShape2D.disabled = true
+	# Choose
+	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
+		# Target Skills => Enemy
+		if (skillsType[skillChooseIndex] == 'active' && skillsTargetType[skillChooseIndex] == 'target+enemy'):
+			skillMode = false
+			targetMode = true
+			
+			# Highlight skill on toolbar
+			HUD.get_node('Tween').reset_all()
+			skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
+			skillSlots[skillChooseIndex].modulate.a = 0.8
+			
+			# Enable target
+			$Target.visible = true
+			$Target/CollisionShape2D.disabled = false
+	# Move Target
+	elif (targetMode == true):
+		if (Input.is_action_just_pressed("key_w")):
+			move_target(Vector2(0, -96))
+		elif (Input.is_action_just_pressed("key_s")):
+			move_target(Vector2(0, 96))
+		elif (Input.is_action_just_pressed("key_a")):
+			move_target(Vector2(-96, 0))
+		elif (Input.is_action_just_pressed("key_d")):
+			move_target(Vector2(96, 0))
+	
 # Move To Position
 func move_to_position(direction):
 	# Cast the ray (for non-tilemap solid objects)
@@ -274,6 +328,10 @@ func attack(target):
 	
 	# End Turn
 	end_turn()
+
+# Move Target
+func move_target(dir):
+	$Target.position += dir
 
 # Go to next creature's turn
 func end_turn():
@@ -347,6 +405,8 @@ func add_skill(skillName):
 			
 			skills.append(GameManager.skillsNames[index])
 			skillsDescription.append(GameManager.skillsDescription[index])
+			skillsCooldown.append(GameManager.skillsCooldown[index])
+			skillsRange.append(GameManager.skillsRange[index])
 			skillsType.append(GameManager.skillsType[index])
 			skillsTargetType.append(GameManager.skillsTargetType[index])
 			

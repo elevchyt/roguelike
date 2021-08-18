@@ -34,8 +34,8 @@ func generate_grid():
 		var directions = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]
 		for dir in directions:
 			astar.connect_points(id_generate(cell), id_generate(cell + dir), false)
-
-# Find path to target
+	
+# Find path to target creature
 func find_path(start, end):
 	# Disable points that are currently occupied by creatures (excluding start & end creature points!)
 	var occupiedCells : PoolVector2Array
@@ -43,7 +43,6 @@ func find_path(start, end):
 		if(creature.get_global_position() != start && creature.get_global_position() != end):
 			occupiedCells.append(world_to_map(creature.get_global_position()))
 			
-	
 	for cell in floorCells:
 		astar.set_point_disabled(id_generate(cell), false)
 	for cell in occupiedCells:
