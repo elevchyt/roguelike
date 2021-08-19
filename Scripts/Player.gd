@@ -163,7 +163,7 @@ func activate():
 	# Activate cursor (selector on top of sprite's head)
 	$CursorSprite.visible = true
 
-# Get input
+# GET INPUT
 func _process(delta):
 	# TEST
 	if (Input.is_action_just_pressed("key_t")):
@@ -316,7 +316,7 @@ func attack(target):
 	target.health -= damageTotal
 	print(str(target.health) + ' / ' + str(target.healthMax))
 	
-	# Show damage text above target
+	# Show damage text
 	var damageText = target.get_node('TextDamage')
 	
 	z_index = 1
@@ -341,6 +341,24 @@ func attack(target):
 	
 	# End Turn
 	end_turn()
+	
+# Show damage text
+func show_damage_text(damageTotal, target):
+	# Show damage text above target
+	var damageText = target.get_node('TextDamage')
+	
+	if (damageText != null):
+		print('FSDAFDSAFAFADS')
+		z_index = 1
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		damageText.visible = true
+		yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+		z_index = 0
+		damageText.visible = false
+		damageText.position = Vector2.ZERO
 
 # Move Target
 func move_target(direction):
@@ -360,6 +378,8 @@ func move_target(direction):
 				
 				skillInVision = true
 				if (RayTarget.get_collider() != null):
+					print(RayTarget.get_collider())
+					# Walls
 					if(RayTarget.get_collider() is TileMap):
 						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
 						print('** target not within vision **')
@@ -377,6 +397,8 @@ func move_target(direction):
 func end_turn():
 	hasPlayed = true
 	active = false
+	skillMode = false
+	targetMode = false
 	
 	# Delay between button presses (must last more than tweens!)
 	yield(get_tree().create_timer(0.2), "timeout") 

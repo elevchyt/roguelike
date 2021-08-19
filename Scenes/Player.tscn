@@ -194,7 +194,7 @@ __meta__ = {
 [node name="RayCastVision" type="RayCast2D" parent="."]
 position = Vector2( 48, 48 )
 enabled = true
-cast_to = Vector2( 48, 48 )
+cast_to = Vector2( 0, 0 )
 collide_with_areas = true
 
 [node name="Target" type="Area2D" parent="."]
@@ -211,6 +211,7 @@ position = Vector2( 48, 48 )
 z_index = 11
 frames = SubResource( 6 )
 animation = "target_blue"
+frame = 1
 speed_scale = 0.8
 playing = true
 script = ExtResource( 22 )

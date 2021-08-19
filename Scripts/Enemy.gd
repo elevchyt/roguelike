@@ -57,7 +57,7 @@ func activate():
 			Ray.set_cast_to(dir)
 			Ray.force_raycast_update()
 			if (Ray.get_collider() != null):
-				if (Ray.get_collider().get_parent() == targetPlayer): # !!!!!!!!!!!!
+				if (Ray.get_collider().get_parent() == targetPlayer):
 					targetInAttackRange = true
 					animation_attack(dir)
 					attack(targetPlayer)
@@ -101,6 +101,7 @@ func attack(target):
 	z_index = 0
 	damageText.visible = false
 	damageText.position = Vector2.ZERO
+
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
