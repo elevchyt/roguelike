@@ -4,6 +4,7 @@ onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Ray = $Area2D/RayCastMovement
 onready var RayTarget = $RayCastVision
+onready var Target = $Target
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
@@ -30,7 +31,7 @@ var skillMode = false # true when pressing skill choose button (Left-Shift)
 var skillChoose : String # The current skill highlighted before usage; during skillMode
 var skillChooseIndex : int # index of current highlighted skill
 var targetMode = false # true when using targeted skills
-var skillInVision = false # to check if the current position of the target is within vision (e.g. the player has a clear shot)
+var skillInVision = true # to check if the current position of the target is within vision (e.g. the player has a clear shot)
 
 # Stats
 var level = 1
@@ -279,8 +280,10 @@ func _process(delta):
 		elif (Input.is_action_just_pressed("key_d")):
 			move_target(Vector2(96, 0))
 		elif (Input.is_action_just_pressed("key_space")):
-			print('***CAST SKILL***')
-	
+			$PlayerSkills.use_skill('Flare')
+
+######## END OF INPUT ########
+################################################################################################################
 # Move To Position
 func move_to_position(direction):
 	# Cast the ray (for non-tilemap solid objects)
@@ -343,9 +346,8 @@ func attack(target):
 func move_target(direction):
 	# Get path and move to next position
 	var path = TileMapAStar.find_path_skill(to_global($Target.position), position)
-
 	var pathSize = path.size()
-
+	
 	for tilemap in TileMapAStar.get_children():
 		if (tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != 0 
 		&& tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
@@ -356,7 +358,7 @@ func move_target(direction):
 				RayTarget.set_cast_to($Target.position)
 				RayTarget.force_raycast_update()
 				
-				#skillInVision = true
+				skillInVision = true
 				if (RayTarget.get_collider() != null):
 					if(RayTarget.get_collider() is TileMap):
 						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
