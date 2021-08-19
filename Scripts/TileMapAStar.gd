@@ -56,6 +56,19 @@ func find_path(start, end):
 	
 	return pathCoords
 
+# Find path for targeted skills
+func find_path_skill(start, end):
+	for cell in floorCells:
+		astar.set_point_disabled(id_generate(cell), false)
+	
+	# Create path to target
+	var path = astar.get_point_path(id_generate(world_to_map(start)), id_generate(world_to_map(end)))
+	var pathCoords : PoolVector2Array
+	for step in path:
+		pathCoords.append(map_to_world(step))
+	
+	return pathCoords
+
 # Unique ID Generation based on Vector2 (Cantor Pairing Function)
 func id_generate(point):
 	var a = point.x

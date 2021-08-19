@@ -25,7 +25,7 @@ onready var evasionPerc = clamp(dexterity * 1.4, 0, 40) # clamp to 40% (0.4)
 
 # Moves next to target
 func move(path):
-	var stepsCounter = 1 # normally happens when this unit's turn happens again!
+	var stepsCounter = 1 # normally happens when this unit's turn starts again!
 	for step in path:
 		if (stepsCounter > 0):
 			stepsCounter -= 1

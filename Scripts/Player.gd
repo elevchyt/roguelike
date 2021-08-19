@@ -3,6 +3,7 @@ extends Node2D
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Ray = $Area2D/RayCast2D
+onready var RayTarget = $Target/RayCast2D
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
@@ -243,6 +244,7 @@ func _process(delta):
 		# Disable target
 		$Target.visible = false
 		$Target/CollisionShape2D.disabled = true
+		$Target.position = Vector2.ZERO
 	# Choose
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
 		# Target Skills => Enemy
@@ -267,6 +269,8 @@ func _process(delta):
 			move_target(Vector2(-96, 0))
 		elif (Input.is_action_just_pressed("key_d")):
 			move_target(Vector2(96, 0))
+		elif (Input.is_action_just_pressed("key_space")):
+			print('***CAST SKILL***')
 	
 # Move To Position
 func move_to_position(direction):
@@ -280,11 +284,7 @@ func move_to_position(direction):
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != 0 
 			&& tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
 				# Move
-				position = get_global_position() + direction
-				
-				# Animate Sprite
-				#Tween.interpolate_property(Sprite, "position", Sprite.position, Sprite.position + direction, 0.1, Tween.EASE_IN, Tween.EASE_OUT)
-				#Tween.start()
+				position += direction
 				
 				# End Turn
 				end_turn()
@@ -331,8 +331,18 @@ func attack(target):
 	end_turn()
 
 # Move Target
-func move_target(dir):
-	$Target.position += dir
+func move_target(direction):
+	var path = TileMapAStar.find_path_skill(to_global($Target.position), position)
+
+	var pathSize = path.size()
+
+	for tilemap in TileMapAStar.get_children():
+		if (tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != 0 
+		&& tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
+			if (skillsRange[skillChooseIndex] + 1 > pathSize):
+				$Target.position += direction
+			else:
+				$Target.position = Vector2.ZERO
 
 # Go to next creature's turn
 func end_turn():
