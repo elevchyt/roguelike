@@ -358,7 +358,12 @@ func move_target(direction):
 				
 				#skillInVision = true
 				if (RayTarget.get_collider() != null):
-					print(RayTarget.get_collider())
+					if(RayTarget.get_collider() is TileMap):
+						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
+						print('** target not within vision **')
+					else:
+						skillInVision = true
+						print('** target is within vision **')
 			else:
 				$Target.position = Vector2.ZERO
 				

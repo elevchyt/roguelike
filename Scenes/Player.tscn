@@ -29,14 +29,14 @@ animations = [ {
 "name": "cursor_orange",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "cursor_pink",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "cursor_blue",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "cursor_pink",
 "speed": 5.0
 } ]
 
@@ -53,9 +53,9 @@ extents = Vector2( 48, 48 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 17 ) ],
 "loop": true,
-"name": "target_blue",
+"name": "target_orange",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 16 ), ExtResource( 18 ) ],
@@ -63,9 +63,9 @@ animations = [ {
 "name": "target_pink",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 15 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
-"name": "target_orange",
+"name": "target_blue",
 "speed": 5.0
 } ]
 
@@ -185,7 +185,6 @@ position = Vector2( 48, 48 )
 enabled = true
 cast_to = Vector2( 0, 0 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="Target" type="Area2D" parent="."]
 visible = false
