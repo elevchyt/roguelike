@@ -53,6 +53,10 @@ export(String, "blue", "pink", "orange") var playerColor
 
 # Initialize object
 func _ready():
+	# RayCast initial settings
+	RayTarget.add_exception($Area2D)
+	RayTarget.add_exception($Target)
+	
 	# Assign skill slot sprites
 	skillSlots.append(HUD.get_node('Skill1'))
 	skillSlots.append(HUD.get_node('Skill2'))
@@ -246,6 +250,10 @@ func _process(delta):
 		$Target.visible = false
 		$Target/CollisionShape2D.disabled = true
 		$Target.position = Vector2.ZERO
+		
+		# Reset RayCast
+		RayTarget.set_cast_to($Target.position)
+		RayTarget.force_raycast_update()
 	# Choose
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
 		# Target Skills => Enemy
@@ -345,17 +353,17 @@ func move_target(direction):
 				$Target.position += direction
 				
 				# Cast a ray to check if skillInVision is true
-				RayTarget.add_exception($Area2D)
-				RayTarget.add_exception($Target)
 				RayTarget.set_cast_to($Target.position)
 				RayTarget.force_raycast_update()
 				
 				#skillInVision = true
-				# if hit_collider extends TileMap:
 				if (RayTarget.get_collider() != null):
 					print(RayTarget.get_collider())
 			else:
 				$Target.position = Vector2.ZERO
+				
+				RayTarget.set_cast_to($Target.position)
+				RayTarget.force_raycast_update()
 
 # Go to next creature's turn
 func end_turn():
