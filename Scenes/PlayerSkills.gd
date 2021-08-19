@@ -69,4 +69,4 @@ func use_skill(skillName):
 						targetCreature.queue_free()
 						
 				# End Turn
-				#Player.end_turn()
+				Player.end_turn()
