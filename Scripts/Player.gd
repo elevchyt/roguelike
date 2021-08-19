@@ -345,12 +345,15 @@ func move_target(direction):
 				$Target.position += direction
 				
 				# Cast a ray to check if skillInVision is true
+				RayTarget.add_exception($Area2D)
+				RayTarget.add_exception($Target)
 				RayTarget.set_cast_to($Target.position)
 				RayTarget.force_raycast_update()
 				
 				#skillInVision = true
+				# if hit_collider extends TileMap:
 				if (RayTarget.get_collider() != null):
-					print(RayTarget.get_collider().get_parent().name)
+					print(RayTarget.get_collider())
 			else:
 				$Target.position = Vector2.ZERO
 
