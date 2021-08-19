@@ -2,8 +2,8 @@ extends Node2D
 
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
-onready var Ray = $Area2D/RayCast2D
-onready var RayTarget = $Target/RayCast2D
+onready var Ray = $Area2D/RayCastMovement
+onready var RayTarget = $RayCastVision
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
@@ -30,6 +30,7 @@ var skillMode = false # true when pressing skill choose button (Left-Shift)
 var skillChoose : String # The current skill highlighted before usage; during skillMode
 var skillChooseIndex : int # index of current highlighted skill
 var targetMode = false # true when using targeted skills
+var skillInVision = false # to check if the current position of the target is within vision (e.g. the player has a clear shot)
 
 # Stats
 var level = 1
@@ -332,6 +333,7 @@ func attack(target):
 
 # Move Target
 func move_target(direction):
+	# Get path and move to next position
 	var path = TileMapAStar.find_path_skill(to_global($Target.position), position)
 
 	var pathSize = path.size()
@@ -341,6 +343,14 @@ func move_target(direction):
 		&& tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
 			if (skillsRange[skillChooseIndex] + 1 > pathSize):
 				$Target.position += direction
+				
+				# Cast a ray to check if skillInVision is true
+				RayTarget.set_cast_to($Target.position)
+				RayTarget.force_raycast_update()
+				
+				#skillInVision = true
+				if (RayTarget.get_collider() != null):
+					print(RayTarget.get_collider().get_parent().name)
 			else:
 				$Target.position = Vector2.ZERO
 
