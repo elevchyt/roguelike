@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sprite_all frames_028.png-02625f04cc6537a90be260e7a579925e.stex"
+path="res://.import/target_skill_orange_2.png-8b93b9c5cd94138c6732e8106681aaab.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/sprite_all frames_028.png"
-dest_files=[ "res://.import/sprite_all frames_028.png-02625f04cc6537a90be260e7a579925e.stex" ]
+source_file="res://Sprites/target_skill_orange_2.png"
+dest_files=[ "res://.import/target_skill_orange_2.png-8b93b9c5cd94138c6732e8106681aaab.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/target_blue_1.png-f0d4cc165648717f11b6360cc17af41a.stex"
+path="res://.import/target_skill_pink_2.png-35c253d3a1dc73927e212798b3b9330f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/target_blue_1.png"
-dest_files=[ "res://.import/target_blue_1.png-f0d4cc165648717f11b6360cc17af41a.stex" ]
+source_file="res://Sprites/target_skill_pink_2.png"
+dest_files=[ "res://.import/target_skill_pink_2.png-35c253d3a1dc73927e212798b3b9330f.stex" ]
 
 [params]
 

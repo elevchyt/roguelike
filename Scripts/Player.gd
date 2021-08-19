@@ -351,7 +351,7 @@ func move_target(direction):
 	for tilemap in TileMapAStar.get_children():
 		if (tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != 0 
 		&& tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
-			if (skillsRange[skillChooseIndex] + 1 > pathSize):
+			if (skillsRange[skillChooseIndex] >= pathSize):
 				$Target.position += direction
 				
 				# Cast a ray to check if skillInVision is true
@@ -368,6 +368,7 @@ func move_target(direction):
 						print('** target is within vision **')
 			else:
 				$Target.position = Vector2.ZERO
+				skillInVision = true
 				
 				RayTarget.set_cast_to($Target.position)
 				RayTarget.force_raycast_update()

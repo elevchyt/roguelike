@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/person_blue.png" type="Texture" id=2]
@@ -12,13 +12,16 @@
 [ext_resource path="res://Sprites/hp_red.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/HealthBar.gd" type="Script" id=11]
 [ext_resource path="res://Fonts/Abaddon Bold.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://Sprites/target_blue_1.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/target_blue_2.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/target_orange_1.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/target_pink_1.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/target_orange_2.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/target_pink_2.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/target_skill_blue_1.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/target_skill_blue_2.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/target_skill_pink_2.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/target_skill_pink_1.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/target_skill_orange_2.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/target_skill_orange_1.png" type="Texture" id=18]
 [ext_resource path="res://Scenes/PlayerSkills.gd" type="Script" id=19]
+[ext_resource path="res://Sprites/target_no_vision_1.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/target_no_vision_2.png" type="Texture" id=21]
+[ext_resource path="res://Scenes/TargetSprite.gd" type="Script" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 48 )
@@ -50,7 +53,7 @@ size = 80
 font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 48, 48 )
+extents = Vector2( 1, 1 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
@@ -59,14 +62,19 @@ animations = [ {
 "name": "target_blue",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 18 ) ],
+"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "target_pink",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 15 ), ExtResource( 17 ) ],
+"frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
 "loop": true,
 "name": "target_orange",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "target_no_vision",
 "speed": 5.0
 } ]
 
@@ -186,7 +194,7 @@ __meta__ = {
 [node name="RayCastVision" type="RayCast2D" parent="."]
 position = Vector2( 48, 48 )
 enabled = true
-cast_to = Vector2( 0, 0 )
+cast_to = Vector2( 48, 48 )
 collide_with_areas = true
 
 [node name="Target" type="Area2D" parent="."]
@@ -203,5 +211,6 @@ position = Vector2( 48, 48 )
 z_index = 11
 frames = SubResource( 6 )
 animation = "target_blue"
-frame = 1
+speed_scale = 0.8
 playing = true
+script = ExtResource( 22 )
