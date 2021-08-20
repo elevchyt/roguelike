@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Rat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/wall.png" type="Texture" id=2]
@@ -66,6 +66,10 @@ font_data = ExtResource( 9 )
 [sub_resource type="DynamicFont" id=6]
 size = 48
 font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 64
+font_data = ExtResource( 6 )
 
 [node name="World" type="Node2D"]
 
@@ -343,6 +347,37 @@ bbcode_text = "Space: Confirm
 Escape: Cancel"
 text = "Space: Confirm
 Escape: Cancel"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FeedbackText" type="Sprite" parent="HUD"]
+visible = false
+
+[node name="FeedbackTextShadow" type="RichTextLabel" parent="HUD/FeedbackText"]
+margin_left = 580.0
+margin_top = 676.0
+margin_right = 1444.0
+margin_bottom = 772.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "[center]Not enough mana.[/center]"
+text = "Not enough mana."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FeedbackText" type="RichTextLabel" parent="HUD/FeedbackText"]
+margin_left = 576.0
+margin_top = 672.0
+margin_right = 1440.0
+margin_bottom = 768.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "[center]Not enough mana.[/center]"
+text = "Not enough mana."
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false

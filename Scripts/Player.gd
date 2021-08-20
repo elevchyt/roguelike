@@ -258,18 +258,27 @@ func _process(delta):
 		RayTarget.force_raycast_update()
 	# Choose
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
-		# Target Skills => Enemy
-		if (skillsType[skillChooseIndex] == 'active' && skillsTargetType[skillChooseIndex] == 'target+enemy'):
-			skillMode = false
-			targetMode = true
-			
-			# Highlight skill on toolbar
-			skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
-			skillSlots[skillChooseIndex].modulate.a = 0.8
-			
-			# Enable target
-			$Target.visible = true
-			$Target/CollisionShape2D.disabled = false
+		# Check for mana cost first
+		if (mana >= skillsManaCost[skillChooseIndex]):
+			# Target Skills => Enemy
+			if (skillsType[skillChooseIndex] == 'active' && skillsTargetType[skillChooseIndex] == 'target+enemy'):
+				skillMode = false
+				targetMode = true
+				
+				# Highlight skill on toolbar
+				skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
+				skillSlots[skillChooseIndex].modulate.a = 0.8
+				
+				# Enable target
+				$Target.visible = true
+				$Target/CollisionShape2D.disabled = false
+		# Show feedback message for not enough mana
+		else:
+			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Not enough mana![/color][/center]'
+			HUD.get_node('FeedbackText/FeedbackTextShadow').bbcode_text = '[center][color=#ff212123]Not enough mana![/color][/center]'
+			HUD.get_node('FeedbackText').visible = true
+			yield(get_tree().create_timer(1.2), "timeout")
+			HUD.get_node('FeedbackText').visible = false
 	# Move Target
 	elif (targetMode == true):
 		if (Input.is_action_just_pressed("key_w")):
@@ -281,7 +290,7 @@ func _process(delta):
 		elif (Input.is_action_just_pressed("key_d")):
 			move_target(Vector2(96, 0))
 		elif (Input.is_action_just_pressed("key_space")):
-			$PlayerSkills.use_skill('Flare')
+			$PlayerSkills.use_skill(skills[skillChooseIndex])
 
 ######## END OF INPUT ########
 ################################################################################################################
