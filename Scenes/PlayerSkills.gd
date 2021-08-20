@@ -24,9 +24,10 @@ func use_skill(skillName):
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
+				# Use skill
 				if (targetCreature.isMonster == true):
-					# Skill Projectile Animation
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
+						# Skill Projectile Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objFlare.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
@@ -61,31 +62,48 @@ func use_skill(skillName):
 						# Reduce player mana
 						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
 						
-						# Reduce target health
-						targetCreature.health -= damage
+						# EVASION CHECK
+						var hitChance = randi() % 100
+						if (hitChance > targetCreature.evasionPerc):
+							# Reduce target health
+							targetCreature.health -= damage
 
-						# Show damage text
-						var damageText = targetCreature.get_node('TextDamage')
+							# Show damage text
+							var damageText = targetCreature.get_node('TextDamage')
 
-						z_index = 1
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-						z_index = 0
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+							z_index = 1
+							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
+							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
+							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+							PlayerTween.start()
+							damageText.visible = true
+							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+							z_index = 0
+							damageText.visible = false
+							damageText.position = Vector2.ZERO
 
-						# Check if killed & gain xp (check for level-up)
-						if (targetCreature.health <= 0):
-							# Check for level-up
-							Player.xpCurrent += targetCreature.level
-							Player.level_up_check()
-							
-							# Destroy target
-							targetCreature.queue_free()
+							# Check if killed & gain xp (check for level-up)
+							if (targetCreature.health <= 0):
+								# Check for level-up
+								Player.xpCurrent += targetCreature.level
+								Player.level_up_check()
+								
+								# Destroy target
+								targetCreature.queue_free()
+						# Show miss text on successful evasion by the target creature
+						else:
+							var damageText = targetCreature.get_node('TextDamage')
+
+							z_index = 1
+							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
+							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
+							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+							PlayerTween.start()
+							damageText.visible = true
+							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+							z_index = 0
+							damageText.visible = false
+							damageText.position = Vector2.ZERO
 							
 						# End Turn
 						Player.end_turn()

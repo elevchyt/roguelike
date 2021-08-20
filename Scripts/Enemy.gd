@@ -21,7 +21,7 @@ onready var healthMax = ceil(strength * 1.2 + level * 2)
 onready var health = healthMax
 onready var manaMax = ceil(intelligence * 1.2 + level * 2)
 onready var mana = manaMax
-onready var evasionPerc = clamp(dexterity * 1.4, 0, 40) # clamp to 40% (0.4)
+onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
 
 # Moves next to target
 func move(path):
@@ -78,29 +78,45 @@ func activate():
 
 # Attack
 func attack(target):
-	# Reduce health
-	var damageTotal = strength
-	target.health -= damageTotal
-	
-	# Check if killed & remove from players array & set his state to dead
-	if (target.health <= 0):
-		target.health = 0
-		target.state = 'dead'
-		target.get_node('Sprite').modulate.a = 0.5
-		GameManager.calc_turn_order()
-	
-	# Show damage text above target
-	z_index = 1
-	var damageText = target.get_node('TextDamage')
-	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-	Tween.start()
-	damageText.visible = true
-	yield(get_tree().create_timer(1), "timeout")
-	z_index = 0
-	damageText.visible = false
-	damageText.position = Vector2.ZERO
+	# Check if hit successful
+	var hitChance = randi() % 100
+	if (hitChance > target.evasionPerc):
+		# Reduce health
+		var damageTotal = strength
+		target.health -= damageTotal
+		
+		# Check if killed & remove from players array & set his state to dead
+		if (target.health <= 0):
+			target.health = 0
+			target.state = 'dead'
+			target.get_node('Sprite').modulate.a = 0.5
+			GameManager.calc_turn_order()
+		
+		# Show damage text above target
+		z_index = 1
+		var damageText = target.get_node('TextDamage')
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		damageText.visible = true
+		yield(get_tree().create_timer(1), "timeout")
+		z_index = 0
+		damageText.visible = false
+		damageText.position = Vector2.ZERO
+	# Show miss text above target
+	else:
+		z_index = 1
+		var damageText = target.get_node('TextDamage')
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
+		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		damageText.visible = true
+		yield(get_tree().create_timer(1), "timeout")
+		z_index = 0
+		damageText.visible = false
+		damageText.position = Vector2.ZERO
 
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)

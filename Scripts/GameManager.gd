@@ -12,6 +12,9 @@ func _process(delta):
 		get_tree().reload_current_scene()
 
 func _ready():
+	# RE-ROLL RNG AT START
+	randomize()
+	
 	# Launch game!
 	calc_turn_order()
 	next_player_turn() # activate first player's turn

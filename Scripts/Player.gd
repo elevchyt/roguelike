@@ -45,7 +45,7 @@ onready var manaMax = ceil(5 + intelligence * 1.2 + level * 2)
 onready var mana = manaMax
 var xpCurrent = 0
 onready var xpToLevel = ceil(10 + level * 2)
-onready var evasionPerc = dexterity * 1.4 # clamp to 40% (0.4)
+onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
 var weaponDamage = 0
 
 
@@ -148,7 +148,7 @@ func _ready():
 	# Re-Calculate HP, MP & Evasion based on mana
 	healthMax = ceil(5 + strength * 1.2 + level * 2)
 	manaMax = ceil(5 + intelligence * 1.2 + level * 2)
-	evasionPerc = dexterity * 1.4
+	evasionPerc =  clamp(dexterity * 1.4, 0, 50)
 	health = healthMax
 	mana = manaMax
 
@@ -321,44 +321,17 @@ func attack(target):
 	hasPlayed = true
 	active = false
 	
-	# Reduce health
-	var damageTotal = strength + weaponDamage
-	target.health -= damageTotal
-	print(str(target.health) + ' / ' + str(target.healthMax))
-	
-	# Show damage text
-	var damageText = target.get_node('TextDamage')
-	
-	z_index = 1
-	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-	Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-	Tween.start()
-	damageText.visible = true
-	yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-	z_index = 0
-	damageText.visible = false
-	damageText.position = Vector2.ZERO
-	
-	# Check if killed & gain xp (check for level-up)
-	if (target.health <= 0):
-		# Check for level-up
-		xpCurrent += target.level
-		level_up_check()
-			
-		# Destroy target
-		target.queue_free()
-	
-	# End Turn
-	end_turn()
-	
-# Show damage text
-func show_damage_text(damageTotal, target):
-	# Show damage text above target
-	var damageText = target.get_node('TextDamage')
-	
-	if (damageText != null):
-		print('FSDAFDSAFAFADS')
+	# Check if hit is successful (evasion)
+	var hitChance = randi() % 100
+	if (hitChance > target.evasionPerc):
+		# Reduce health
+		var damageTotal = strength + weaponDamage
+		target.health -= damageTotal
+		print(str(target.health) + ' / ' + str(target.healthMax))
+		
+		# Show damage text
+		var damageText = target.get_node('TextDamage')
+		
 		z_index = 1
 		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
@@ -369,6 +342,30 @@ func show_damage_text(damageTotal, target):
 		z_index = 0
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
+		
+		# Check if killed & gain xp (check for level-up)
+		if (target.health <= 0):
+			# Check for level-up
+			xpCurrent += target.level
+			level_up_check()
+				
+			# Destroy target
+			target.queue_free()
+	# Show miss text above target
+	else:
+		z_index = 1
+		var damageText = target.get_node('TextDamage')
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
+		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		damageText.visible = true
+		yield(get_tree().create_timer(1), "timeout")
+		z_index = 0
+		damageText.visible = false
+		damageText.position = Vector2.ZERO
+	# End Turn
+	end_turn()
 
 # Move Target
 func move_target(direction):
