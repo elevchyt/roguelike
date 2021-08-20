@@ -1,16 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Sprites/flare_1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/flare_4.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/flare_3.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/flare_2.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Skills/Flare.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/flame_2.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/flame_3.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/flame_1.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/flame_4.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "hit",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
 "loop": true,
-"name": "default",
+"name": "projectile",
 "speed": 5.0
 } ]
 
@@ -23,6 +32,7 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
+animation = "projectile"
 frame = 3
 speed_scale = 1.5
 playing = true
@@ -31,3 +41,5 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="."]
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
