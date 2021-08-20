@@ -27,7 +27,7 @@ var skillsManaCost : Array # Array of skills' mana cost
 var skillsRange : Array # Array of skills' range
 var skillsTargetType : Array # Array of skills' target type
 var skillsClass : Array # Array of total class skills
-var skillSlots : Array # Array of skill slot sprites
+var skillSlots : Array # Array of skill slot sprite nodes
 var skillMode = false # true when pressing skill choose button (Left-Shift)
 var skillChoose : String # The current skill highlighted before usage; during skillMode
 var skillChooseIndex : int # index of current highlighted skill
@@ -133,7 +133,7 @@ func _ready():
 				"orange":
 					$Sprite.texture = load("res://Sprites/monk_orange.png")
 					
-	# Cursor color
+	# Cursor & Target color
 	match playerColor:
 		"blue":
 			$CursorSprite.animation = "cursor_blue"
@@ -163,18 +163,36 @@ func activate():
 	
 	# Activate cursor (selector on top of sprite's head)
 	$CursorSprite.visible = true
+	
+	# Refresh skills toolbar
+	var skillsArraySize = skills.size()
+	var i = 0 # counter
+	for slot in skillSlots:
+		# Make slots empty first
+		slot.set_texture(load('res://Sprites/skill_slot.png'))
+	
+		# Set correct slot sprites from GameManager skillSlotSprites (if not empty)
+		if (skills.empty() == false && skillsArraySize > i):
+			var index = GameManager.skillsNames.find(skills[i])
+			slot.texture = load(GameManager.skillsSlotSprites[index])
+			
+		i += 1 # counter increment
+	
+	# debug
+	print(skills)
 
 # GET INPUT
 func _process(delta):
 	# TEST
-	if (Input.is_action_just_pressed("key_t")):
-		add_skill('Flare')
-	elif (Input.is_action_just_pressed("key_y")):
-		add_skill('Thunderclap')
-	elif (Input.is_action_just_pressed("key_u")):
-		add_skill('Arcane Shield')
-	elif (Input.is_action_just_pressed("key_i")):
-		add_skill('Curse')
+	if (active == true && targetMode == false && skillMode == false):
+		if (Input.is_action_just_pressed("key_t")):
+			add_skill('Flare')
+		elif (Input.is_action_just_pressed("key_y")):
+			add_skill('Thunderclap')
+		elif (Input.is_action_just_pressed("key_u")):
+			add_skill('Arcane Shield')
+		elif (Input.is_action_just_pressed("key_i")):
+			add_skill('Curse')
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false):
@@ -242,6 +260,7 @@ func _process(delta):
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
+		skillInVision = true
 		
 		# Leave skills toolbar
 		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
@@ -364,6 +383,7 @@ func attack(target):
 		z_index = 0
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
+		
 	# End Turn
 	end_turn()
 
@@ -479,11 +499,6 @@ func add_skill(skillName):
 			skillsRange.append(GameManager.skillsRange[index])
 			skillsType.append(GameManager.skillsType[index])
 			skillsTargetType.append(GameManager.skillsTargetType[index])
-			
-			print(skills)
-			print(skillsDescription)
-			print(skillsType)
-			print(skillsTargetType)
 			
 			# Animation
 			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT )

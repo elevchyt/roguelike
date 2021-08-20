@@ -14,8 +14,6 @@ onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 ################################################################################################################
 # Skill Use Function
 func use_skill(skillName):
-	print(Player.skillInVision)
-	
 	# Check for mana before using skill
 	match skillName:
 		'Flare':
@@ -107,3 +105,7 @@ func use_skill(skillName):
 							
 						# End Turn
 						Player.end_turn()
+		'Thunderclap':
+			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+		'Curse':
+			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])

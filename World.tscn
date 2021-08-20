@@ -110,6 +110,16 @@ position = Vector2( 672, 576 )
 playerClass = "Mage"
 playerColor = "blue"
 
+[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 576, 480 )
+playerClass = "Mage"
+playerColor = "pink"
+
+[node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 768, 768 )
+playerClass = "Mage"
+playerColor = "orange"
+
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
 
