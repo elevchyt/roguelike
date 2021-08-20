@@ -4,18 +4,9 @@
 [ext_resource path="res://Sprites/flare_4.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/flare_3.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/flare_2.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Flare.gd" type="Script" id=5]
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends Node2D
-
-onready var user = get_parent().get_parent()
-onready var damage = ceil(user.intelligence / 2.0 + user.strength / 4.0)
-	
-func _ready():
-	print(damage)
-"
-
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
 "loop": true,
@@ -24,14 +15,14 @@ animations = [ {
 } ]
 
 [node name="Flare" type="Node2D"]
-script = SubResource( 2 )
+script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 48, 48 )
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 frame = 3
 speed_scale = 1.5
 playing = true

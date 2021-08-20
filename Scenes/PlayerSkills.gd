@@ -3,6 +3,7 @@ extends Node2D
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Player = get_parent()
 onready var PlayerTarget = Player.get_node('Target')
+onready var PlayerTargetCollision = Player.get_node('Target/CollisionShape2D')
 onready var PlayerTargetSprite = Player.get_node('Target/TargetSprite')
 onready var PlayerTween = Player.get_node('Tween')
 
@@ -21,11 +22,7 @@ func use_skill(skillName):
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true):
-					# End Turn Variables
-					Player.hasPlayed = true
-					Player.active = false
-
-					# Skill Animation
+					# Skill Projectile Animation
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 
@@ -41,6 +38,21 @@ func use_skill(skillName):
 						# Shoot projectile
 						instanceTween.interpolate_property(instance, "position", instance.position, PlayerTargetSprite.get_parent().position, 0.5, instanceTween.TRANS_CIRC, instanceTween.EASE_IN_OUT)
 						instanceTween.start()
+						
+					# Reset Target
+					PlayerTargetCollision.disabled = true
+					PlayerTarget.position = Vector2.ZERO
+					PlayerTarget.visible = false
+					
+					# Reset RayCast
+					Player.RayTarget.set_cast_to(PlayerTarget.position)
+					Player.RayTarget.force_raycast_update()
+					
+					# End Turn Variables
+					Player.hasPlayed = true
+					Player.active = false
+					
+					
 
 					# Reduce health
 					targetCreature.health -= damage
@@ -70,3 +82,5 @@ func use_skill(skillName):
 						
 				# End Turn
 				Player.end_turn()
+################################################################################################################
+# Skill Animation Properties
