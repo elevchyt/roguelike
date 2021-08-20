@@ -85,7 +85,7 @@ func _ready():
 			intelligence = 5
 			
 			skillsClass.append('Flare')
-			skillsClass.append('Thunderclap')
+			skillsClass.append('Healing Prayer')
 			skillsClass.append('Arcane Shield')
 			skillsClass.append('Curse')
 			
@@ -112,6 +112,8 @@ func _ready():
 			strength = 2
 			dexterity = 2
 			intelligence = 6
+			
+			skillsClass.append('Healing Prayer')
 			
 			match playerColor:
 				"blue":
@@ -193,6 +195,8 @@ func _process(delta):
 			add_skill('Arcane Shield')
 		elif (Input.is_action_just_pressed("key_i")):
 			add_skill('Curse')
+		elif (Input.is_action_just_pressed("key_f")):
+			add_skill('Healing Prayer')
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false):
@@ -279,8 +283,10 @@ func _process(delta):
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
 		# Check for mana cost first
 		if (mana >= skillsManaCost[skillChooseIndex]):
-			# Target Skills => Enemy
-			if (skillsType[skillChooseIndex] == 'active' && skillsTargetType[skillChooseIndex] == 'target+enemy'):
+			# Target Skills => Enemy OR Friendly
+			if (skillsType[skillChooseIndex] == 'active' 
+			&& (skillsTargetType[skillChooseIndex] == 'target+enemy' 
+			|| skillsTargetType[skillChooseIndex] == 'target+friendly')):
 				skillMode = false
 				targetMode = true
 				
