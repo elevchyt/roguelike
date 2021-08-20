@@ -7,6 +7,7 @@ onready var TargetDestination = Player.get_node('Target').position
 func _process(delta):
 	if (position == TargetDestination):
 		$AnimatedSprite.animation = 'hit'
+		$AnimatedSprite.speed_scale = 2.5
 
 # Remove instance after 'hit' animation plays once
 func _on_AnimatedSprite_animation_finished():
