@@ -66,6 +66,7 @@ func launch_ai_turns():
 var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse']
 var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage to a target.', 'Inflicts INT + (STR / 2) damage to enemies around you. (Cannot be evaded)', '(PASSIVE) All damage taken is reduced by 20%, as long as your Mana is over 50%.', 'Casts a curse on a target for 3 turns. Cursed targets take 20% more damage from all sources & have their Evasion reduced to 0%. (Cannot be evaded)']
 var skillsSlotSprites = ['res://Sprites/skill_flare.png', 'res://Sprites/skill_thunderclap.png', 'res://Sprites/skill_arcane_shield.png', 'res://Sprites/skill_curse.png']
+var skillsManaCost = [4, 6, 0, 12]
 var skillsCooldown = [0, 5, 0, 12]
 var skillsRange = [5, 1, 0, 4]
 # skillsType: 'passive, 'active'

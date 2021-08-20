@@ -91,11 +91,15 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 position = Vector2( 768, 384 )
 level = 1
 strength = 2
+dexterity = 1
+intelligence = 1
 
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 960, 576 )
 level = 1
 strength = 2
+dexterity = 1
+intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 576 )

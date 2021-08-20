@@ -6,6 +6,7 @@ onready var PlayerTarget = Player.get_node('Target')
 onready var PlayerTargetCollision = Player.get_node('Target/CollisionShape2D')
 onready var PlayerTargetSprite = Player.get_node('Target/TargetSprite')
 onready var PlayerTween = Player.get_node('Tween')
+onready var HUD = get_node("/root/World/HUD")
 
 # Skill Instances Pre-Load
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
@@ -21,7 +22,7 @@ func use_skill(skillName):
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
-				if (targetCreature.isMonster == true):
+				if (targetCreature.isMonster == true && Player.mana >= Player.skillsManaCost[Player.skillChooseIndex]):
 					# Skill Projectile Animation
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
@@ -39,6 +40,12 @@ func use_skill(skillName):
 						instanceTween.interpolate_property(instance, "position", instance.position, PlayerTargetSprite.get_parent().position, 0.5, instanceTween.TRANS_CIRC, instanceTween.EASE_IN_OUT)
 						instanceTween.start()
 						
+					# Leave skills toolbar
+					HUD.get_node('Tween').stop_all()
+					HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+					Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+					Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+					
 					# Reset Target
 					PlayerTargetCollision.disabled = true
 					PlayerTarget.position = Vector2.ZERO
@@ -52,9 +59,10 @@ func use_skill(skillName):
 					Player.hasPlayed = true
 					Player.active = false
 					
+					# Reduce player mana
+					Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
 					
-
-					# Reduce health
+					# Reduce target health
 					targetCreature.health -= damage
 
 					# Show damage text
@@ -80,7 +88,9 @@ func use_skill(skillName):
 						# Destroy target
 						targetCreature.queue_free()
 						
-				# End Turn
-				Player.end_turn()
+					# End Turn
+					Player.end_turn()
+				elif (Player.mana < Player.skillsManaCost[Player.skillChooseIndex]):
+					print('** NO MANA **')
 ################################################################################################################
 # Skill Animation Properties

@@ -23,6 +23,7 @@ var skills : Array # Array of current skills
 var skillsDescription : Array # Array of skills' descriptions
 var skillsType : Array # Array of skills' type
 var skillsCooldown : Array # Array of skills' cooldown
+var skillsManaCost : Array # Array of skills' mana cost
 var skillsRange : Array # Array of skills' range
 var skillsTargetType : Array # Array of skills' target type
 var skillsClass : Array # Array of total class skills
@@ -468,6 +469,7 @@ func add_skill(skillName):
 			skills.append(GameManager.skillsNames[index])
 			skillsDescription.append(GameManager.skillsDescription[index])
 			skillsCooldown.append(GameManager.skillsCooldown[index])
+			skillsManaCost.append(GameManager.skillsManaCost[index])
 			skillsRange.append(GameManager.skillsRange[index])
 			skillsType.append(GameManager.skillsType[index])
 			skillsTargetType.append(GameManager.skillsTargetType[index])
