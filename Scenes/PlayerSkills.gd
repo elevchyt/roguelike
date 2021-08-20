@@ -36,7 +36,7 @@ func use_skill(skillName):
 						add_child(instance)
 						
 						# Shoot projectile (THIS DELAYS TURN END!)
-						instanceTween.interpolate_property(instance, "position", instance.position, PlayerTargetSprite.get_parent().position, 1, instanceTween.TRANS_CIRC, instanceTween.EASE_OUT_IN)
+						instanceTween.interpolate_property(instance, "position", instance.position, PlayerTargetSprite.get_parent().position, 0.6, instanceTween.TRANS_QUART , instanceTween.EASE_OUT_IN)
 						instanceTween.start()
 							
 						# Leave skills toolbar
