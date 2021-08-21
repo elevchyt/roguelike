@@ -6,6 +6,7 @@ onready var TargetDestination = Player.get_node('Target').position
 # Run hit animation on target destination arrival
 func _process(delta):
 	if (position == TargetDestination):
+		$AnimatedSprite.rotation = 0
 		$AnimatedSprite.animation = 'hit'
 		$AnimatedSprite.speed_scale = 2.5
 
