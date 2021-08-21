@@ -17,6 +17,8 @@ onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn'
 func use_skill(skillName):
 	match skillName:
 		'Flare':
+			Player.targetMode = false
+			
 			# Damage Calculation
 			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 4.0)
 			var targetNode = PlayerTarget.get_overlapping_areas()
@@ -106,13 +108,16 @@ func use_skill(skillName):
 						# End Turn
 						Player.end_turn()
 		'Healing Prayer':
+			Player.targetMode = false
+			
+			# Heal Calculation
 			var healing = ceil(Player.intelligence * 0.8)
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
-					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
+					if (Player.skillInVision == true):
 						# Skill Particle Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objHealingPrayer.instance()
