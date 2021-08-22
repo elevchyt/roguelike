@@ -85,7 +85,7 @@ func _ready():
 			intelligence = 5
 			
 			skillsClass.append('Flare')
-			skillsClass.append('Healing Prayer')
+			skillsClass.append('Thunderclap')
 			skillsClass.append('Arcane Shield')
 			skillsClass.append('Curse')
 			
@@ -297,6 +297,17 @@ func _process(delta):
 				# Enable target
 				$Target.visible = true
 				$Target/CollisionShape2D.disabled = false
+			# around+enemy
+			if (skillsType[skillChooseIndex] == 'active' 
+			&& skillsTargetType[skillChooseIndex] == 'around+enemy'):
+				skillMode = false
+				
+				# Highlight skill on toolbar
+				skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
+				skillSlots[skillChooseIndex].modulate.a = 0.8
+				
+				# Use skill instantly (no target)
+				$PlayerSkills.use_skill(skills[skillChooseIndex])
 		# Show feedback message for not enough mana
 		else:
 			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Not enough mana![/color][/center]'
@@ -507,7 +518,7 @@ func add_skill(skillName):
 			skillsTargetType.append(GameManager.skillsTargetType[index])
 			
 			# Animation
-			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 			HUD.get_node('Tween').start()
 			yield(get_tree().create_timer(1.3), "timeout")
 			HUD.get_node('Tween').interpolate_property(slot, "scale", scale * 1.5, scale, 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)

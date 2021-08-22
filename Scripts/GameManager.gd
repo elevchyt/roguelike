@@ -82,5 +82,5 @@ var skillsCooldown = [0, 5, 0, 12, 5]
 var skillsRange = [5, 1, 0, 4, 3]
 # skillsType: 'passive, 'active'
 var skillsType = ['active', 'active', 'passive', 'active', 'active']
-# skillsTargetType: 'self', 'target+enemy', 'enemy', 'target+friendly', 'passive'
-var skillsTargetType = ['target+enemy', 'enemy', 'passive', 'target+enemy', 'target+friendly']
+# skillsTargetType: 'self', 'target+enemy', 'around+enemy', 'target+friendly', 'passive'
+var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy', 'target+friendly']

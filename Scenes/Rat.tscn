@@ -40,8 +40,8 @@ collide_with_bodies = false
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 48, 48 )
 texture = ExtResource( 1 )
-centered = false
 
 [node name="HealthBar" type="Sprite" parent="."]
 z_index = 10

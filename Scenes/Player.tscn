@@ -67,14 +67,14 @@ animations = [ {
 "name": "target_orange",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
-"loop": true,
-"name": "target_pink",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "target_no_vision",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "target_pink",
 "speed": 5.0
 } ]
 
@@ -103,8 +103,8 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 48, 48 )
 texture = ExtResource( 2 )
-centered = false
 
 [node name="HealthBar" type="Sprite" parent="."]
 z_index = 10
@@ -212,6 +212,7 @@ position = Vector2( 48, 48 )
 z_index = 11
 frames = SubResource( 6 )
 animation = "target_blue"
+frame = 1
 speed_scale = 0.8
 playing = true
 script = ExtResource( 22 )
