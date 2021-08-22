@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/thunderclap_1.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/thunderclap_2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/thunderclap_3.png" type="Texture" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "thunder",
+"speed": 5.0
+} ]
+
+[node name="Flare" type="Node2D"]
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 48, 48 )
+frames = SubResource( 1 )
+animation = "thunder"
+frame = 2
+speed_scale = 1.4
+playing = true
+__meta__ = {
+"_editor_description_": "offset half the size of the sprite on the x & y axis"
+}
+
+[node name="Tween" type="Tween" parent="."]
