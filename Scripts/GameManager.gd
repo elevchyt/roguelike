@@ -78,7 +78,7 @@ var skillsSlotSprites = ['res://Sprites/skill_flare.png',
 'res://Sprites/skill_curse.png',
 'res://Sprites/skill_healing_prayer.png'] # replace this
 var skillsManaCost = [4, 6, 0, 12, 5]
-var skillsCooldown = [0, 5, 0, 12, 5]
+var skillsCooldown = [1, 5, 0, 12, 5]
 var skillsRange = [5, 1, 0, 4, 3]
 # skillsType: 'passive, 'active'
 var skillsType = ['active', 'active', 'passive', 'active', 'active']

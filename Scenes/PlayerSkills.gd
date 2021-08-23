@@ -143,7 +143,7 @@ func use_skill(skillName):
 			instanceSprite.playing = true
 			
 			# Damage Calculation (happens mid-animation)
-			var damage = ceil(Player.intelligence + 2.0 + (Player.strength / 2.0))
+			var damage = ceil(Player.intelligence + (Player.strength / 2.0))
 			print(damage)
 			
 			# Find targets around player & deal damage to them
