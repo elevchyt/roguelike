@@ -51,10 +51,10 @@ points = PoolVector2Array( 96, 96, 0, 96, 0, 0, 96, 0 )
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="ConvexPolygonShape2D" id=9]
+[sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 96, 96, 0, 96, 0, 0, 96, 0 )
 
-[sub_resource type="TileSet" id=8]
+[sub_resource type="TileSet" id=4]
 0/name = "wall.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
@@ -65,35 +65,35 @@ points = PoolVector2Array( 96, 96, 0, 96, 0, 0, 96, 0 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 9 )
+0/shape = SubResource( 3 )
 0/shape_one_way = false
 0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 9 ),
+"shape": SubResource( 3 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
 
-[sub_resource type="DynamicFont" id=3]
-size = 96
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 96
-font_data = ExtResource( 6 )
-
 [sub_resource type="DynamicFont" id=5]
+size = 96
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 96
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=7]
 size = 64
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=8]
 size = 48
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=9]
 size = 64
 font_data = ExtResource( 6 )
 
@@ -117,7 +117,7 @@ tile_data = PoolIntArray( 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65
 
 [node name="Walls" type="TileMap" parent="TileMapAStar/TileMap"]
 z_index = 1
-tile_set = SubResource( 8 )
+tile_set = SubResource( 4 )
 cell_size = Vector2( 96, 96 )
 cell_quadrant_size = 96
 cell_custom_transform = Transform2D( 96, 0, 0, 96, 0, 0 )
@@ -173,7 +173,7 @@ margin_left = 584.0
 margin_top = 16.0
 margin_right = 1208.0
 margin_bottom = 235.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -185,7 +185,7 @@ margin_left = 576.0
 margin_top = 8.0
 margin_right = 1200.0
 margin_bottom = 227.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -196,7 +196,7 @@ margin_left = 680.0
 margin_top = 776.0
 margin_right = 1315.0
 margin_bottom = 884.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[center]HP: 9/9[/center]"
 text = "HP: 9/9"
@@ -210,7 +210,7 @@ margin_left = 672.0
 margin_top = 768.0
 margin_right = 1307.0
 margin_bottom = 876.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[center]HP: 9/9[/center]"
 text = "HP: 9/9"
@@ -224,7 +224,7 @@ margin_left = 680.0
 margin_top = 872.0
 margin_right = 1354.0
 margin_bottom = 980.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "[center]MP: 9/9[/center]"
 text = "MP: 9/9"
@@ -238,7 +238,7 @@ margin_left = 672.0
 margin_top = 864.0
 margin_right = 1346.0
 margin_bottom = 972.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "[center]MP: 9/9[/center]"
 text = "MP: 9/9"
@@ -252,7 +252,7 @@ margin_left = 8.0
 margin_top = 968.0
 margin_right = 682.0
 margin_bottom = 1076.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "XP: 3/10"
 text = "XP: 3/10"
@@ -265,7 +265,7 @@ __meta__ = {
 margin_top = 960.0
 margin_right = 674.0
 margin_bottom = 1068.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "XP: 3/10"
 text = "XP: 3/10"
@@ -279,7 +279,7 @@ margin_left = 4.0
 margin_top = 4.0
 margin_right = 262.0
 margin_bottom = 112.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "STR: 9"
 text = "STR: 9"
@@ -288,7 +288,7 @@ scroll_active = false
 [node name="STR" type="RichTextLabel" parent="HUD"]
 margin_right = 258.0
 margin_bottom = 108.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "STR: 9"
 text = "STR: 9"
@@ -299,7 +299,7 @@ margin_left = 4.0
 margin_top = 68.0
 margin_right = 262.0
 margin_bottom = 176.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "DEX: 9"
 text = "DEX: 9"
@@ -309,7 +309,7 @@ scroll_active = false
 margin_top = 64.0
 margin_right = 258.0
 margin_bottom = 172.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "DEX: 9"
 text = "DEX: 9"
@@ -320,7 +320,7 @@ margin_left = 4.0
 margin_top = 132.0
 margin_right = 262.0
 margin_bottom = 240.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "INT: 9"
 text = "INT: 9"
@@ -330,7 +330,7 @@ scroll_active = false
 margin_top = 128.0
 margin_right = 258.0
 margin_bottom = 236.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "INT: 9"
 text = "INT: 9"
@@ -344,7 +344,7 @@ margin_left = 4.0
 margin_top = 260.0
 margin_right = 340.0
 margin_bottom = 368.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "Ev: 2.3%"
 text = "Ev: 2.3%"
@@ -354,7 +354,7 @@ scroll_active = false
 margin_top = 256.0
 margin_right = 336.0
 margin_bottom = 364.0
-custom_fonts/normal_font = SubResource( 5 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "Ev: 2.3%"
 text = "Ev: 2.3%"
@@ -392,7 +392,7 @@ margin_left = 1248.0
 margin_top = 1152.0
 margin_right = 1728.0
 margin_bottom = 1344.0
-custom_fonts/normal_font = SubResource( 6 )
+custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
 bbcode_text = "Space: Confirm
 Escape: Cancel"
@@ -411,7 +411,7 @@ margin_left = 580.0
 margin_top = 676.0
 margin_right = 1444.0
 margin_bottom = 772.0
-custom_fonts/normal_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "[center]Not enough mana.[/center]"
 text = "Not enough mana."
@@ -425,7 +425,7 @@ margin_left = 576.0
 margin_top = 672.0
 margin_right = 1440.0
 margin_bottom = 768.0
-custom_fonts/normal_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "[center]Not enough mana.[/center]"
 text = "Not enough mana."
