@@ -20,7 +20,7 @@ func generate_grid():
 	for tilemap in get_children():
 		var allCells = tilemap.get_used_cells()
 		for cell in allCells:
-			if (tilemap.get_cellv(cell) != 0):
+			if (tilemap.get_cellv(cell) != -1):
 				floorCells.append(cell)
 	
 	# Create points

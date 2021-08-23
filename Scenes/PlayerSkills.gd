@@ -135,7 +135,7 @@ func use_skill(skillName):
 			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 			var instance = objThunderclap.instance()
 			var instanceSprite = instance.get_node("AnimatedSprite")
-			instance.z_index = 0
+			instance.z_index = -2
 			add_child(instance)
 			
 			# Reset player scale

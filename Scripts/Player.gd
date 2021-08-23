@@ -339,8 +339,7 @@ func move_to_position(direction):
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
 	if (Ray.get_collider() == null):
 		for tilemap in TileMapAStar.get_children():
-			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != 0 
-			&& tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
+			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
 				# Move
 				position += direction
 				
@@ -411,8 +410,7 @@ func move_target(direction):
 	var pathSize = path.size()
 	
 	for tilemap in TileMapAStar.get_children():
-		if (tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != 0 
-		&& tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
+		if (tilemap.get_cellv(tilemap.world_to_map(to_global($Target.position) + direction)) != -1):
 			if (skillsRange[skillChooseIndex] >= pathSize):
 				$Target.position += direction
 				
