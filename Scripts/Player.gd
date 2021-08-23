@@ -197,6 +197,10 @@ func _process(delta):
 			add_skill('Curse')
 		elif (Input.is_action_just_pressed("key_f")):
 			add_skill('Healing Prayer')
+		# Level up debug (home key gives 1 level)
+		elif (Input.is_action_just_pressed("key_home")):
+			xpCurrent = xpToLevel
+			level_up_check()
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false):
@@ -469,6 +473,8 @@ func level_up_check():
 		level += 1
 		healthMax = ceil(5 + strength * 1.2 + level * 2)
 		manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+		health = healthMax
+		mana = manaMax
 		xpToLevel = ceil(10 + level * 2)
 		
 		# Raise stats based on class
