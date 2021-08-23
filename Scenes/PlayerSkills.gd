@@ -2,6 +2,7 @@ extends Node2D
 
 onready var GameManager = get_node("/root/World/GameManager")
 onready var Player = get_parent()
+onready var PlayerArea = Player.get_node("Area2D")
 onready var PlayerSprite = Player.get_node('Sprite')
 onready var PlayerTarget = Player.get_node('Target')
 onready var PlayerTargetCollision = Player.get_node('Target/CollisionShape2D')
@@ -114,8 +115,8 @@ func use_skill(skillName):
 			Player.hasPlayed = true
 			Player.active = false
 			
-			# Damage Calculation
-			var damage = ceil(Player.intelligence + 2.0 + (Player.strength / 2.0))
+			# Reduce player mana
+			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
 			
 			# Leave skills toolbar
 			HUD.get_node('Tween').stop_all()
@@ -130,28 +131,56 @@ func use_skill(skillName):
 			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale , PlayerSprite.scale * 0.7, 0.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 			Player.Tween.start()
 			
-			yield(get_tree().create_timer(0.1), "timeout")
-			
-			# Play skill animation
+			# Play particle animation
 			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 			var instance = objThunderclap.instance()
 			var instanceSprite = instance.get_node("AnimatedSprite")
 			instance.z_index = -2
 			add_child(instance)
 			
+			yield(get_tree().create_timer(0.1), "timeout") # (!) makes sure the collisions register on Area2D (hitbox)
+			
 			instanceSprite.playing = true
 			
-			yield(get_tree().create_timer(0.3), "timeout")
+			# Damage Calculation (happens mid-animation)
+			var damage = ceil(Player.intelligence + 2.0 + (Player.strength / 2.0))
+			print(damage)
+			
+			# Find targets around player & deal damage to them
+			for enemy in instance.enemiesToHit:
+				# Reduce enemy health
+				enemy.health -= damage
+				
+				# Show damage text
+				var damageText = enemy.get_node('TextDamage')
+				
+				z_index = 1
+				damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
+				damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
+				PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+				PlayerTween.start()
+				damageText.visible = true
+				yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+				z_index = 0
+				damageText.visible = false
+				damageText.position = Vector2.ZERO
+				
+				# Check if killed & gain xp (check for level-up)
+				if (enemy.health <= 0):
+					# Check for level-up
+					Player.xpCurrent += enemy.level
+					Player.level_up_check()
+				
+					# Destroy target
+					enemy.queue_free()
 			
 			# Reset player scale
+			yield(get_tree().create_timer(0.3), "timeout")
 			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, Vector2(1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			Player.Tween.start()
 			
-			# Reduce player mana
-			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
-			
 			# End Turn
-			yield(get_tree().create_timer(1), "timeout")
+			yield(get_tree().create_timer(0.5), "timeout") # wait for this amount after all damage is dealt
 			Player.end_turn()
 			
 		'Healing Prayer':
