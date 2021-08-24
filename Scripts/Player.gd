@@ -184,10 +184,7 @@ func activate():
 		i += 1 # counter increment
 	
 	# (Arcane Shield) Check if conditions are met to activate
-	if (mana >= ceil(manaMax / 2) && skills.find('Arcane Shield') != -1):
-		arcaneShield = true
-	else:
-		arcaneShield = false
+	check_arcane_shield()
 
 # GET INPUT
 func _process(delta):
@@ -455,6 +452,9 @@ func end_turn():
 	skillMode = false
 	targetMode = false
 	
+	# Check passives
+	check_arcane_shield()
+	
 	# Delay between button presses (must last more than tweens!)
 	yield(get_tree().create_timer(0.2), "timeout") 
 	
@@ -486,7 +486,18 @@ func level_up_check():
 		mana = manaMax
 		xpToLevel = ceil(10 + level * 2)
 		
-		# Raise stats
+		# Add skills
+		match level:
+			2:
+				add_skill(skillsClass[0])
+			5:
+				add_skill(skillsClass[1])
+			8:
+				add_skill(skillsClass[2])
+			12:
+				add_skill(skillsClass[3])
+				
+		# Raise stats & check passives for skills just added
 		match playerClass:
 			"Warrior":
 				strength += 2
@@ -500,6 +511,8 @@ func level_up_check():
 				strength += 1
 				dexterity += 1
 				intelligence += 2
+				
+				check_arcane_shield()
 			"Priest":
 				strength += 1
 				dexterity += 1
@@ -509,17 +522,6 @@ func level_up_check():
 				dexterity += 1
 				intelligence += 1
 				
-		# Add skills
-		match level:
-			2:
-				add_skill(skillsClass[0])
-			5:
-				add_skill(skillsClass[1])
-			8:
-				add_skill(skillsClass[2])
-			12:
-				add_skill(skillsClass[3])
-		
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
@@ -550,6 +552,12 @@ func add_skill(skillName):
 			
 			break # stop searching
 
+# Check if arcane shield should be active
+func check_arcane_shield():
+	if (mana >= ceil(manaMax / 2) && skills.find('Arcane Shield') != -1):
+		arcaneShield = true
+	else:
+		arcaneShield = false
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
