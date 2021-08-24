@@ -34,6 +34,9 @@ var skillChooseIndex : int # index of current highlighted skill
 var targetMode = false # true when using targeted skills
 var skillInVision = true # to check if the current position of the target is within vision (e.g. the player has a clear shot)
 
+# Warrior variables
+var cleave = false
+
 # Mage variables
 var arcaneShield = false
 
@@ -74,6 +77,8 @@ func _ready():
 			strength = 6
 			dexterity = 3
 			intelligence = 1
+			
+			skillsClass.append('Cleave')
 			
 			match playerColor:
 				"blue":
@@ -184,7 +189,7 @@ func activate():
 		i += 1 # counter increment
 	
 	# (Arcane Shield) Check if conditions are met to activate
-	check_arcane_shield()
+	check_passive_skills()
 
 # GET INPUT
 func _process(delta):
@@ -200,6 +205,8 @@ func _process(delta):
 			add_skill('Curse')
 		elif (Input.is_action_just_pressed("key_f")):
 			add_skill('Healing Prayer')
+		elif (Input.is_action_just_pressed("key_c")):
+			add_skill('Cleave')
 		# Level up debug (home key gives 1 level)
 		elif (Input.is_action_just_pressed("key_home")):
 			xpCurrent = xpToLevel
@@ -396,6 +403,9 @@ func attack(target):
 				
 			# Destroy target
 			target.queue_free()
+		
+		# Cleave check
+		cleave()
 	# Show miss text above target
 	else:
 		z_index = 1
@@ -412,6 +422,10 @@ func attack(target):
 		
 	# End Turn
 	end_turn()
+
+# Cleave (Passive Skill)
+func cleave():
+	pass # CHECK FOR CLEAVE WITH RAYCAST HERE (raycast is better because it takes vision into account)
 
 # Move Target
 func move_target(direction):
@@ -453,7 +467,7 @@ func end_turn():
 	targetMode = false
 	
 	# Check passives
-	check_arcane_shield()
+	check_passive_skills()
 	
 	# Delay between button presses (must last more than tweens!)
 	yield(get_tree().create_timer(0.2), "timeout") 
@@ -511,8 +525,6 @@ func level_up_check():
 				strength += 1
 				dexterity += 1
 				intelligence += 2
-				
-				check_arcane_shield()
 			"Priest":
 				strength += 1
 				dexterity += 1
@@ -522,6 +534,9 @@ func level_up_check():
 				dexterity += 1
 				intelligence += 1
 				
+		# Check for new passive skills
+		check_passive_skills()
+		
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
@@ -553,11 +568,19 @@ func add_skill(skillName):
 			break # stop searching
 
 # Check if arcane shield should be active
-func check_arcane_shield():
+func check_passive_skills():
+	# Arcane Shield
 	if (mana >= ceil(manaMax / 2) && skills.find('Arcane Shield') != -1):
 		arcaneShield = true
 	else:
 		arcaneShield = false
+	
+	# Cleave
+	if (skills.find('Cleave') != -1):
+		cleave = true
+	else:
+		cleave = false
+	print(cleave)
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
