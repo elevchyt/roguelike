@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var GameManager = get_node("/root/World/GameManager")
+onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Player = get_parent()
 onready var PlayerArea = Player.get_node("Area2D")
 onready var PlayerSprite = Player.get_node('Sprite')
@@ -141,6 +142,9 @@ func use_skill(skillName):
 			yield(get_tree().create_timer(0.1), "timeout") # (!) makes sure the collisions register on Area2D (hitbox)
 			
 			instanceSprite.playing = true
+			
+			# Camera Shake
+			CameraNode.shake(8, 0.01, 0.2)
 			
 			# Damage Calculation (happens mid-animation)
 			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 2.0)
