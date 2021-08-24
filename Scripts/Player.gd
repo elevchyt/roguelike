@@ -477,7 +477,7 @@ func level_up_check():
 		mana = manaMax
 		xpToLevel = ceil(10 + level * 2)
 		
-		# Raise stats based on class
+		# Raise stats
 		match playerClass:
 			"Warrior":
 				strength += 2
@@ -499,6 +499,17 @@ func level_up_check():
 				strength += 2
 				dexterity += 1
 				intelligence += 1
+				
+		# Add skills
+		match level:
+			2:
+				add_skill(skillsClass[0])
+			5:
+				add_skill(skillsClass[1])
+			8:
+				add_skill(skillsClass[2])
+			12:
+				add_skill(skillsClass[3])
 		
 	# Reset text
 	yield(get_tree().create_timer(1.2), "timeout") # DELAYS NEXT TURN, TOO

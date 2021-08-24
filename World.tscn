@@ -158,7 +158,7 @@ playerColor = "pink"
 [node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 768, 768 )
 z_index = 2
-playerClass = "Mage"
+playerClass = "Monk"
 playerColor = "orange"
 
 [node name="GameManager" type="Node2D" parent="."]
