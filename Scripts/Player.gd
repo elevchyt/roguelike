@@ -216,7 +216,7 @@ func _process(delta):
 			move_to_position(Vector2(96, 0))
 			
 		# Skip turn
-		elif (Input.is_action_just_pressed("key_escape")):
+		elif (Input.is_action_just_pressed("key_ctrl")):
 			end_turn()
 			
 		# Skills
