@@ -128,17 +128,10 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Creatures" type="Node2D" parent="."]
 
-[node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 576, 480 )
-level = 1
-strength = 2
-dexterity = 1
-intelligence = 1
-
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 768, 576 )
 level = 1
-strength = 2
+strength = 5
 dexterity = 1
 intelligence = 1
 
@@ -401,12 +394,15 @@ __meta__ = {
 
 [node name="FeedbackText" type="Sprite" parent="HUD"]
 visible = false
+position = Vector2( 1008, 720 )
+
+[node name="Tween" type="Tween" parent="HUD/FeedbackText"]
 
 [node name="FeedbackTextShadow" type="RichTextLabel" parent="HUD/FeedbackText"]
-margin_left = 580.0
-margin_top = 676.0
-margin_right = 1444.0
-margin_bottom = 772.0
+margin_left = -428.0
+margin_top = -44.0
+margin_right = 436.0
+margin_bottom = 52.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "[center]Not enough mana.[/center]"
@@ -417,10 +413,10 @@ __meta__ = {
 }
 
 [node name="FeedbackText" type="RichTextLabel" parent="HUD/FeedbackText"]
-margin_left = 576.0
-margin_top = 672.0
-margin_right = 1440.0
-margin_bottom = 768.0
+margin_left = -432.0
+margin_top = -48.0
+margin_right = 432.0
+margin_bottom = 48.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "[center]Not enough mana.[/center]"

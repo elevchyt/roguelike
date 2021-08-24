@@ -19,7 +19,6 @@ var active = false
 var state = 'alive' # alive, dead, sleep, stun, root
 
 # Skills
-# MAGE: flare, thunderclap, arcane shield, curse
 var skills : Array # Array of current skills
 var skillsDescription : Array # Array of skills' descriptions
 var skillsType : Array # Array of skills' type
@@ -34,6 +33,9 @@ var skillChoose : String # The current skill highlighted before usage; during sk
 var skillChooseIndex : int # index of current highlighted skill
 var targetMode = false # true when using targeted skills
 var skillInVision = true # to check if the current position of the target is within vision (e.g. the player has a clear shot)
+
+# Mage variables
+var arcaneShield = false
 
 # Stats
 var level = 1
@@ -181,8 +183,11 @@ func activate():
 			
 		i += 1 # counter increment
 	
-	# debug
-	print(skills)
+	# (Arcane Shield) Check if conditions are met to activate
+	if (mana >= ceil(manaMax / 2) && skills.find('Arcane Shield') != -1):
+		arcaneShield = true
+	else:
+		arcaneShield = false
 
 # GET INPUT
 func _process(delta):
@@ -516,7 +521,7 @@ func level_up_check():
 				add_skill(skillsClass[3])
 		
 	# Reset text
-	yield(get_tree().create_timer(1.2), "timeout") # DELAYS NEXT TURN, TOO
+	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
 	$TextLevelUp.position = Vector2.ZERO
 

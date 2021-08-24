@@ -82,8 +82,15 @@ func attack(target):
 	# Check if hit successful
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
-		# Reduce health
-		var damageTotal = strength
+		# Damage Calculation (check for shields first)
+		var damageTotal
+		if (target.arcaneShield == true):
+			damageTotal = ceil(strength * 0.8)
+		else:
+			damageTotal = ceil(strength)
+		print(target.arcaneShield)
+		
+		# Reduce target health
 		target.health -= damageTotal
 		
 		# Check if killed & remove from players array & set his state to dead
