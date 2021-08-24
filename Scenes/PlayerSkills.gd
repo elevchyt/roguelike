@@ -130,10 +130,10 @@ func use_skill(skillName):
 			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 			
 			# Player + Skill Animation
-			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, PlayerSprite.scale * 1.3, 0.6, Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
+			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, PlayerSprite.scale * 1.3, 0.6, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
 			Player.Tween.start()
-			yield(get_tree().create_timer(0.7), "timeout")
-			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale , PlayerSprite.scale * 0.7, 0.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+			yield(get_tree().create_timer(0.9), "timeout")
+			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale , PlayerSprite.scale * 0.7, 0.6, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 			Player.Tween.start()
 			
 			# Play particle animation
@@ -148,7 +148,7 @@ func use_skill(skillName):
 			instanceSprite.playing = true
 			
 			# Camera Shake
-			CameraNode.shake(8, 0.01, 0.2)
+			CameraNode.shake(10, 0.01, 0.2)
 			
 			# Damage Calculation (happens mid-animation)
 			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 2.0)
@@ -183,12 +183,11 @@ func use_skill(skillName):
 					enemy.queue_free()
 			
 			# Reset player scale
-			yield(get_tree().create_timer(0.3), "timeout")
 			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, Vector2(1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			Player.Tween.start()
 			
 			# End Turn
-			yield(get_tree().create_timer(0.5), "timeout") # wait for this amount after all damage is dealt
+			yield(get_tree().create_timer(0.6), "timeout") # wait for this amount after all damage is dealt
 			Player.end_turn()
 			
 		'Healing Prayer':
