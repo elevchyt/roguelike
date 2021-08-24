@@ -16,6 +16,7 @@ animations = [ {
 } ]
 
 [node name="HealingPrayer" type="Node2D"]
+z_index = 10
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -25,7 +26,7 @@ __meta__ = {
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "hit"
-frame = 1
+frame = 3
 speed_scale = 1.4
 playing = true
 __meta__ = {

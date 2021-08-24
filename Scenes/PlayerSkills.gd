@@ -42,7 +42,6 @@ func use_skill(skillName):
 						var instance = objFlare.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
 						var instanceTween = instance.get_node("Tween")
-						instance.z_index = 10
 						instanceSprite.look_at(PlayerTargetSprite.get_parent().position + Vector2(0, 48)) # set rotation to target
 						add_child(instance)
 						
@@ -213,7 +212,6 @@ func use_skill(skillName):
 						var instance = objHealingPrayer.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
 						instance.position = PlayerTargetSprite.get_parent().position
-						instance.z_index = 10
 						add_child(instance)
 							
 						# Leave skills toolbar
