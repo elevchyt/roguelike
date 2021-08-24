@@ -11,6 +11,9 @@ onready var PlayerTargetSprite = Player.get_node('Target/TargetSprite')
 onready var PlayerTween = Player.get_node('Tween')
 onready var HUD = get_node("/root/World/HUD")
 
+# Hit Sucess (is referred in some skill scenes (e.g. Flare) to do specific things like camera shakes only on hit etc.
+var hitSuccess = false
+
 # Skill Instances Pre-Load
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
@@ -19,6 +22,8 @@ onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn'
 ################################################################################################################
 # Skill Use Function
 func use_skill(skillName):
+	hitSuccess = false
+	
 	match skillName:
 		'Flare':
 			Player.targetMode = false
@@ -70,8 +75,7 @@ func use_skill(skillName):
 						# EVASION CHECK
 						var hitChance = randi() % 100
 						if (hitChance > targetCreature.evasionPerc):
-							# Camera Shake
-							CameraNode.shake(2, 0.02, 0.1)
+							hitSuccess = true
 							
 							# Reduce target health
 							targetCreature.health -= damage

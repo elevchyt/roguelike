@@ -28,6 +28,11 @@ extents = Vector2( 48, 48 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "cursor_orange",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "cursor_pink",
@@ -36,11 +41,6 @@ animations = [ {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "cursor_blue",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "cursor_orange",
 "speed": 5.0
 } ]
 
@@ -62,9 +62,9 @@ animations = [ {
 "name": "target_orange",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
-"name": "target_no_vision",
+"name": "target_pink",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
@@ -72,9 +72,9 @@ animations = [ {
 "name": "target_blue",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
 "loop": true,
-"name": "target_pink",
+"name": "target_no_vision",
 "speed": 5.0
 } ]
 
