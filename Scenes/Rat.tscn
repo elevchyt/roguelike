@@ -15,6 +15,7 @@ size = 96
 font_data = ExtResource( 6 )
 
 [node name="Rat" type="Node2D"]
+z_index = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -40,8 +41,8 @@ collide_with_bodies = false
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 48, 48 )
 texture = ExtResource( 1 )
+offset = Vector2( 48, 48 )
 
 [node name="HealthBar" type="Sprite" parent="."]
 z_index = 10

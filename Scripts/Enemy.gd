@@ -94,7 +94,7 @@ func attack(target):
 			GameManager.calc_turn_order()
 		
 		# Show damage text above target
-		z_index = 1
+		z_index = 3
 		var damageText = target.get_node('TextDamage')
 		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
@@ -102,7 +102,7 @@ func attack(target):
 		Tween.start()
 		damageText.visible = true
 		yield(get_tree().create_timer(1), "timeout")
-		z_index = 0
+		z_index = 2
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
 	# Show miss text above target

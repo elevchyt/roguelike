@@ -8,8 +8,8 @@ onready var CameraNode = get_node("/root/World/Camera2D")
 # Run hit animation on target destination arrival
 func _process(delta):
 	if (position == TargetDestination):
+		# Camera Shake (only on successful hit)
 		if (PlayerSkills.hitSuccess == true):
-			# Camera Shake
 			CameraNode.shake(4, 0.01, 0.1)
 		
 		# Reset rotation & change animation

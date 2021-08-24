@@ -146,19 +146,16 @@ intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 576 )
-z_index = 2
 playerClass = "Mage"
 playerColor = "blue"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 384, 576 )
-z_index = 2
 playerClass = "Priest"
 playerColor = "pink"
 
 [node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 768, 768 )
-z_index = 2
 playerClass = "Monk"
 playerColor = "orange"
 

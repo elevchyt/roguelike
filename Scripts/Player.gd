@@ -375,14 +375,14 @@ func attack(target):
 		# Show damage text
 		var damageText = target.get_node('TextDamage')
 		
-		z_index = 2
+		z_index = 3
 		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
 		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 		Tween.start()
 		damageText.visible = true
 		yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-		z_index = 0
+		z_index = 2
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
 		
