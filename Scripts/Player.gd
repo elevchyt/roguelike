@@ -2,6 +2,7 @@ extends Node2D
 
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
+onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Ray = $Area2D/RayCastMovement
 onready var RayTarget = $RayCastVision
 onready var Target = $Target
@@ -363,6 +364,9 @@ func attack(target):
 	# Check if hit is successful (evasion)
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
+		# Camera Shake
+		CameraNode.shake(2, 0.02, 0.2)
+		
 		# Reduce health
 		var damageTotal = strength + weaponDamage
 		target.health -= damageTotal

@@ -2,6 +2,7 @@ extends Node2D
 
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
+onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Ray = $Area2D/RayCast2D
 onready var Tween = $Tween
 onready var Sprite = $Sprite

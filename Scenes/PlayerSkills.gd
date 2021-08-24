@@ -28,6 +28,7 @@ func use_skill(skillName):
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
+				
 				# Use skill
 				if (targetCreature.isMonster == true):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
@@ -40,10 +41,10 @@ func use_skill(skillName):
 						instanceSprite.look_at(PlayerTargetSprite.get_parent().position) # set rotation to target
 						add_child(instance)
 						
-						# Shoot projectile (THIS DELAYS TURN END!)
+						# Shoot projectile
 						instanceTween.interpolate_property(instance, "position", instance.position, PlayerTargetSprite.get_parent().position, 0.6, instanceTween.TRANS_QUART , instanceTween.EASE_OUT_IN)
 						instanceTween.start()
-							
+						
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
@@ -69,6 +70,9 @@ func use_skill(skillName):
 						# EVASION CHECK
 						var hitChance = randi() % 100
 						if (hitChance > targetCreature.evasionPerc):
+							# Camera Shake
+							CameraNode.shake(2, 0.02, 0.1)
+							
 							# Reduce target health
 							targetCreature.health -= damage
 
@@ -85,7 +89,7 @@ func use_skill(skillName):
 							z_index = 0
 							damageText.visible = false
 							damageText.position = Vector2.ZERO
-
+							
 							# Check if killed & gain xp (check for level-up)
 							if (targetCreature.health <= 0):
 								# Check for level-up
@@ -198,6 +202,9 @@ func use_skill(skillName):
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
 					if (Player.skillInVision == true):
+						# Camera Shake
+						CameraNode.shake(16, 0.4, 1)
+						
 						# Skill Particle Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objHealingPrayer.instance()
