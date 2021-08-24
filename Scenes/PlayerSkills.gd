@@ -42,7 +42,7 @@ func use_skill(skillName):
 						var instance = objFlare.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
 						var instanceTween = instance.get_node("Tween")
-						instanceSprite.look_at(PlayerTargetSprite.get_parent().position + Vector2(0, 48)) # set rotation to target
+						instanceSprite.look_at(PlayerTargetSprite.get_parent().position + Vector2(48, 48)) # set rotation to target
 						add_child(instance)
 						
 						# Shoot projectile

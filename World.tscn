@@ -135,6 +135,20 @@ strength = 5
 dexterity = 1
 intelligence = 1
 
+[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 576, 480 )
+level = 1
+strength = 5
+dexterity = 1
+intelligence = 1
+
+[node name="Rat4" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 864, 288 )
+level = 1
+strength = 5
+dexterity = 1
+intelligence = 1
+
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 672, 576 )
 playerClass = "Mage"
