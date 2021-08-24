@@ -130,7 +130,6 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 576, 480 )
-z_index = 2
 level = 1
 strength = 2
 dexterity = 1
@@ -138,7 +137,6 @@ intelligence = 1
 
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
 position = Vector2( 768, 576 )
-z_index = 2
 level = 1
 strength = 2
 dexterity = 1
@@ -435,7 +433,7 @@ __meta__ = {
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 smoothing_enabled = true
-smoothing_speed = 8.0
+smoothing_speed = 10.0
 script = ExtResource( 11 )
 
 [node name="Tween" type="Tween" parent="Camera2D"]
