@@ -6,6 +6,7 @@ onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Ray = $Area2D/RayCastMovement
 onready var RayTarget = $RayCastVision
 onready var Target = $Target
+onready var PlayerSkills = $PlayerSkills
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
@@ -373,6 +374,9 @@ func attack(target):
 	# Check if hit is successful (evasion)
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
+		# Cleave check
+		PlayerSkills.cleave_check(target)
+		
 		# Camera Shake
 		CameraNode.shake(2, 0.02, 0.2)
 		
@@ -397,15 +401,15 @@ func attack(target):
 		
 		# Check if killed & gain xp (check for level-up)
 		if (target.health <= 0):
+			target.health = 0
+			
 			# Check for level-up
 			xpCurrent += target.level
 			level_up_check()
-				
+			
 			# Destroy target
 			target.queue_free()
-		
-		# Cleave check
-		cleave()
+
 	# Show miss text above target
 	else:
 		z_index = 1
@@ -422,10 +426,6 @@ func attack(target):
 		
 	# End Turn
 	end_turn()
-
-# Cleave (Passive Skill)
-func cleave():
-	pass # CHECK FOR CLEAVE WITH RAYCAST HERE (raycast is better because it takes vision into account)
 
 # Move Target
 func move_target(direction):

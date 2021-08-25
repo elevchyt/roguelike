@@ -62,14 +62,14 @@ animations = [ {
 "name": "target_pink",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
-"loop": true,
-"name": "target_blue",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "target_no_vision",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "target_blue",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 18 ), ExtResource( 17 ) ],

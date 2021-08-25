@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Skills/Cleave.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 44, 44 )
+
+[node name="Cleave" type="Node2D"]
+z_index = -2
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+modulate = Color( 1, 0.929412, 0.180392, 1 )
+position = Vector2( 48, -48 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D"]
+modulate = Color( 1, 0.929412, 0.180392, 1 )
+position = Vector2( 48, 144 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+modulate = Color( 1, 0.929412, 0.180392, 1 )
+position = Vector2( 144, 48 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D"]
+modulate = Color( 1, 0.929412, 0.180392, 1 )
+position = Vector2( -48, 48 )
+shape = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

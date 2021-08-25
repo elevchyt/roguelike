@@ -15,6 +15,7 @@ onready var HUD = get_node("/root/World/HUD")
 var hitSuccess = false
 
 # Skill Instances Pre-Load
+onready var objCleave = preload('res://Scenes/Skills/Cleave.tscn')
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn')
@@ -95,6 +96,8 @@ func use_skill(skillName):
 							
 							# Check if killed & gain xp (check for level-up)
 							if (targetCreature.health <= 0):
+								targetCreature.health = 0
+								
 								# Check for level-up
 								Player.xpCurrent += targetCreature.level
 								Player.level_up_check()
@@ -139,8 +142,6 @@ func use_skill(skillName):
 			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale , PlayerSprite.scale * 0.7, 0.6, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 			Player.Tween.start()
 			
-			
-			
 			# Play particle animation
 			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 			var instance = objThunderclap.instance()
@@ -153,6 +154,7 @@ func use_skill(skillName):
 			
 			# Camera Shake
 			CameraNode.shake(10, 0.01, 0.2)
+			
 			# Damage Calculation (happens mid-animation)
 			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 2.0)
 			print(damage)
@@ -178,6 +180,8 @@ func use_skill(skillName):
 				
 				# Check if killed & gain xp (check for level-up)
 				if (enemy.health <= 0):
+					enemy.health = 0
+					
 					# Check for level-up
 					Player.xpCurrent += enemy.level
 					Player.level_up_check()
@@ -255,3 +259,49 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+################################################################################################################
+# Cleave (Passive Skill)
+func cleave_check(target):
+	if (Player.cleave == true):
+		var instance = objCleave.instance()
+		var instanceTween = instance.get_node("Tween")
+		instance.position = to_local(target.position)
+		add_child(instance)
+		
+		yield(get_tree().create_timer(0.1), "timeout") # makes sure all enemies are stored
+		var enemiesToHit = instance.enemiesToHit
+		instance.queue_free()
+		
+		# Check for a hit on every adjacent enemy
+		if (enemiesToHit.empty() == false):
+			for adjEnemy in enemiesToHit:
+				var hitChance = randi() % 100
+				if (hitChance <= 50):
+					# Reduce health
+					var damageTotal = ceil(Player.strength / 3.0)
+					adjEnemy.health -= damageTotal
+					
+					# Show damage text
+					var damageText = adjEnemy.get_node('TextDamage')
+					
+					z_index = 3
+					damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+					damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+					adjEnemy.Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+					adjEnemy.Tween.start()
+					damageText.visible = true
+					yield(get_tree().create_timer(0.3), "timeout")
+					z_index = 2
+					damageText.visible = false
+					damageText.position = Vector2.ZERO
+					
+					# Check if killed & gain xp (check for level-up)
+					if (adjEnemy.health <= 0):
+						adjEnemy.health
+						
+						# Check for level-up
+						Player.xpCurrent += adjEnemy.level
+						Player.level_up_check()
+						
+						# Destroy target
+						adjEnemy.queue_free()
