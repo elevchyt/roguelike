@@ -6,6 +6,7 @@ onready var Player = get_parent()
 onready var PlayerArea = Player.get_node("Area2D")
 onready var PlayerSprite = Player.get_node('Sprite')
 onready var PlayerTarget = Player.get_node('Target')
+onready var PlayerRay = Player.get_node("RayCastVision")
 onready var PlayerTargetCollision = Player.get_node('Target/CollisionShape2D')
 onready var PlayerTargetSprite = Player.get_node('Target/TargetSprite')
 onready var PlayerTween = Player.get_node('Tween')
@@ -123,6 +124,8 @@ func use_skill(skillName):
 						# End Turn
 						Player.end_turn()
 		'Thunderclap':
+			Player.skillInVision = true # make sure non-targeted skills can be cast
+			
 			# End Turn Variables
 			Player.hasPlayed = true
 			Player.active = false

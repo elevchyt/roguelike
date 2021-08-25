@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/person_blue.png" type="Texture" id=2]
@@ -33,48 +33,44 @@ animations = [ {
 "name": "cursor_blue",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "cursor_pink",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "cursor_orange",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "cursor_pink",
+"speed": 5.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
-size = 96
-font_data = ExtResource( 12 )
-
-[sub_resource type="DynamicFont" id=4]
 size = 80
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 1, 1 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
-"loop": true,
-"name": "target_pink",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
-"loop": true,
-"name": "target_no_vision",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "target_blue",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "target_pink",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
 "loop": true,
 "name": "target_orange",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "target_no_vision",
 "speed": 5.0
 } ]
 
@@ -127,40 +123,8 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 2 )
 animation = "cursor_blue"
-frame = 1
 playing = true
 centered = false
-
-[node name="TextDamage" type="Sprite" parent="."]
-visible = false
-z_index = 12
-
-[node name="TextDamageShadow" type="RichTextLabel" parent="TextDamage"]
-margin_left = -44.0
-margin_top = 4.0
-margin_right = 148.0
-margin_bottom = 100.0
-custom_fonts/normal_font = SubResource( 3 )
-bbcode_enabled = true
-bbcode_text = "[center]-123[/center]"
-text = "-123"
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextDamage" type="RichTextLabel" parent="TextDamage"]
-margin_left = -48.0
-margin_right = 144.0
-margin_bottom = 96.0
-custom_fonts/normal_font = SubResource( 3 )
-bbcode_enabled = true
-bbcode_text = "[center]-123[/center]"
-text = "-123"
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextLevelUp" type="Sprite" parent="."]
 visible = false
@@ -171,7 +135,7 @@ margin_left = -140.0
 margin_top = 4.0
 margin_right = 291.0
 margin_bottom = 100.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]Level-Up![/center]"
 text = "Level-Up!"
@@ -184,7 +148,7 @@ __meta__ = {
 margin_left = -144.0
 margin_right = 287.0
 margin_bottom = 96.0
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]Level-Up![/center]"
 text = "Level-Up!"
@@ -205,15 +169,14 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
 modulate = Color( 0.168627, 0.992157, 0, 1 )
 position = Vector2( 48, 48 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 disabled = true
 
 [node name="TargetSprite" type="AnimatedSprite" parent="Target"]
+position = Vector2( 48, 48 )
 z_index = 11
-frames = SubResource( 6 )
+frames = SubResource( 5 )
 animation = "target_blue"
-frame = 1
 speed_scale = 0.8
 playing = true
-offset = Vector2( 48, 48 )
 script = ExtResource( 22 )

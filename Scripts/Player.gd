@@ -355,7 +355,8 @@ func _process(delta):
 		elif (Input.is_action_just_pressed("key_d")):
 			move_target(Vector2(96, 0))
 		elif (Input.is_action_just_pressed("key_space")):
-			$PlayerSkills.use_skill(skills[skillChooseIndex])
+			if (skillInVision == true):
+				$PlayerSkills.use_skill(skills[skillChooseIndex])
 
 ######## END OF INPUT ########
 ################################################################################################################
