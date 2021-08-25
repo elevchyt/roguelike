@@ -24,6 +24,7 @@ var skills : Array # Array of current skills
 var skillsDescription : Array # Array of skills' descriptions
 var skillsType : Array # Array of skills' type
 var skillsCooldown : Array # Array of skills' cooldown
+var skillsCooldownCurrent = [0, 0, 0, 0] # Array of skills' cooldown (counter)
 var skillsManaCost : Array # Array of skills' mana cost
 var skillsRange : Array # Array of skills' range
 var skillsTargetType : Array # Array of skills' target type
@@ -169,6 +170,11 @@ func activate():
 	if (state == 'dead'):
 		end_turn()
 	
+	# Decrement all cooldown counters by 1
+	for i in range(skillsCooldownCurrent.size() - 1):
+		if (skillsCooldownCurrent[i] > 0):
+			skillsCooldownCurrent[i] -= 1
+	
 	# Reset values
 	active = true
 	
@@ -296,8 +302,8 @@ func _process(delta):
 		RayTarget.force_raycast_update()
 	# Choose
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
-		# Check for mana cost first
-		if (mana >= skillsManaCost[skillChooseIndex]):
+		# Check for mana cost & cooldown first
+		if (mana >= skillsManaCost[skillChooseIndex] && skillsCooldownCurrent[skillChooseIndex] <= 0):
 			# Target Skills => Enemy OR Friendly
 			if (skillsType[skillChooseIndex] == 'active' 
 			&& (skillsTargetType[skillChooseIndex] == 'target+enemy' 
@@ -324,9 +330,16 @@ func _process(delta):
 				# Use skill instantly (no target)
 				$PlayerSkills.use_skill(skills[skillChooseIndex])
 		# Show feedback message for not enough mana
-		else:
+		elif(mana < skillsManaCost[skillChooseIndex]):
 			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Not enough mana![/color][/center]'
 			HUD.get_node('FeedbackText/FeedbackTextShadow').bbcode_text = '[center][color=#ff212123]Not enough mana![/color][/center]'
+			HUD.get_node('FeedbackText').visible = true
+			yield(get_tree().create_timer(1.2), "timeout")
+			HUD.get_node('FeedbackText').visible = false
+		# Show feedback message for skill on cooldown
+		else:
+			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Skill on cooldown![/color][/center]'
+			HUD.get_node('FeedbackText/FeedbackTextShadow').bbcode_text = '[center][color=#ff212123]Skill on cooldown![/color][/center]'
 			HUD.get_node('FeedbackText').visible = true
 			yield(get_tree().create_timer(1.2), "timeout")
 			HUD.get_node('FeedbackText').visible = false

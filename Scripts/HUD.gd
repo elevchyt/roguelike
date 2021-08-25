@@ -36,3 +36,37 @@ func _process(delta):
 		$INTShadow.bbcode_text = '[color=#ff212123]INT: ' + str(currentPlayer.intelligence) + '[/color]'
 		$Evasion.bbcode_text = 'Ev: ' + str(currentPlayer.evasionPerc) + '%'
 		$EvasionShadow.bbcode_text = '[color=#ff212123]Ev: ' + str(currentPlayer.evasionPerc) + '%' + '[/color]'
+		
+		# Cooldowns Text
+		if (currentPlayer.skillsCooldownCurrent[0] > 0):
+			$Skill1/Cooldown/Cooldown.bbcode_text = '[center]' + str(currentPlayer.skillsCooldownCurrent[0]) + '[/center]'
+			$Skill1/Cooldown/CooldownShadow.bbcode_text = '[center][color=#ff212123]' + str(currentPlayer.skillsCooldownCurrent[0]) + '[/color][/center]'
+			$Skill1.modulate.a = 0.8
+			$Skill1/Cooldown.visible = true
+		else:
+			$Skill1.modulate.a = 1
+			$Skill1/Cooldown.visible = false
+		if (currentPlayer.skillsCooldownCurrent[1] > 0):
+			$Skill2/Cooldown/Cooldown.bbcode_text = '[center]' + str(currentPlayer.skillsCooldownCurrent[1]) + '[/center]'
+			$Skill2/Cooldown/CooldownShadow.bbcode_text = '[center][color=#ff212123]' + str(currentPlayer.skillsCooldownCurrent[1]) + '[/color][/center]'
+			$Skill2.modulate.a = 0.8
+			$Skill2/Cooldown.visible = true
+		else:
+			$Skill2.modulate.a = 1
+			$Skill2/Cooldown.visible = false
+		if (currentPlayer.skillsCooldownCurrent[2] > 0):
+			$Skill3/Cooldown/Cooldown.bbcode_text = '[center]' + str(currentPlayer.skillsCooldownCurrent[2]) + '[/center]'
+			$Skill3/Cooldown/CooldownShadow.bbcode_text = '[center][color=#ff212123]' + str(currentPlayer.skillsCooldownCurrent[2]) + '[/color][/center]'
+			$Skill3.modulate.a = 0.8
+			$Skill3/Cooldown.visible = true
+		else:
+			$Skill3.modulate.a = 1
+			$Skill3/Cooldown.visible = false
+		if (currentPlayer.skillsCooldownCurrent[3] > 0):
+			$Skill4/Cooldown/Cooldown.bbcode_text = '[center]' + str(currentPlayer.skillsCooldownCurrent[3]) + '[/center]'
+			$Skill4/Cooldown/CooldownShadow.bbcode_text = '[center][color=#ff212123]' + str(currentPlayer.skillsCooldownCurrent[3]) + '[/color][/center]'
+			$Skill4.modulate.a = 0.8
+			$Skill4/Cooldown.visible = true
+		else:
+			$Skill4.modulate.a = 1
+			$Skill4/Cooldown.visible = false

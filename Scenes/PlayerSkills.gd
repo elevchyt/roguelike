@@ -69,8 +69,9 @@ func use_skill(skillName):
 						Player.hasPlayed = true
 						Player.active = false
 						
-						# Reduce player mana
+						# Reduce player mana & set cooldown
 						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# EVASION CHECK
 						var hitChance = randi() % 100
@@ -126,8 +127,9 @@ func use_skill(skillName):
 			Player.hasPlayed = true
 			Player.active = false
 			
-			# Reduce player mana
+			# Reduce player mana & set cooldown
 			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 			
 			# Leave skills toolbar
 			HUD.get_node('Tween').stop_all()
@@ -237,8 +239,9 @@ func use_skill(skillName):
 						Player.hasPlayed = true
 						Player.active = false
 						
-						# Reduce player mana
+						# Reduce player mana & set cooldown
 						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# Increase target health
 						targetCreature.health = clamp(targetCreature.health + healing, 0, targetCreature.healthMax)
