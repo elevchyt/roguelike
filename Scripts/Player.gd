@@ -38,6 +38,7 @@ var skillInVision = true # to check if the current position of the target is wit
 
 # Warrior variables
 var cleave = false
+var cleaveChancePerc = 50
 
 # Mage variables
 var arcaneShield = false

@@ -279,7 +279,7 @@ func cleave_check(target):
 		if (enemiesToHit.empty() == false):
 			for adjEnemy in enemiesToHit:
 				var hitChance = randi() % 100
-				if (hitChance <= 50):
+				if (hitChance <= Player.cleaveChancePerc):
 					# Reduce health
 					var damageTotal = ceil(Player.strength / 3.0)
 					adjEnemy.health -= damageTotal
