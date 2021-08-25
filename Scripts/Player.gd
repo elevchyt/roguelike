@@ -19,6 +19,13 @@ var hasPlayed = false
 var active = false
 var state = 'alive' # alive, dead, sleep, stun, root
 
+# Items / Inventory
+var items : Array # Current items in inventory (strings)
+var itemsDescription : Array # Curernt items' descriptions
+var itemsType : Array # Current items' type (consumable, equipment, misc)
+var itemsState : Array # Current items' state (equipped, unequipped)
+var itemChooseIndex : Array # Index of current highlighted item
+
 # Skills
 var skills : Array # Array of current skills
 var skillsDescription : Array # Array of skills' descriptions
