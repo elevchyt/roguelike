@@ -6,6 +6,9 @@ onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
 
+# General objects for instancing
+onready var objDamageText = preload('res://Scenes/TextDamage.tscn')
+
 # DEBUG BUTTONS
 func _process(delta):
 	if (Input.is_action_just_pressed("key_r")):

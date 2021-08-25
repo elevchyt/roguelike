@@ -102,10 +102,16 @@ func attack(target):
 		
 		# Show damage text above target
 		z_index = 3
-		var damageText = target.get_node('TextDamage')
+		var damageText = GameManager.objDamageText.instance()
+		print(damageText.position)
+		print(target.position)
+		add_child(damageText)
+		
+		var randXOffset = ceil(rand_range(-48, 48))
+		#var randXOffset = 0
 		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 		Tween.start()
 		damageText.visible = true
 		yield(get_tree().create_timer(1), "timeout")

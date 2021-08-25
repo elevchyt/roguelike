@@ -28,11 +28,6 @@ extents = Vector2( 48, 48 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "cursor_orange",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "cursor_blue",
@@ -41,6 +36,11 @@ animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "cursor_pink",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "cursor_orange",
 "speed": 5.0
 } ]
 
@@ -127,6 +127,7 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 2 )
 animation = "cursor_blue"
+frame = 1
 playing = true
 centered = false
 
@@ -211,6 +212,7 @@ disabled = true
 z_index = 11
 frames = SubResource( 6 )
 animation = "target_blue"
+frame = 1
 speed_scale = 0.8
 playing = true
 offset = Vector2( 48, 48 )
