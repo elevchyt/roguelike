@@ -10,7 +10,7 @@
 [ext_resource path="res://Sprites/cursor_orange_2.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/hp_green.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/hp_red.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/HealthBar.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/HealthBar.gd" type="Script" id=11]
 [ext_resource path="res://Fonts/Abaddon Bold.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://Sprites/target_skill_blue_1.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/target_skill_blue_2.png" type="Texture" id=14]
@@ -18,10 +18,10 @@
 [ext_resource path="res://Sprites/target_skill_pink_1.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/target_skill_orange_2.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/target_skill_orange_1.png" type="Texture" id=18]
-[ext_resource path="res://Scenes/PlayerSkills.gd" type="Script" id=19]
+[ext_resource path="res://Scripts/PlayerSkills.gd" type="Script" id=19]
 [ext_resource path="res://Sprites/target_no_vision_1.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/target_no_vision_2.png" type="Texture" id=21]
-[ext_resource path="res://Scenes/TargetSprite.gd" type="Script" id=22]
+[ext_resource path="res://Scripts/TargetSprite.gd" type="Script" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 48 )
@@ -33,14 +33,14 @@ animations = [ {
 "name": "cursor_blue",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "cursor_orange",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "cursor_pink",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "cursor_orange",
 "speed": 5.0
 } ]
 
@@ -53,6 +53,16 @@ extents = Vector2( 1, 1 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "target_no_vision",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "target_orange",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "target_blue",
@@ -61,16 +71,6 @@ animations = [ {
 "frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "target_pink",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
-"loop": true,
-"name": "target_orange",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
-"loop": true,
-"name": "target_no_vision",
 "speed": 5.0
 } ]
 
@@ -123,6 +123,7 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 2 )
 animation = "cursor_blue"
+frame = 1
 playing = true
 centered = false
 
