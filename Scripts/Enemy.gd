@@ -31,6 +31,7 @@ var cursed = false
 var cursedCounter = 0
 var poisoned = false
 var poisonedCounter = 0
+var playerWhoPoisonedMe
 var ensnared = false
 var ensnaredCounter = 0
 
@@ -44,10 +45,6 @@ func move(path):
 
 # Activate function (when this unit enters it's turn)
 func activate():
-	print('-------------------')
-	print(damageResistance)
-	print(evasionPerc)
-	print('-------------------')
 	# Find closest player & its path
 	if (GameManager.players.empty() == false):
 		var targetPlayer = GameManager.players[0]
@@ -64,7 +61,6 @@ func activate():
 		path.remove(0) # remove the tile already on
 		path.remove(path.size() - 1) # remove the tile that the target is on
 		
-		print('-Distance to target from ' + name + ': ' + str(path.size()))
 		# Check if target is within attack range (for basic melee attack)
 		var directions = [Vector2(0, -48), Vector2(0, 48), Vector2(-48, 0), Vector2(48, 0)]
 		var targetInAttackRange = false
@@ -76,7 +72,6 @@ func activate():
 					targetInAttackRange = true
 					animation_attack(dir)
 					attack(targetPlayer)
-					print('** ATTACK **') # attack action
 					
 		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
 		if (path.size() <= visionRange && path.size() != 0):
@@ -122,8 +117,6 @@ func attack(target):
 		# Show damage text above target
 		z_index = 3
 		var damageText = GameManager.objDamageText.instance()
-		print(damageText.position)
-		print(target.position)
 		add_child(damageText)
 		
 		var randXOffset = ceil(rand_range(-48, 48))
@@ -153,23 +146,56 @@ func attack(target):
 # Status Check (end turn)
 # Decrement/Increment counters (curse, poison etc.)
 func status_check():
-		# Curse
-		if (cursed == true && cursedCounter > 0):
-			cursedCounter -= 1
+	# Curse
+	if (cursed == true && cursedCounter > 0):
+		cursedCounter -= 1
+		
+		if (cursedCounter == 0):
+			cursedCounter = 0
+			cursed = false
+			evasionPerc = evasionPercMax
+			print('*** CURSE REMOVED ***')
+	# Poison
+	if (poisoned == true && poisonedCounter > 0):
+		poisonedCounter -= 1
+		
+		# Damage Calculation
+		var damageTotal = ceil(playerWhoPoisonedMe.intelligence / 2.0)
+		
+		# Reduce health
+		health -= damageTotal
+		
+		# Check if killed & gain xp (check for level-up - for the player who poisoned this enemy)
+		if (health <= 0):
+			health = 0
 			
-			if (cursedCounter == 0):
-				cursedCounter = 0
-				cursed = false
-				evasionPerc = evasionPercMax
-				print('*** CURSE REMOVED ***')
-		# Poison
-		if (poisoned == true && poisonedCounter > 0):
-			poisonedCounter -= 1
+			# Check for level-up
+			playerWhoPoisonedMe.xpCurrent += level
+			playerWhoPoisonedMe.level_up_check()
 			
-			if (poisonedCounter == 0):
-				poisonedCounter = 0
-				poisoned = false
-				print('*** POISON REMOVED ***')
+			# Destroy self
+			queue_free()
+			
+		# Show damage text above target
+		var damageText = GameManager.objDamageText.instance()
+		add_child(damageText)
+		
+		z_index = 3
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#c2d368]' + '-' + str(damageTotal) + '[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		Tween.start()
+		damageText.visible = true
+		yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+		z_index = 2
+		damageText.visible = false
+		damageText.position = Vector2.ZERO
+		
+		if (poisonedCounter == 0):
+			poisonedCounter = 0
+			playerWhoPoisonedMe = null
+			poisoned = false
+			print('*** POISON REMOVED ***')
 		# Ensnared
 		if (ensnared == true && ensnaredCounter > 0):
 			ensnaredCounter -= 1

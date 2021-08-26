@@ -119,6 +119,8 @@ func _ready():
 			dexterity = 4
 			intelligence = 3
 			
+			skillsClass.append('Poison Dart')
+			
 			match playerColor:
 				"blue":
 					$Sprite.texture = load("res://Sprites/rogue_blue.png")
@@ -468,7 +470,6 @@ func move_target(direction):
 				
 				skillInVision = true
 				if (RayTarget.get_collider() != null):
-					print(RayTarget.get_collider())
 					# Walls
 					if(RayTarget.get_collider() is TileMap):
 						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
@@ -609,7 +610,6 @@ func check_passive_skills():
 		cleave = true
 	else:
 		cleave = false
-	print(cleave)
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):

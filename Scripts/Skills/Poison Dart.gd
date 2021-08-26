@@ -10,7 +10,7 @@ func _process(delta):
 	if (position == TargetDestination):
 		# Camera Shake (only on successful hit)
 		if (PlayerSkills.hitSuccess == true):
-			CameraNode.shake(4, 0.01, 0.1)
+			CameraNode.shake(3, 0.03, 0.1)
 		
 		# Reset rotation & change animation
 		$AnimatedSprite.rotation = 0

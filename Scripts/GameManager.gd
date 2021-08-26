@@ -69,23 +69,25 @@ func launch_ai_turns():
 
 ##################################################################################################
 # SKILLS LIBRARY (is referred after skill is granted to a player)
-var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse', 'Healing Prayer', 'Cleave']
+var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse', 'Healing Prayer', 'Cleave', 'Poison Dart']
 var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage to a target.', 
 'Inflicts INT + (STR / 2) damage to enemies around you. (Cannot be evaded)', 
 '(PASSIVE) All damage taken is reduced by 20%, as long as your Mana is over 50%.', 
 'Casts a curse on a target for 3 turns. Cursed targets take 20% more damage from all sources & have their Evasion reduced to 0%. (Cannot be evaded)',
 'Heals a friendly target for INT * 0.8.',
-'(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.']
+'(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.',
+'Shoots a poisonous dart that inflicts STR damage with a 50% chance to poison its target for 3 turns. Poisoned targets take INT / 2 damage every time they finish their turn.']
 var skillsSlotSprites = ['res://Sprites/skill_flare.png', 
 'res://Sprites/skill_thunderclap.png', 
 'res://Sprites/skill_arcane_shield.png', 
 'res://Sprites/skill_curse.png',
 'res://Sprites/skill_healing_prayer.png',
+'res://Sprites/skill_cleave.png',
 'res://Sprites/skill_cleave.png'] # replace this
-var skillsManaCost = [4, 6, 0, 12, 5, 0]
-var skillsCooldown = [2, 5, 0, 12, 5, 0]
-var skillsRange = [5, 1, 0, 4, 3, 0]
+var skillsManaCost = [4, 6, 0, 12, 5, 0, 3]
+var skillsCooldown = [2, 5, 0, 12, 5, 0, 3]
+var skillsRange = [5, 1, 0, 4, 3, 0, 4]
 # skillsType: 'passive, 'active'
-var skillsType = ['active', 'active', 'passive', 'active', 'active', 'passive']
+var skillsType = ['active', 'active', 'passive', 'active', 'active', 'passive', 'active']
 # skillsTargetType: 'self', 'target+enemy', 'around+enemy', 'target+friendly', 'passive'
-var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy', 'target+friendly', 'passive']
+var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy', 'target+friendly', 'passive', 'target+enemy']
