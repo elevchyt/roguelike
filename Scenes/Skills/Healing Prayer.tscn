@@ -27,7 +27,6 @@ position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "hit"
 speed_scale = 1.4
-playing = true
 __meta__ = {
 "_editor_description_": "offset half the size of the sprite on the x & y axis"
 }

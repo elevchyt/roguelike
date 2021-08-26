@@ -23,7 +23,7 @@ onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objPoisonDart = preload('res://Scenes/Skills/Poison Dart.tscn')
 onready var objEnsnare = preload('res://Scenes/Skills/Ensnare.tscn')
 onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn')
-onready var objCurse = preload('res://Scenes/Skills/Healing Prayer.tscn')
+onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
 
 ################################################################################################################
 # Skill Use Function
@@ -231,10 +231,11 @@ func use_skill(skillName):
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objCurse.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
+						instanceSprite.playing = true
 						instance.position = PlayerTargetSprite.get_parent().position
 						add_child(instance)
 						
-						PlayerTween.interpolate_property(instance, "scale", scale * 2, Vector2(1, 1), 0.5, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(instanceSprite, "scale", Vector2(2, 2), Vector2(1, 1), 0.8, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						
 						# Apply skill effect
@@ -274,7 +275,7 @@ func use_skill(skillName):
 						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
-						yield(get_tree().create_timer(1.4), "timeout") # DELAYS NEXT TURN, TOO
+						yield(get_tree().create_timer(3), "timeout") # DELAYS NEXT TURN, TOO
 						z_index = 0
 						damageText.visible = false
 						damageText.position = Vector2.ZERO
@@ -486,6 +487,7 @@ func use_skill(skillName):
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objHealingPrayer.instance()
 						var instanceSprite = instance.get_node("AnimatedSprite")
+						instanceSprite.playing = true
 						instance.position = PlayerTargetSprite.get_parent().position
 						add_child(instance)
 							

@@ -34,6 +34,7 @@ __meta__ = {
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "projectile"
+frame = 1
 speed_scale = 1.5
 playing = true
 __meta__ = {
