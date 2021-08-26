@@ -120,6 +120,7 @@ func _ready():
 			intelligence = 3
 			
 			skillsClass.append('Poison Dart')
+			skillsClass.append('Ensnare')
 			
 			match playerColor:
 				"blue":
@@ -219,6 +220,8 @@ func _process(delta):
 			add_skill('Healing Prayer')
 		elif (Input.is_action_just_pressed("key_c")):
 			add_skill('Cleave')
+		elif (Input.is_action_just_pressed("key_g")):
+			add_skill('Ensnare')
 		# Level up debug (home key gives 1 level)
 		elif (Input.is_action_just_pressed("key_home")):
 			xpCurrent = xpToLevel

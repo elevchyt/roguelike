@@ -1,5 +1,6 @@
 extends Node2D
 
+onready var Root = get_node("/root/World/")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Player = get_parent()
@@ -20,6 +21,7 @@ onready var objCleave = preload('res://Scenes/Skills/Cleave.tscn')
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objPoisonDart = preload('res://Scenes/Skills/Poison Dart.tscn')
+onready var objEnsnare = preload('res://Scenes/Skills/Ensnare.tscn')
 onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn')
 onready var objCurse = preload('res://Scenes/Skills/Healing Prayer.tscn')
 
@@ -396,6 +398,72 @@ func use_skill(skillName):
 							z_index = 0
 							damageText.visible = false
 							damageText.position = Vector2.ZERO
+					
+						# End Turn
+						Player.end_turn()
+		'Ensnare':
+			# Find eligible target
+			var targetNode = PlayerTarget.get_overlapping_areas()
+			if (targetNode.empty() == false):
+				# Use skill
+				var targetCreature = targetNode[0].get_parent()
+				if (targetCreature.isMonster == true):
+					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
+						Player.targetMode = false
+						
+						# Skill Projectile Animation
+						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+						var instance = objEnsnare.instance()
+						var instanceSprite = instance.get_node("AnimatedSprite")
+						var instanceTween = instance.get_node("Tween")
+						instanceSprite.look_at(PlayerTargetSprite.get_parent().position + Vector2(48, 48)) # set rotation to target
+						Root.add_child(instance)
+						targetCreature.ensnareNode = instance
+						
+						# Shoot projectile
+						instanceTween.interpolate_property(instance, "position", Player.position, to_global(PlayerTarget.position), 0.6, instanceTween.TRANS_QUART , instanceTween.EASE_OUT_IN)
+						instanceTween.start()
+						
+						# Leave skills toolbar
+						HUD.get_node('Tween').stop_all()
+						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+						
+						# Reset Target
+						PlayerTargetCollision.disabled = true
+						PlayerTarget.position = Vector2.ZERO
+						PlayerTarget.visible = false
+						
+						# Reset RayCast
+						Player.RayTarget.set_cast_to(PlayerTarget.position)
+						Player.RayTarget.force_raycast_update()
+						
+						# End Turn Variables
+						Player.hasPlayed = true
+						Player.active = false
+						
+						# Reduce player mana & set cooldown
+						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+							
+						# Set ensnared effect
+						targetCreature.ensnared = true
+						targetCreature.ensnaredCounter = 3
+						targetCreature.evasionPerc = 0
+						
+						# Show ensnared status text
+						var damageText = targetCreature.get_node('TextDamage')
+						z_index = 1
+						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]ensnared[/color][/center]'
+						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]ensnared[/color][/center]'
+						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.start()
+						damageText.visible = true
+						yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+						z_index = 0
+						damageText.visible = false
+						damageText.position = Vector2.ZERO
 					
 						# End Turn
 						Player.end_turn()

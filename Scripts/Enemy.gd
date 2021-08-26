@@ -34,14 +34,18 @@ var poisonedCounter = 0
 var playerWhoPoisonedMe
 var ensnared = false
 var ensnaredCounter = 0
+var ensnareNode
 
 # Moves next to target
 func move(path):
-	var stepsCounter = 1 # normally happens when this unit's turn starts again!
-	for step in path:
-		if (stepsCounter > 0):
-			stepsCounter -= 1
-			position = step
+	if (ensnared == false):
+		var stepsCounter = 1 # normally happens when this unit's turn starts again!
+		for step in path:
+			if (stepsCounter > 0):
+				stepsCounter -= 1
+				position = step
+	else:
+		print('*** Cannot move ***')
 
 # Activate function (when this unit enters it's turn)
 func activate():
@@ -146,6 +150,11 @@ func attack(target):
 # Status Check (end turn)
 # Decrement/Increment counters (curse, poison etc.)
 func status_check():
+	print('----')
+	print(ensnared)
+	print(ensnaredCounter)
+	print('----')
+	
 	# Curse
 	if (cursed == true && cursedCounter > 0):
 		cursedCounter -= 1
@@ -196,14 +205,16 @@ func status_check():
 			playerWhoPoisonedMe = null
 			poisoned = false
 			print('*** POISON REMOVED ***')
-		# Ensnared
-		if (ensnared == true && ensnaredCounter > 0):
-			ensnaredCounter -= 1
-			
-			if (ensnaredCounter == 0):
-				ensnaredCounter = 0
-				ensnared = false
-				print('*** ENSNARED REMOVED ***')
+	# Ensnared
+	if (ensnared == true && ensnaredCounter > 0):
+		ensnaredCounter -= 1
+		
+		if (ensnaredCounter == 0):
+			ensnaredCounter = 0
+			ensnared = false
+			ensnareNode.queue_free()
+			evasionPerc = evasionPercMax
+			print('*** ENSNARED REMOVED ***')
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
