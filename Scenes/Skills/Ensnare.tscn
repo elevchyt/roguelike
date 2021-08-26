@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/net_2.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/net_1.png" type="Texture" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "hit",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "projectile",
+"speed": 5.0
+} ]
+
+[node name="Poison Dart" type="Node2D"]
+z_index = 10
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 48, 48 )
+frames = SubResource( 1 )
+animation = "projectile"
+speed_scale = 1.5
+playing = true
+__meta__ = {
+"_editor_description_": "offset half the size of the sprite on the x & y axis"
+}
+
+[node name="Tween" type="Tween" parent="."]
