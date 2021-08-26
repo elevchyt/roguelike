@@ -382,8 +382,9 @@ func use_skill(skillName):
 								damageText.visible = true
 								yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
 								z_index = 0
-								damageText.visible = false
-								damageText.position = Vector2.ZERO
+								if (damageText != null):
+									damageText.visible = false
+									damageText.position = Vector2.ZERO
 						# Show miss text on successful evasion by the target creature
 						else:
 							var damageText = targetCreature.get_node('TextDamage')
