@@ -26,7 +26,6 @@ __meta__ = {
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "hit"
-frame = 2
 speed_scale = 0.2
 playing = true
 __meta__ = {

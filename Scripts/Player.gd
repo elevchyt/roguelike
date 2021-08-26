@@ -63,7 +63,7 @@ var xpCurrent = 0
 onready var xpToLevel = ceil(10 + level * 2)
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
 var weaponDamage = 0
-
+var damageResistance = 0
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -398,9 +398,16 @@ func attack(target):
 		CameraNode.shake(2, 0.02, 0.2)
 		
 		# Reduce health
-		var damageTotal = strength + weaponDamage
+		var damageTotal
+		
+		if (target.cursed == true):
+			damageTotal = ceil((strength + weaponDamage - target.damageResistance) * 1.2)
+		else: # normal attack without curse
+			damageTotal = strength + weaponDamage - target.damageResistance
+		
+		if (damageTotal < 0):
+			damageTotal = 0
 		target.health -= damageTotal
-		print(str(target.health) + ' / ' + str(target.healthMax))
 		
 		# Show damage text
 		var damageText = target.get_node('TextDamage')

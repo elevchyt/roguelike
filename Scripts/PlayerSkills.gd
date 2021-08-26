@@ -29,8 +29,7 @@ func use_skill(skillName):
 	
 	match skillName:
 		'Flare':
-			# Damage Calculation
-			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 4.0)
+			# Find eligible target
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				# Use skill
@@ -78,6 +77,13 @@ func use_skill(skillName):
 						var hitChance = randi() % 100
 						if (hitChance > targetCreature.evasionPerc):
 							hitSuccess = true
+							
+							# Damage Calculation (happens mid-animation)
+							var damage
+							if (targetCreature.cursed == true):
+								damage = ceil((ceil(Player.intelligence / 2.0 + Player.strength / 4.0) - targetCreature.damageResistance) * 1.2)
+							else:
+								damage = ceil((ceil(Player.intelligence / 2.0 + Player.strength / 4.0) - targetCreature.damageResistance))
 							
 							# Reduce target health
 							targetCreature.health -= damage
@@ -160,12 +166,15 @@ func use_skill(skillName):
 			# Camera Shake
 			CameraNode.shake(10, 0.01, 0.2)
 			
-			# Damage Calculation (happens mid-animation)
-			var damage = ceil(Player.intelligence / 2.0 + Player.strength / 2.0)
-			print(damage)
-			
 			# Find targets around player & deal damage to them
 			for enemy in instance.enemiesToHit:
+				# Damage Calculation (happens mid-animation)
+				var damage
+				if (enemy.cursed == true):
+					damage = ceil((ceil(Player.intelligence / 2.0 + Player.strength / 2.0) - enemy.damageResistance) * 1.2)
+				else:
+					damage = ceil((ceil(Player.intelligence / 2.0 + Player.strength / 2.0) - enemy.damageResistance))
+				
 				# Reduce enemy health
 				enemy.health -= damage
 				
@@ -206,12 +215,12 @@ func use_skill(skillName):
 			# Curse Target
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
-				Player.targetMode = false
-				
 				# Use skill
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true && targetCreature.isPlayer == false):
 					if (Player.skillInVision == true):
+						Player.targetMode = false
+						
 						# Camera Shake
 						CameraNode.shake(8, 0.2, 1)
 						
@@ -228,6 +237,7 @@ func use_skill(skillName):
 						# Apply skill effect
 						targetCreature.cursed = true
 						targetCreature.cursedCounter = 3
+						targetCreature.evasionPerc = 0
 						
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
@@ -256,8 +266,8 @@ func use_skill(skillName):
 						var damageText = targetCreature.get_node('TextDamage')
 						
 						z_index = 1
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]CURSED[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]CURSED[/color][/center]'
+						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]cursed[/color][/center]'
+						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]cursed[/color][/center]'
 						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true

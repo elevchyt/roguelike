@@ -18,6 +18,7 @@ export(int) var level
 export(int) var strength
 export(int) var dexterity
 export(int) var intelligence
+export(int) var damageResistance
 onready var healthMax = ceil(strength * 1.2 + level * 2)
 onready var health = healthMax
 onready var manaMax = ceil(intelligence * 1.2 + level * 2)
@@ -39,6 +40,10 @@ func move(path):
 
 # Activate function (when this unit enters it's turn)
 func activate():
+	print('-------------------')
+	print(damageResistance)
+	print(evasionPerc)
+	print('-------------------')
 	# Find closest player & its path
 	if (GameManager.players.empty() == false):
 		var targetPlayer = GameManager.players[0]
@@ -79,7 +84,18 @@ func activate():
 		elif (path.size() > visionRange):
 			print('** IDLE (no vision) **')
 			
-		# End Turn
+		# Decrement/Increment counters (curse, poison etc.)
+		# Curse
+		if (cursed == true && cursedCounter > 0):
+			cursedCounter -= 1
+			
+			if (cursedCounter == 0):
+				cursedCounter = 0
+				cursed = false
+				evasionPerc = evasionPercMax
+				print('*** CURSE REMOVED ***')
+		
+		# END TURN
 		hasPlayed = true
 
 # Attack
@@ -90,10 +106,12 @@ func attack(target):
 		# Damage Calculation (check for shields first)
 		var damageTotal
 		if (target.arcaneShield == true):
-			damageTotal = ceil(strength * 0.8)
+			damageTotal = ceil(strength * 0.8) - target.damageResistance
 		else:
-			damageTotal = ceil(strength)
-		print(target.arcaneShield)
+			damageTotal = ceil(strength) - target.damageResistance
+			
+		if (damageTotal < 0):
+			damageTotal = 0
 		
 		# Reduce target health
 		target.health -= damageTotal
@@ -113,7 +131,6 @@ func attack(target):
 		add_child(damageText)
 		
 		var randXOffset = ceil(rand_range(-48, 48))
-		#var randXOffset = 0
 		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
 		Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
