@@ -516,16 +516,18 @@ func use_skill(skillName):
 						targetCreature.health = clamp(targetCreature.health + healing, 0, targetCreature.healthMax)
 
 						# Show healing text
-						var damageText = targetCreature.get_node('TextDamage')
+						z_index = 3
+						var damageText = GameManager.objDamageText.instance()
+						add_child(damageText)
 						
-						z_index = 1
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '+' + str(healing) + '[/color][/center]'
+						var randXOffset = ceil(rand_range(-48, 48))
+						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]' + '+' + str(healing) + '[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(healing) + '[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
-						yield(get_tree().create_timer(1.4), "timeout") # DELAYS NEXT TURN, TOO
-						z_index = 0
+						yield(get_tree().create_timer(1), "timeout")
+						z_index = 2
 						damageText.visible = false
 						damageText.position = Vector2.ZERO
 						

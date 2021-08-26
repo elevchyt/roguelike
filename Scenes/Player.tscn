@@ -177,7 +177,6 @@ position = Vector2( 48, 48 )
 z_index = 11
 frames = SubResource( 5 )
 animation = "target_blue"
-frame = 1
 speed_scale = 0.8
 playing = true
 script = ExtResource( 22 )
