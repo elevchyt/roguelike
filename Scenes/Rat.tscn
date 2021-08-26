@@ -7,7 +7,6 @@
 [ext_resource path="res://Scripts/HealthBar.gd" type="Script" id=5]
 [ext_resource path="res://Fonts/Abaddon Bold.ttf" type="DynamicFontData" id=6]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 48 )
 
@@ -65,9 +64,9 @@ visible = false
 z_index = 12
 
 [node name="TextDamageShadow" type="RichTextLabel" parent="TextDamage"]
-margin_left = -44.0
+margin_left = -188.0
 margin_top = 4.0
-margin_right = 148.0
+margin_right = 292.0
 margin_bottom = 100.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
@@ -79,8 +78,8 @@ __meta__ = {
 }
 
 [node name="TextDamage" type="RichTextLabel" parent="TextDamage"]
-margin_left = -48.0
-margin_right = 144.0
+margin_left = -192.0
+margin_right = 288.0
 margin_bottom = 96.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true

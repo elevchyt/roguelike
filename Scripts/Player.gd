@@ -71,7 +71,7 @@ export(String, "blue", "pink", "orange") var playerColor
 
 # Initialize object
 func _ready():
-	# RayCast initial settings
+	# RayCast (target) initial settings
 	RayTarget.add_exception($Area2D)
 	RayTarget.add_exception($Target)
 	
@@ -177,11 +177,6 @@ func activate():
 	# If dead skip turn
 	if (state == 'dead'):
 		end_turn()
-	
-	# Decrement all cooldown counters by 1
-	for i in range(skillsCooldownCurrent.size() - 1):
-		if (skillsCooldownCurrent[i] > 0):
-			skillsCooldownCurrent[i] -= 1
 	
 	# Reset values
 	active = true
@@ -490,6 +485,11 @@ func end_turn():
 	
 	# Check passives
 	check_passive_skills()
+	
+	# Decrement all cooldown counters by 1
+	for i in range(skillsCooldownCurrent.size() - 1):
+		if (skillsCooldownCurrent[i] > 0):
+			skillsCooldownCurrent[i] -= 1
 	
 	# Delay between button presses (must last more than tweens!)
 	yield(get_tree().create_timer(0.2), "timeout") 

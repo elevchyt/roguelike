@@ -23,6 +23,11 @@ onready var health = healthMax
 onready var manaMax = ceil(intelligence * 1.2 + level * 2)
 onready var mana = manaMax
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
+onready var evasionPercMax = clamp(dexterity * 1.4, 0, 50) # clamp to 50% (used to reset evasion after curse, ensnare etc.)
+
+# Mage Variables on enemies
+var cursed = false
+var cursedCounter = 0
 
 # Moves next to target
 func move(path):

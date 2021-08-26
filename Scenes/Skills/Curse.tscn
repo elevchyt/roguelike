@@ -15,7 +15,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="HealingPrayer" type="Node2D"]
+[node name="Curse" type="Node2D"]
 z_index = 10
 script = ExtResource( 5 )
 __meta__ = {
@@ -26,7 +26,8 @@ __meta__ = {
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "hit"
-speed_scale = 1.4
+frame = 2
+speed_scale = 0.2
 playing = true
 __meta__ = {
 "_editor_description_": "offset half the size of the sprite on the x & y axis"
