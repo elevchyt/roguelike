@@ -1,18 +1,17 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Sprites/poison_dart_1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/poison_dart_4.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/poison_dart_2.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/poison_dart_3.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Skills/Poison Dart.gd" type="Script" id=5]
-[ext_resource path="res://Sprites/flame_2.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/flame_3.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/flame_1.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/flame_4.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/poison_dart_hit_3.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/poison_dart_hit_2.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/poison_dart_hit_1.png" type="Texture" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "hit",
 "speed": 5.0
@@ -34,6 +33,7 @@ __meta__ = {
 position = Vector2( 48, 48 )
 frames = SubResource( 1 )
 animation = "projectile"
+frame = 1
 speed_scale = 1.5
 playing = true
 __meta__ = {

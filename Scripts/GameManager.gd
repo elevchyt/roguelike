@@ -84,11 +84,11 @@ var skillsSlotSprites = ['res://Sprites/skill_flare.png',
 'res://Sprites/skill_curse.png',
 'res://Sprites/skill_healing_prayer.png',
 'res://Sprites/skill_cleave.png',
-'res://Sprites/skill_cleave.png',
-'res://Sprites/skill_thunderclap.png'] # replace this
+'res://Sprites/skill_poison_dart.png',
+'res://Sprites/skill_ensnare.png'] # replace this
 var skillsManaCost = [4, 6, 0, 12, 5, 0, 3, 5]
 var skillsCooldown = [2, 5, 0, 12, 5, 0, 3, 7]
-var skillsRange = [5, 1, 0, 4, 3, 0, 4, 2]
+var skillsRange = [5, 1, 0, 4, 3, 0, 4, 3]
 # skillsType: 'passive, 'active'
 var skillsType = ['active', 'active', 'passive', 'active', 'active', 'passive', 'active', 'active']
 # skillsTargetType: 'self', 'target+enemy', 'around+enemy', 'target+friendly', 'passive'

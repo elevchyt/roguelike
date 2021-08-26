@@ -7,7 +7,7 @@ onready var Root = get_node("/root/World/")
 func _process(delta):
 	yield(get_tree().create_timer(0.6), "timeout")
 	#Root.add_child(self)
-	CameraNode.shake(3, 0.02, 0.1)
+	CameraNode.shake(4, 0.02, 0.2)
 		
 	# Reset rotation & change animation
 	$AnimatedSprite.rotation = 0
