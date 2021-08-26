@@ -26,9 +26,13 @@ onready var mana = manaMax
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
 onready var evasionPercMax = clamp(dexterity * 1.4, 0, 50) # clamp to 50% (used to reset evasion after curse, ensnare etc.)
 
-# Mage Variables on enemies
+# Status variables (poisoned, cursed etc.)
 var cursed = false
 var cursedCounter = 0
+var poisoned = false
+var poisonedCounter = 0
+var ensnared = false
+var ensnaredCounter = 0
 
 # Moves next to target
 func move(path):
@@ -84,16 +88,8 @@ func activate():
 		elif (path.size() > visionRange):
 			print('** IDLE (no vision) **')
 			
-		# Decrement/Increment counters (curse, poison etc.)
-		# Curse
-		if (cursed == true && cursedCounter > 0):
-			cursedCounter -= 1
-			
-			if (cursedCounter == 0):
-				cursedCounter = 0
-				cursed = false
-				evasionPerc = evasionPercMax
-				print('*** CURSE REMOVED ***')
+		# Check status (poison, curse etc.)
+		status_check()
 		
 		# END TURN
 		hasPlayed = true
@@ -154,6 +150,34 @@ func attack(target):
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
 
+# Status Check (end turn)
+# Decrement/Increment counters (curse, poison etc.)
+func status_check():
+		# Curse
+		if (cursed == true && cursedCounter > 0):
+			cursedCounter -= 1
+			
+			if (cursedCounter == 0):
+				cursedCounter = 0
+				cursed = false
+				evasionPerc = evasionPercMax
+				print('*** CURSE REMOVED ***')
+		# Poison
+		if (poisoned == true && poisonedCounter > 0):
+			poisonedCounter -= 1
+			
+			if (poisonedCounter == 0):
+				poisonedCounter = 0
+				poisoned = false
+				print('*** POISON REMOVED ***')
+		# Ensnared
+		if (ensnared == true && ensnaredCounter > 0):
+			ensnaredCounter -= 1
+			
+			if (ensnaredCounter == 0):
+				ensnaredCounter = 0
+				ensnared = false
+				print('*** ENSNARED REMOVED ***')
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
