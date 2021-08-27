@@ -115,6 +115,11 @@ func attack(target):
 		if (target.health <= 0):
 			target.health = 0
 			target.state = 'dying'
+			target.poisoned = false
+			target.ensnared = false
+			target.cursed = false
+			target.invisible = false
+			
 			target.get_node('Sprite').modulate.a = 0.5
 			GameManager.calc_turn_order()
 		
