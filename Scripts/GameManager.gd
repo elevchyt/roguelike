@@ -31,8 +31,15 @@ func calc_turn_order():
 	for creature in get_node("/root/World/Creatures").get_children():
 		if (creature.isPlayer == false):
 			turnOrder.append(creature)
-		elif (creature.isPlayer && creature.state != 'dead'):
+		elif (creature.isPlayer && creature.state != 'dead' && creature.state != 'dying'):
 			players.append(creature)
+		elif (creature.state == 'dying'):
+			creature.dyingCounter -= 1
+			
+			# check for death (removes node)
+			if (creature.dyingCounter <= 0):
+				creature.state = 'dead'
+				creature.queue_free()
 	turnOrder = players + turnOrder
 	
 	print('- TURN ORDER -')
@@ -94,7 +101,7 @@ var skillsSlotSprites = ['res://Sprites/skill_flare.png',
 'res://Sprites/skill_dash.png',
 'res://Sprites/skill_shadow_walk.png']
 var skillsManaCost = [4, 6, 0, 12, 5, 5, 0, 3, 5, 10, 18]
-var skillsCooldown = [2, 5, 0, 12, 5, 3, 0, 3, 7, 4, 20]
+var skillsCooldown = [2, 5, 0, 12, 5, 3, 0, 5, 7, 4, 20]
 var skillsRange = [5, 1, 0, 4, 3, 3, 0, 4, 3, 1, 1]
 # skillsType: 'passive, 'active'
 var skillsType = ['active', 'active', 'passive', 'active', 'active', 'active', 'passive', 'active', 'active', 'active', 'active']

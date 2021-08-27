@@ -17,7 +17,8 @@ var isPlayer = true
 var isMonster = false
 var hasPlayed = false
 var active = false
-var state = 'alive' # alive, dead, sleep, stun, root
+var state = 'alive' # alive, dead, dying
+var dyingCounter = 5 # dies on 5th turn
 
 # Items / Inventory
 var items : Array # Current items in inventory (strings)

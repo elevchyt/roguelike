@@ -111,10 +111,10 @@ func attack(target):
 		# Reduce target health
 		target.health -= damageTotal
 		
-		# Check if killed & remove from players array & set his state to dead
+		# Check if killed & remove from players array & set his state to dying
 		if (target.health <= 0):
 			target.health = 0
-			target.state = 'dead'
+			target.state = 'dying'
 			target.get_node('Sprite').modulate.a = 0.5
 			GameManager.calc_turn_order()
 		
@@ -135,15 +135,18 @@ func attack(target):
 		damageText.position = Vector2.ZERO
 	# Show miss text above target
 	else:
-		z_index = 1
-		var damageText = target.get_node('TextDamage')
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
-		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+		z_index = 3
+		var damageText = GameManager.objDamageText.instance()
+		add_child(damageText)
+		
+		var randXOffset = ceil(rand_range(-48, 48))
+		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]miss[/color][/center]'
+		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]miss[/color][/center]'
+		Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 		Tween.start()
 		damageText.visible = true
 		yield(get_tree().create_timer(1), "timeout")
-		z_index = 0
+		z_index = 2
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
 
