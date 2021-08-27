@@ -74,6 +74,8 @@ var playerWhoPoisonedMe
 var ensnared = false
 var ensnaredCounter = 0
 var ensnareNode
+var invisible = false
+var invisibleCounter = 0
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -131,6 +133,8 @@ func _ready():
 			
 			skillsClass.append('Poison Dart')
 			skillsClass.append('Ensnare')
+			skillsClass.append('Dash')
+			skillsClass.append('Shadow Walk')
 			
 			match playerColor:
 				"blue":
@@ -211,8 +215,15 @@ func activate():
 			
 		i += 1 # counter increment
 	
-	# (Arcane Shield) Check if conditions are met to activate
+	# Skill Checks on activation
+	# Check if conditions of passive skills are met
 	check_passive_skills()
+	
+	# Check dash range based on DEX (Rogue only)
+	check_dash_range()
+	
+	# Check shadow walk duration based on DEX (Rogue only)
+	check_shadow_walk_duration()
 
 # GET INPUT
 func _process(delta):
@@ -322,10 +333,11 @@ func _process(delta):
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
 		# Check for mana cost & cooldown first
 		if (mana >= skillsManaCost[skillChooseIndex] && skillsCooldownCurrent[skillChooseIndex] <= 0):
-			# Target Skills => Enemy OR Friendly
+			# Target Skills => Enemy OR Friendly OR Floor
 			if (skillsType[skillChooseIndex] == 'active' 
 			&& (skillsTargetType[skillChooseIndex] == 'target+enemy' 
-			|| skillsTargetType[skillChooseIndex] == 'target+friendly')):
+			|| skillsTargetType[skillChooseIndex] == 'target+friendly'
+			|| skillsTargetType[skillChooseIndex] == 'target+floor')):
 				skillMode = false
 				targetMode = true
 				
@@ -337,7 +349,7 @@ func _process(delta):
 				$Target.visible = true
 				$Target/CollisionShape2D.disabled = false
 			# around+enemy
-			if (skillsType[skillChooseIndex] == 'active' 
+			elif (skillsType[skillChooseIndex] == 'active' 
 			&& skillsTargetType[skillChooseIndex] == 'around+enemy'):
 				skillMode = false
 				
@@ -346,6 +358,17 @@ func _process(delta):
 				skillSlots[skillChooseIndex].modulate.a = 0.8
 				
 				# Use skill instantly (no target)
+				$PlayerSkills.use_skill(skills[skillChooseIndex])
+			# self
+			elif (skillsType[skillChooseIndex] == 'active' 
+			&& skillsTargetType[skillChooseIndex] == 'self'):
+				skillMode = false
+				
+				# Highlight skill on toolbar
+				skillSlots[skillChooseIndex].scale = Vector2(1.4, 1.4)
+				skillSlots[skillChooseIndex].modulate.a = 0.8
+				
+				# Use skill instantly on self(no target)
 				$PlayerSkills.use_skill(skills[skillChooseIndex])
 		# Show feedback message for not enough mana
 		elif(mana < skillsManaCost[skillChooseIndex]):
@@ -413,12 +436,12 @@ func attack(target):
 		CameraNode.shake(2, 0.02, 0.2)
 		
 		# Reduce health
-		var damageTotal
+		var damageTotal = strength + weaponDamage - target.damageResistance
 		
 		if (target.cursed == true):
-			damageTotal = ceil((strength + weaponDamage - target.damageResistance) * 1.2)
-		else: # normal attack without curse
-			damageTotal = strength + weaponDamage - target.damageResistance
+			damageTotal = damageTotal * 1.2
+		if (invisible == true):
+			damageTotal = damageTotal + ceil((dexterity + 2) / 3)
 		
 		if (damageTotal < 0):
 			damageTotal = 0
@@ -462,7 +485,13 @@ func attack(target):
 		z_index = 0
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
-		
+	
+	# (Rogue) Remove invisibility
+	if (invisible == true):
+		invisible = false
+		invisibleCounter = 0
+		$Sprite.modulate = Color(1, 1, 1, 1)
+	
 	# End Turn
 	end_turn()
 
@@ -507,8 +536,11 @@ func end_turn():
 	# Check passives
 	check_passive_skills()
 	
+	# Check shadow walk (rogue only)
+	check_shadow_walk()
+	
 	# Decrement all cooldown counters by 1
-	for i in range(skillsCooldownCurrent.size() - 1):
+	for i in range(skillsCooldownCurrent.size()):
 		if (skillsCooldownCurrent[i] > 0):
 			skillsCooldownCurrent[i] -= 1
 	
@@ -623,6 +655,28 @@ func check_passive_skills():
 		cleave = true
 	else:
 		cleave = false
+
+# Check dash range (Rogue only)
+func check_dash_range():
+	var index = skills.find('Dash')
+	if (index != -1):
+		skillsRange[index] = clamp(ceil(dexterity / 4.0), 0, 10)
+
+# Check shadow walk duration (Rogue only) (Uses range for duration)
+func check_shadow_walk_duration():
+	var index = skills.find('Shadow Walk')
+	if (index != -1):
+		skillsRange[index] = ceil(dexterity / 3.0)
+
+# Check shadow walk counter (Rogue only)
+func check_shadow_walk():
+	if (invisible == true):
+		invisibleCounter -= 1
+		
+		if (invisibleCounter == 0):
+			invisibleCounter = 0
+			invisible = false
+			$Sprite.modulate = Color(1, 1, 1, 1)
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):

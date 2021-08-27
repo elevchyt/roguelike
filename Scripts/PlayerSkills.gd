@@ -292,6 +292,12 @@ func use_skill(skillName):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
 						Player.targetMode = false
 						
+						# (Rogue) Remove invisibility
+						if (Player.invisible == true):
+							Player.invisible = false
+							Player.invisibleCounter = 0
+							PlayerSprite.modulate = Color(1, 1, 1, 1)
+						
 						# Skill Projectile Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
 						var instance = objPoisonDart.instance()
@@ -356,17 +362,6 @@ func use_skill(skillName):
 							damageText.visible = false
 							damageText.position = Vector2.ZERO
 							
-							# Check if killed & gain xp (check for level-up)
-							if (targetCreature.health <= 0):
-								targetCreature.health = 0
-								
-								# Check for level-up
-								Player.xpCurrent += targetCreature.level
-								Player.level_up_check()
-								
-								# Destroy target
-								targetCreature.queue_free()
-							
 							# Check for poison effect application
 							var poisonChance = randi() % 100
 							if (poisonChance > 50):
@@ -383,9 +378,8 @@ func use_skill(skillName):
 								damageText.visible = true
 								yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
 								z_index = 0
-								if (damageText != null):
-									damageText.visible = false
-									damageText.position = Vector2.ZERO
+								damageText.visible = false
+								damageText.position = Vector2.ZERO
 						# Show miss text on successful evasion by the target creature
 						else:
 							var damageText = targetCreature.get_node('TextDamage')
@@ -400,7 +394,18 @@ func use_skill(skillName):
 							z_index = 0
 							damageText.visible = false
 							damageText.position = Vector2.ZERO
-					
+						
+						# Check if killed & gain xp (check for level-up)
+						if (targetCreature.health <= 0):
+							targetCreature.health = 0
+							
+							# Check for level-up
+							Player.xpCurrent += targetCreature.level
+							Player.level_up_check()
+							
+							# Destroy target
+							targetCreature.queue_free()
+							
 						# End Turn
 						Player.end_turn()
 		'Ensnare':
@@ -412,6 +417,12 @@ func use_skill(skillName):
 				if (targetCreature.isMonster == true):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
 						Player.targetMode = false
+						
+						# (Rogue) Remove invisibility
+						if (Player.invisible == true):
+							Player.invisible = false
+							Player.invisibleCounter = 0
+							PlayerSprite.modulate = Color(1, 1, 1, 1)
 						
 						# Skill Projectile Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
@@ -469,6 +480,71 @@ func use_skill(skillName):
 					
 						# End Turn
 						Player.end_turn()
+						
+		'Dash':
+			# Use skill
+			if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
+				Player.targetMode = false
+				
+				# Leave skills toolbar
+				HUD.get_node('Tween').stop_all()
+				HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+				Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+				Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+				
+				# Move player to target location
+				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.8, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
+				Player.Tween.start()
+				
+				# Reset Target
+				PlayerTarget.visible = false
+				PlayerTargetCollision.disabled = true
+				PlayerTarget.position = Vector2.ZERO
+				
+				# Reset RayCast
+				Player.RayTarget.set_cast_to(PlayerTarget.position)
+				Player.RayTarget.force_raycast_update()
+				
+				# End Turn Variables
+				Player.hasPlayed = true
+				Player.active = false
+				
+				# Reduce player mana & set cooldown
+				Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+				Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+				
+				# End Turn
+				yield(get_tree().create_timer(1.5), "timeout")
+				Player.end_turn()
+		'Shadow Walk':
+			# Use skill
+			Player.targetMode = false
+			Player.invisible = true
+			var index = Player.skills.find('Shadow Walk')
+			Player.invisibleCounter = Player.skillsRange[index]
+			
+			# Leave skills toolbar
+			HUD.get_node('Tween').stop_all()
+			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+			
+			# Set transparency
+			Player.Tween.interpolate_property(PlayerSprite, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0.2), 0.5, Tween.TRANS_SINE, Tween.EASE_OUT)
+			Player.Tween.start()
+			
+			# End Turn Variables
+			Player.hasPlayed = true
+			Player.active = false
+			
+			# Reduce player mana & set cooldown
+			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+			
+			# End Turn
+			yield(get_tree().create_timer(1.5), "timeout")
+			Player.end_turn()
+			
 		'Healing Prayer':
 			Player.targetMode = false
 			

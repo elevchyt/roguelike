@@ -144,12 +144,7 @@ intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 768, 576 )
-playerClass = "Mage"
-playerColor = "blue"
-
-[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 576, 576 )
-playerClass = "Priest"
+playerClass = "Rogue"
 playerColor = "pink"
 
 [node name="GameManager" type="Node2D" parent="."]
@@ -505,6 +500,22 @@ __meta__ = {
 
 [node name="SkillsConfirmCancelButtons" type="Sprite" parent="HUD"]
 
+[node name="SkillsConfirmCancelButtonsShadow" type="RichTextLabel" parent="HUD/SkillsConfirmCancelButtons"]
+margin_left = 1252.0
+margin_top = 1156.0
+margin_right = 1732.0
+margin_bottom = 1348.0
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[color=#ff212123]Space: Confirm
+Escape: Cancel[/color]"
+text = "Space: Confirm
+Escape: Cancel"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="SkillsConfirmCancelButtons" type="RichTextLabel" parent="HUD/SkillsConfirmCancelButtons"]
 margin_left = 1248.0
 margin_top = 1152.0
@@ -521,9 +532,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="RangedWeaponText" type="Sprite" parent="HUD"]
+visible = false
+
+[node name="RangedWeaponTextShadow" type="RichTextLabel" parent="HUD/RangedWeaponText"]
+margin_left = 290.0
+margin_top = 1010.0
+margin_right = 770.0
+margin_bottom = 1202.0
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[right][color=#ff212123]Space: Use Bow[/color][/right]"
+text = "Space: Use Bow"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RangedWeaponText" type="RichTextLabel" parent="HUD/RangedWeaponText"]
+margin_left = 288.0
+margin_top = 1008.0
+margin_right = 768.0
+margin_bottom = 1200.0
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[right]Space: Use Bow[/right]"
+text = "Space: Use Bow"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="FeedbackText" type="Sprite" parent="HUD"]
 visible = false
-position = Vector2( 1008, 720 )
+position = Vector2( 1008, 624 )
 
 [node name="Tween" type="Tween" parent="HUD/FeedbackText"]
 

@@ -72,13 +72,13 @@ func activate():
 			Ray.set_cast_to(dir)
 			Ray.force_raycast_update()
 			if (Ray.get_collider() != null):
-				if (Ray.get_collider().get_parent() == targetPlayer):
+				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false):
 					targetInAttackRange = true
 					animation_attack(dir)
 					attack(targetPlayer)
 					
 		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
-		if (path.size() <= visionRange && path.size() != 0):
+		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false):
 			move(path)
 		# If there is no path to the target
 		elif (path.size() == 0 && targetInAttackRange == false):
