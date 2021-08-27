@@ -70,7 +70,7 @@ var cursed = false
 var cursedCounter = 0
 var poisoned = false
 var poisonedCounter = 0
-var playerWhoPoisonedMe
+var creatureWhoPoisonedMe
 var ensnared = false
 var ensnaredCounter = 0
 var ensnareNode
@@ -149,6 +149,7 @@ func _ready():
 			intelligence = 6
 			
 			skillsClass.append('Healing Prayer')
+			skillsClass.append('Purify')
 			
 			match playerColor:
 				"blue":

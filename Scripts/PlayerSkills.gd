@@ -23,6 +23,7 @@ onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objPoisonDart = preload('res://Scenes/Skills/Poison Dart.tscn')
 onready var objEnsnare = preload('res://Scenes/Skills/Ensnare.tscn')
 onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn')
+onready var objPurify = preload('res://Scenes/Skills/Purify.tscn')
 onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
 
 ################################################################################################################
@@ -601,6 +602,72 @@ func use_skill(skillName):
 						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]' + '+' + str(healing) + '[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(healing) + '[/color][/center]'
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.start()
+						damageText.visible = true
+						yield(get_tree().create_timer(1), "timeout")
+						z_index = 2
+						damageText.visible = false
+						damageText.position = Vector2.ZERO
+						
+						# End Turn
+						Player.end_turn()
+		'Purify':
+			Player.targetMode = false
+			
+			var targetNode = PlayerTarget.get_overlapping_areas()
+			if (targetNode.empty() == false):
+				var targetCreature = targetNode[0].get_parent()
+				# Use skill
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
+					if (Player.skillInVision == true):
+						# Camera Shake
+						CameraNode.shake(12, 0.2, 1)
+						
+						# Skill Particle Animation
+						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+						var instance = objPurify.instance()
+						var instanceSprite = instance.get_node("AnimatedSprite")
+						instanceSprite.playing = true
+						instance.position = PlayerTargetSprite.get_parent().position
+						add_child(instance)
+							
+						# Leave skills toolbar
+						HUD.get_node('Tween').stop_all()
+						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+						
+						# Reset Target
+						PlayerTargetCollision.disabled = true
+						PlayerTarget.position = Vector2.ZERO
+						PlayerTarget.visible = false
+						
+						# Reset RayCast
+						Player.RayTarget.set_cast_to(PlayerTarget.position)
+						Player.RayTarget.force_raycast_update()
+						
+						# End Turn Variables
+						Player.hasPlayed = true
+						Player.active = false
+						
+						# Reduce player mana & set cooldown
+						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+						
+						# Remove debuffs from friendly target
+						targetCreature.poisoned = false
+						targetCreature.ensnared = false
+						targetCreature.cursed = false
+						
+						# Show purify text
+						z_index = 3
+						var damageText = GameManager.objDamageText.instance()
+						add_child(damageText)
+						
+						var randXOffset = ceil(rand_range(-48, 48))
+						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]purified[/color][/center]'
+						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]purified[/color][/center]'
 						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
