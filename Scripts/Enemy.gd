@@ -57,7 +57,7 @@ func activate():
 		for player in GameManager.players:
 			var path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
 			
-			if (path.size() < shortestPathSize && player.state != 'dying' && player.state != 'dead'):
+			if (path.size() < shortestPathSize && player.invisible == false && player.state != 'dying' && player.state != 'dead'):
 				targetPlayer = player
 				shortestPathSize = path.size()
 				
