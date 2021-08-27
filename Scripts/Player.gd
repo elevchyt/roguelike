@@ -65,6 +65,16 @@ onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
 var weaponDamage = 0
 var damageResistance = 0
 
+# Status variables (poisoned, cursed etc.)
+var cursed = false
+var cursedCounter = 0
+var poisoned = false
+var poisonedCounter = 0
+var playerWhoPoisonedMe
+var ensnared = false
+var ensnaredCounter = 0
+var ensnareNode
+
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
 export(String, "blue", "pink", "orange") var playerColor
