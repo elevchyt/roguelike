@@ -12,6 +12,7 @@ export(int) var visionRange = 3 # the number of steps where this unit will becom
 var isPlayer = false
 var isMonster = true
 var hasPlayed = false
+var targetPlayer
 
 # Stats
 export(int) var level
@@ -51,41 +52,40 @@ func move(path):
 func activate():
 	# Find closest player & its path
 	if (GameManager.players.empty() == false):
-		var targetPlayer = GameManager.players[0]
-		var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
-		var shortestPathSize = path.size()
+		var targetPlayer
+		var shortestPathSize = 999 # a large value that will get replaced
 		for player in GameManager.players:
-			var currentPlayerPath = TileMapAStar.find_path(get_global_position(), player.get_global_position())
-			if (currentPlayerPath.size() < shortestPathSize):
+			var path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
+			
+			if (path.size() < shortestPathSize && player.state != 'dying' && player.state != 'dead'):
 				targetPlayer = player
-				path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
 				shortestPathSize = path.size()
-		
-		# Fix path
-		path.remove(0) # remove the tile already on
-		path.remove(path.size() - 1) # remove the tile that the target is on
-		
-		# Check if target is within attack range (for basic melee attack)
-		var directions = [Vector2(0, -48), Vector2(0, 48), Vector2(-48, 0), Vector2(48, 0)]
-		var targetInAttackRange = false
-		for dir in directions:
-			Ray.set_cast_to(dir)
-			Ray.force_raycast_update()
-			if (Ray.get_collider() != null):
-				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
-					targetInAttackRange = true
-					animation_attack(dir)
-					attack(targetPlayer)
-					
-		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
-		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
-			move(path)
-		# If there is no path to the target
-		elif (path.size() == 0 && targetInAttackRange == false):
-			print('** IDLE (no path) **')
-		# If target is out of vision range
-		elif (path.size() > visionRange):
-			print('** IDLE (no vision) **')
+				
+				# Fix path
+				path.remove(0) # remove the tile already on
+				path.remove(path.size() - 1) # remove the tile that the target is on
+			
+				# Check if target is within attack range (for basic melee attack)
+				var directions = [Vector2(0, -48), Vector2(0, 48), Vector2(-48, 0), Vector2(48, 0)]
+				var targetInAttackRange = false
+				for dir in directions:
+					Ray.set_cast_to(dir)
+					Ray.force_raycast_update()
+					if (Ray.get_collider() != null):
+						if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
+							targetInAttackRange = true
+							animation_attack(dir)
+							attack(targetPlayer)
+						
+				# Check if target is within vision then move to it
+				if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
+					move(path)
+				# If there is no path to the target
+				elif (path.size() == 0 && targetInAttackRange == false):
+					print('** IDLE (no path) **')
+				# If target is out of vision range
+				elif (path.size() > visionRange):
+					print('** IDLE (no vision) **')
 			
 		# Check status (poison, curse etc.)
 		status_check()
