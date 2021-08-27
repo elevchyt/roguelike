@@ -72,13 +72,13 @@ func activate():
 			Ray.set_cast_to(dir)
 			Ray.force_raycast_update()
 			if (Ray.get_collider() != null):
-				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false):
+				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
 					targetInAttackRange = true
 					animation_attack(dir)
 					attack(targetPlayer)
 					
 		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
-		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false):
+		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false && targetPlayer.state != 'dying' && targetPlayer.state != 'dead'):
 			move(path)
 		# If there is no path to the target
 		elif (path.size() == 0 && targetInAttackRange == false):
@@ -111,7 +111,7 @@ func attack(target):
 		# Reduce target health
 		target.health -= damageTotal
 		
-		# Check if killed & remove from players array & set his state to dying
+		# Check if killed & set its state to dying
 		if (target.health <= 0):
 			target.health = 0
 			target.state = 'dying'
@@ -153,11 +153,6 @@ func attack(target):
 # Status Check (end turn)
 # Decrement/Increment counters (curse, poison etc.)
 func status_check():
-	print('----')
-	print(ensnared)
-	print(ensnaredCounter)
-	print('----')
-	
 	# Curse
 	if (cursed == true && cursedCounter > 0):
 		cursedCounter -= 1

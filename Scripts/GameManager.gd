@@ -28,18 +28,13 @@ func _ready():
 func calc_turn_order():
 	turnOrder.clear()
 	players.clear()
-	for creature in get_node("/root/World/Creatures").get_children():
+	var CreaturesNode = get_node("/root/World/Creatures").get_children()
+	for creature in CreaturesNode:
 		if (creature.isPlayer == false):
 			turnOrder.append(creature)
-		elif (creature.isPlayer && creature.state != 'dead' && creature.state != 'dying'):
+		elif (creature.isPlayer):
 			players.append(creature)
-		elif (creature.state == 'dying'):
-			creature.dyingCounter -= 1
 			
-			# check for death (removes node)
-			if (creature.dyingCounter <= 0):
-				creature.state = 'dead'
-				creature.queue_free()
 	turnOrder = players + turnOrder
 	
 	print('- TURN ORDER -')
@@ -54,7 +49,7 @@ func next_player_turn():
 		print('** ALL PLAYERS ARE DEAD! **')
 		print('** GAME OVER **')
 	# Activate players in order
-	elif (playerCurrentIndex != players.size() && players[playerCurrentIndex].state != 'dead'):
+	elif (playerCurrentIndex != players.size()):
 		players[playerCurrentIndex].activate()
 		HUD.currentPlayer = players[playerCurrentIndex]
 		CameraNode.position = players[playerCurrentIndex].position
@@ -70,8 +65,21 @@ func launch_ai_turns():
 		if (creature.isPlayer == false):
 			creature.activate()
 	
+	# Check for dying players at the end of every turn
+	print(players)
+	for player in players:
+		if (player.state == 'dying'):
+			print(player.dyingCounter)
+			player.dyingCounter -= 1
+			
+			# Check for death (removes node)
+			if (player.dyingCounter <= 0):
+				player.state = 'dead'
+				player.queue_free()
+	
 	# Start players' turns 
 	yield(get_tree().create_timer(0.2), "timeout")
+	calc_turn_order()
 	next_player_turn()
 
 ##################################################################################################
