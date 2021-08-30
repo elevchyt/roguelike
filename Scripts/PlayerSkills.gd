@@ -782,7 +782,7 @@ func use_skill(skillName):
 					if (Player.skillInVision == true):
 						Player.targetMode = false # leave target mode
 						# Camera Shake
-						CameraNode.shake(12, 0.2, 0.8)
+						CameraNode.shake(10, 0.05, 0.65)
 						
 						# Skill Particle Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
@@ -815,12 +815,13 @@ func use_skill(skillName):
 						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# Set health & mana of ressurected target (20%) & set state to 'alive' (+ reset alpha)
-						targetCreature.health = targetCreature.healthMax * 0.2
-						targetCreature.mana = targetCreature.manaMax * 0.2
+						yield(get_tree().create_timer(1.3), "timeout")
+						targetCreature.health = ceil(targetCreature.healthMax * 0.2)
+						targetCreature.mana = ceil(targetCreature.manaMax * 0.2)
 						targetCreature.state = 'alive'
 						targetCreature.get_node('Sprite').modulate.a = 1
 						
-						# Show invulnerable text
+						# Show ressurected text
 						z_index = 3
 						var damageText = GameManager.objDamageText.instance()
 						add_child(damageText)
@@ -840,7 +841,7 @@ func use_skill(skillName):
 				# Else show invalid target feedback text
 				else:
 					HUD.get_node('FeedbackTextTarget').visible = true
-					yield(get_tree().create_timer(1.2), "timeout")
+					yield(get_tree().create_timer(1.6), "timeout")
 					HUD.get_node('FeedbackTextTarget').visible = false
 ################################################################################################################
 # Cleave (Passive Skill)
