@@ -136,7 +136,7 @@ dexterity = 1
 intelligence = 1
 
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 768, 384 )
+position = Vector2( 672, 480 )
 level = 1
 strength = 30
 dexterity = 1

@@ -94,7 +94,7 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 'Casts a curse on a target for 3 turns. Cursed targets take 20% more damage from all sources & have their Evasion reduced to 0%. (Cannot be evaded)',
 'Heals a friendly target for INT * 0.8.',
 'Removes all debuffs from a friendly target.',
-'Renders a friendly target invulnerable its next turn.',
+'Renders a friendly target invulnerable until the start of its next turn.',
 '(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.',
 'Shoots a poisonous dart that inflicts STR damage with a 50% chance to poison its target for 3 turns. Poisoned targets take INT / 2 damage every time they finish their turn.',
 'Tosses a net onto a target, rendering them unable to move and reducing their Evasion to 0% for the next 2 turns.',

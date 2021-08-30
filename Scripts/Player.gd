@@ -227,6 +227,9 @@ func activate():
 		
 		# Check shadow walk duration based on DEX (Rogue only)
 		check_shadow_walk_duration()
+		
+		# Check invulnerability
+		check_invulnerable()
 	# If player is dead OR dying, skip its turn
 	else:
 		end_turn()
@@ -546,9 +549,6 @@ func end_turn():
 	
 	# Check shadow walk (rogue only)
 	check_shadow_walk()
-	
-	# Check invulnerability
-	check_invulnerable()
 	
 	# Decrement all cooldown counters by 1
 	for i in range(skillsCooldownCurrent.size()):
