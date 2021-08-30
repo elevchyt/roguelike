@@ -75,10 +75,10 @@ func launch_ai_turns():
 			# Check for death (removes node)
 			if (player.dyingCounter <= 0):
 				player.state = 'dead'
+				players.erase(player)
 				player.queue_free()
 	
 	# Start players' turns 
-	yield(get_tree().create_timer(0.2), "timeout")
 	calc_turn_order()
 	next_player_turn()
 
