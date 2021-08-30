@@ -20,12 +20,14 @@ var hitSuccess = false
 onready var objCleave = preload('res://Scenes/Skills/Cleave.tscn')
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
+onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
 onready var objPoisonDart = preload('res://Scenes/Skills/Poison Dart.tscn')
 onready var objEnsnare = preload('res://Scenes/Skills/Ensnare.tscn')
 onready var objHealingPrayer = preload('res://Scenes/Skills/Healing Prayer.tscn')
 onready var objPurify = preload('res://Scenes/Skills/Purify.tscn')
 onready var objDivineShield = preload('res://Scenes/Skills/Divine Shield.tscn')
-onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
+onready var objRessurect = preload('res://Scenes/Skills/Ressurect.tscn')
+
 
 ################################################################################################################
 # Skill Use Function
@@ -556,7 +558,7 @@ func use_skill(skillName):
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
-				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
 						# Camera Shake
 						CameraNode.shake(16, 0.4, 1)
@@ -620,7 +622,7 @@ func use_skill(skillName):
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
-				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
 						# Camera Shake
 						CameraNode.shake(12, 0.2, 1)
@@ -686,7 +688,7 @@ func use_skill(skillName):
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
-				if (targetCreature.isMonster == false && targetCreature.isPlayer == true):
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
 						# Camera Shake
 						CameraNode.shake(10, 0.2, 0.8)
@@ -733,6 +735,72 @@ func use_skill(skillName):
 						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]invulnerable[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]invulnerable[/color][/center]'
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.start()
+						damageText.visible = true
+						yield(get_tree().create_timer(1), "timeout")
+						z_index = 2
+						damageText.visible = false
+						damageText.position = Vector2.ZERO
+						
+						# End Turn
+						Player.end_turn()
+		'Ressurect':
+			Player.targetMode = false
+			
+			var targetNode = PlayerTarget.get_overlapping_areas()
+			if (targetNode.empty() == false):
+				var targetCreature = targetNode[0].get_parent()
+				# Use skill
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state == 'dying'):
+					if (Player.skillInVision == true):
+						# Camera Shake
+						CameraNode.shake(12, 0.2, 0.8)
+						
+						# Skill Particle Animation
+						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+						var instance = objRessurect.instance()
+						var instanceSprite = instance.get_node("AnimatedSprite")
+						instanceSprite.playing = true
+						targetCreature.add_child(instance)
+							
+						# Leave skills toolbar
+						HUD.get_node('Tween').stop_all()
+						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+						
+						# Reset Target
+						PlayerTargetCollision.disabled = true
+						PlayerTarget.position = Vector2.ZERO
+						PlayerTarget.visible = false
+						
+						# Reset RayCast
+						Player.RayTarget.set_cast_to(PlayerTarget.position)
+						Player.RayTarget.force_raycast_update()
+						
+						# End Turn Variables
+						Player.hasPlayed = true
+						Player.active = false
+						
+						# Reduce player mana & set cooldown
+						Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+						
+						# Set health & mana of ressurected target (20%) & set state to 'alive' (+ reset alpha)
+						targetCreature.health = targetCreature.healthMax * 0.2
+						targetCreature.mana = targetCreature.manaMax * 0.2
+						targetCreature.state = 'alive'
+						targetCreature.get_node('Sprite').modulate.a = 1
+						
+						# Show invulnerable text
+						z_index = 3
+						var damageText = GameManager.objDamageText.instance()
+						add_child(damageText)
+						
+						var randXOffset = ceil(rand_range(-48, 48))
+						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]ressurected[/color][/center]'
+						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]ressurected[/color][/center]'
 						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true

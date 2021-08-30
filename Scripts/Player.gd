@@ -154,6 +154,7 @@ func _ready():
 			skillsClass.append('Healing Prayer')
 			skillsClass.append('Purify')
 			skillsClass.append('Divine Shield')
+			skillsClass.append('Ressurect')
 			
 			match playerColor:
 				"blue":

@@ -85,7 +85,7 @@ func launch_ai_turns():
 ##################################################################################################
 # SKILLS LIBRARY (is referred after skill is granted to a player)
 var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse', 
-'Healing Prayer', 'Purify', 'Divine Shield',
+'Healing Prayer', 'Purify', 'Divine Shield', 'Ressurect',
 'Cleave', 
 'Poison Dart', 'Ensnare', 'Dash', 'Shadow Walk']
 var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage to a target.', 
@@ -95,6 +95,7 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 'Heals a friendly target for INT * 0.8.',
 'Removes all debuffs from a friendly target.',
 'Renders a friendly target invulnerable until the start of its next turn.',
+'Brings a friendly target back to life with 20% of their max health & mana restored.',
 '(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.',
 'Shoots a poisonous dart that inflicts STR damage with a 50% chance to poison its target for 3 turns. Poisoned targets take INT / 2 damage every time they finish their turn.',
 'Tosses a net onto a target, rendering them unable to move and reducing their Evasion to 0% for the next 2 turns.',
@@ -107,30 +108,31 @@ var skillsSlotSprites = ['res://Sprites/skill_flare.png',
 'res://Sprites/skill_healing_prayer.png',
 'res://Sprites/skill_purify.png',
 'res://Sprites/skill_divine_shield.png',
+'res://Sprites/skill_ressurect.png',
 'res://Sprites/skill_cleave.png',
 'res://Sprites/skill_poison_dart.png',
 'res://Sprites/skill_ensnare.png',
 'res://Sprites/skill_dash.png',
 'res://Sprites/skill_shadow_walk.png']
 var skillsManaCost = [4, 6, 0, 12, 
-5, 5, 12,
+5, 5, 12, 30,
 0, 
 3, 5, 10, 18]
 var skillsCooldown = [2, 5, 0, 12, 
-5, 3, 10,
+5, 3, 10, 20,
 0, 
 5, 7, 4, 20]
 var skillsRange = [5, 1, 0, 4, 
-3, 3, 3,
+3, 3, 3, 3,
 0, 
 4, 3, 1, 1]
 # skillsType: 'passive, 'active'
 var skillsType = ['active', 'active', 'passive', 'active', 
-'active', 'active', 'active',
+'active', 'active', 'active', 'active',
 'passive', 
 'active', 'active', 'active', 'active']
 # skillsTargetType: 'self', 'target+enemy', 'around+enemy', 'target+friendly', 'passive', 'target+floor'
 var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy', 
-'target+friendly', 'target+friendly', 'target+friendly',
+'target+friendly', 'target+friendly', 'target+friendly', 'target+friendly',
 'passive', 
 'target+enemy', 'target+enemy', 'target+floor', 'self']
