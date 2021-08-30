@@ -498,6 +498,8 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="HUD"]
 
+[node name="TweenTextTooltip" type="Tween" parent="HUD"]
+
 [node name="SkillsConfirmCancelButtons" type="Sprite" parent="HUD"]
 
 [node name="SkillsConfirmCancelButtonsShadow" type="RichTextLabel" parent="HUD/SkillsConfirmCancelButtons"]

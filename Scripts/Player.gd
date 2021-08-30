@@ -276,8 +276,10 @@ func _process(delta):
 			
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
-			HUD.get_node('Tween').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('Tween').start()
+			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+			HUD.get_node('TweenTextTooltip').start()
+			
 	# Skills mode scroll 
 	# Right
 	elif (skillMode == true && Input.is_action_just_pressed("key_d") && skillChooseIndex < skills.size() - 1):
