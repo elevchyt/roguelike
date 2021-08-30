@@ -390,7 +390,7 @@ func use_skill(skillName):
 								PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 								PlayerTween.start()
 								damageText.visible = true
-								yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+								yield(get_tree().create_timer(1.2), "timeout") # DELAYS NEXT TURN, TOO
 								z_index = 0
 								damageText.visible = false
 								damageText.position = Vector2.ZERO
@@ -620,10 +620,9 @@ func use_skill(skillName):
 						var damageText = GameManager.objDamageText.instance()
 						add_child(damageText)
 						
-						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]' + '+' + str(healing) + '[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(healing) + '[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
 						yield(get_tree().create_timer(1), "timeout")
@@ -690,13 +689,12 @@ func use_skill(skillName):
 						var damageText = GameManager.objDamageText.instance()
 						add_child(damageText)
 						
-						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]purified[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]purified[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout")
+						yield(get_tree().create_timer(1.2), "timeout")
 						z_index = 2
 						damageText.visible = false
 						damageText.position = Vector2.ZERO
@@ -758,13 +756,12 @@ func use_skill(skillName):
 						var damageText = GameManager.objDamageText.instance()
 						add_child(damageText)
 						
-						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]invulnerable[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]invulnerable[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout")
+						yield(get_tree().create_timer(1.2), "timeout")
 						z_index = 2
 						damageText.visible = false
 						damageText.position = Vector2.ZERO
@@ -828,13 +825,12 @@ func use_skill(skillName):
 						var damageText = GameManager.objDamageText.instance()
 						add_child(damageText)
 						
-						var randXOffset = ceil(rand_range(-48, 48))
 						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]ressurected[/color][/center]'
 						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]ressurected[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position) + Vector2(randXOffset, 0), to_local(targetCreature.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 						PlayerTween.start()
 						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout")
+						yield(get_tree().create_timer(1.2), "timeout")
 						z_index = 2
 						damageText.visible = false
 						damageText.position = Vector2.ZERO
