@@ -199,6 +199,9 @@ func _ready():
 func activate():
 	# If dead skip turn
 	if (state != 'dead' && state != 'dying'):
+		# Check status (poison, curse, passives etc.)
+		status_check()
+		
 		# Reset values
 		active = true
 		
@@ -218,19 +221,6 @@ func activate():
 				slot.texture = load(GameManager.skillsSlotSprites[index])
 				
 			i += 1 # counter increment
-		
-		# Skill Checks on activation
-		# Check if conditions of passive skills are met
-		check_passive_skills()
-		
-		# Check dash range based on DEX (Rogue only)
-		check_dash_range()
-		
-		# Check shadow walk duration based on DEX (Rogue only)
-		check_shadow_walk_duration()
-		
-		# Check invulnerability
-		check_invulnerable()
 	# If player is dead OR dying, skip its turn
 	else:
 		end_turn()
@@ -545,12 +535,6 @@ func end_turn():
 	skillMode = false
 	targetMode = false
 	
-	# Check passives
-	check_passive_skills()
-	
-	# Check shadow walk (rogue only)
-	check_shadow_walk()
-	
 	# Decrement all cooldown counters by 1
 	for i in range(skillsCooldownCurrent.size()):
 		if (skillsCooldownCurrent[i] > 0):
@@ -620,9 +604,6 @@ func level_up_check():
 				strength += 2
 				dexterity += 1
 				intelligence += 1
-				
-		# Check for new passive skills
-		check_passive_skills()
 		
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
@@ -654,8 +635,10 @@ func add_skill(skillName):
 			
 			break # stop searching
 
-# Check if arcane shield should be active
-func check_passive_skills():
+# Check status (poison, curse etc.)
+func status_check():
+	var index
+	
 	# Arcane Shield
 	if (mana >= ceil(manaMax / 2) && skills.find('Arcane Shield') != -1):
 		arcaneShield = true
@@ -668,20 +651,17 @@ func check_passive_skills():
 	else:
 		cleave = false
 
-# Check dash range (Rogue only)
-func check_dash_range():
-	var index = skills.find('Dash')
+	# Check dash range (Rogue only)
+	index = skills.find('Dash')
 	if (index != -1):
 		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
 
-# Check shadow walk duration (Rogue only) (Uses range for duration)
-func check_shadow_walk_duration():
-	var index = skills.find('Shadow Walk')
+	# Check shadow walk duration (Rogue only) (Uses range for duration)
+	index = skills.find('Shadow Walk')
 	if (index != -1):
 		skillsRange[index] = ceil(dexterity / 3.0)
 
-# Check shadow walk counter (Rogue only)
-func check_shadow_walk():
+	# Check shadow walk counter (Rogue only)
 	if (invisible == true):
 		invisibleCounter -= 1
 		
@@ -690,8 +670,7 @@ func check_shadow_walk():
 			invisible = false
 			$Sprite.modulate = Color(1, 1, 1, 1)
 
-# Check invulnerability
-func check_invulnerable():
+	# Check invulnerability
 	if (invulnerable == true):
 		invulnerableCounter -= 1
 		

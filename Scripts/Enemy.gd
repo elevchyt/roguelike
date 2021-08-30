@@ -49,6 +49,9 @@ func move(path):
 
 # Activate function (when this unit enters it's turn)
 func activate():
+	# Check status (poison, curse etc.)
+	status_check()
+	
 	# Find closest player & its path
 	if (GameManager.players.empty() == false):
 		var targetPlayer = GameManager.players[0]
@@ -89,9 +92,6 @@ func activate():
 		# If target is out of vision range
 		elif (path.size() > visionRange):
 			print('** IDLE (no vision) **')
-			
-		# Check status (poison, curse etc.)
-		status_check()
 		
 		# END TURN
 		hasPlayed = true

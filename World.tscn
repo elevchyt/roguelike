@@ -148,8 +148,8 @@ playerClass = "Priest"
 playerColor = "pink"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 768, 480 )
-playerClass = "Warrior"
+position = Vector2( 864, 576 )
+playerClass = "Rogue"
 playerColor = "orange"
 
 [node name="GameManager" type="Node2D" parent="."]
