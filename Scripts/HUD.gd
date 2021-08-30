@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+onready var GameManager = get_node("/root/World/GameManager")
 var currentPlayer
 
 func _process(delta):

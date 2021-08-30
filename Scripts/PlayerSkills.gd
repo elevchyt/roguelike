@@ -136,6 +136,11 @@ func use_skill(skillName):
 							
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Thunderclap':
 			Player.skillInVision = true # make sure non-targeted skills can be cast
 			
@@ -286,6 +291,11 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Poison Dart':
 			# Find eligible target
 			var targetNode = PlayerTarget.get_overlapping_areas()
@@ -412,6 +422,11 @@ func use_skill(skillName):
 							
 						# End Turn
 						Player.end_turn()
+					# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Ensnare':
 			# Find eligible target
 			var targetNode = PlayerTarget.get_overlapping_areas()
@@ -484,7 +499,11 @@ func use_skill(skillName):
 					
 						# End Turn
 						Player.end_turn()
-						
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Dash':
 			# Use skill
 			if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
@@ -614,6 +633,11 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Purify':
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
@@ -679,6 +703,11 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Divine Shield':
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
@@ -742,6 +771,11 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 		'Ressurect':
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
@@ -807,6 +841,11 @@ func use_skill(skillName):
 						
 						# End Turn
 						Player.end_turn()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
 ################################################################################################################
 # Cleave (Passive Skill)
 func cleave_check(target):

@@ -374,18 +374,14 @@ func _process(delta):
 				$PlayerSkills.use_skill(skills[skillChooseIndex])
 		# Show feedback message for not enough mana
 		elif(mana < skillsManaCost[skillChooseIndex]):
-			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Not enough mana![/color][/center]'
-			HUD.get_node('FeedbackText/FeedbackTextShadow').bbcode_text = '[center][color=#ff212123]Not enough mana![/color][/center]'
-			HUD.get_node('FeedbackText').visible = true
+			HUD.get_node('FeedbackTextMana').visible = true
 			yield(get_tree().create_timer(1.2), "timeout")
-			HUD.get_node('FeedbackText').visible = false
+			HUD.get_node('FeedbackTextMana').visible = false
 		# Show feedback message for skill on cooldown
 		else:
-			HUD.get_node('FeedbackText/FeedbackText').bbcode_text = '[center][color=#ffffff]Skill on cooldown![/color][/center]'
-			HUD.get_node('FeedbackText/FeedbackTextShadow').bbcode_text = '[center][color=#ff212123]Skill on cooldown![/color][/center]'
-			HUD.get_node('FeedbackText').visible = true
+			HUD.get_node('FeedbackTextCooldown').visible = true
 			yield(get_tree().create_timer(1.2), "timeout")
-			HUD.get_node('FeedbackText').visible = false
+			HUD.get_node('FeedbackTextCooldown').visible = false
 	# Move Target
 	elif (targetMode == true):
 		if (Input.is_action_just_pressed("key_w")):
