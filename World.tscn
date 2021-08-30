@@ -144,7 +144,7 @@ intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 576, 576 )
-playerClass = "Priest"
+playerClass = "Rogue"
 playerColor = "pink"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
