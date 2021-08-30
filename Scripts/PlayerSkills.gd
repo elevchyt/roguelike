@@ -385,7 +385,7 @@ func use_skill(skillName):
 								
 								# Show poisoned status text
 								z_index = 1
-								damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]poisoned[/color][/center]'
+								damageText.get_node('TextDamage').bbcode_text = '[center][color=#c2d368]poisoned[/color][/center]'
 								damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]poisoned[/color][/center]'
 								PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 								PlayerTween.start()
