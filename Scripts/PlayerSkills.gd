@@ -494,7 +494,7 @@ func use_skill(skillName):
 				Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 				
 				# Move player to target location
-				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.8, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
+				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.5, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 				Player.Tween.start()
 				
 				# Reset Target
@@ -515,7 +515,7 @@ func use_skill(skillName):
 				Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 				
 				# End Turn
-				yield(get_tree().create_timer(1.5), "timeout")
+				yield(get_tree().create_timer(0.8), "timeout")
 				Player.end_turn()
 		'Shadow Walk':
 			# Use skill

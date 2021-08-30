@@ -663,7 +663,7 @@ func check_passive_skills():
 func check_dash_range():
 	var index = skills.find('Dash')
 	if (index != -1):
-		skillsRange[index] = clamp(ceil(dexterity / 4.0), 0, 10)
+		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
 
 # Check shadow walk duration (Rogue only) (Uses range for duration)
 func check_shadow_walk_duration():
