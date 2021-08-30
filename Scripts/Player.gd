@@ -77,6 +77,8 @@ var ensnaredCounter = 0
 var ensnareNode
 var invisible = false
 var invisibleCounter = 0
+var invulnerable = false
+var invulnerableCounter = 0
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -151,6 +153,7 @@ func _ready():
 			
 			skillsClass.append('Healing Prayer')
 			skillsClass.append('Purify')
+			skillsClass.append('Divine Shield')
 			
 			match playerColor:
 				"blue":
@@ -544,6 +547,9 @@ func end_turn():
 	# Check shadow walk (rogue only)
 	check_shadow_walk()
 	
+	# Check invulnerability
+	check_invulnerable()
+	
 	# Decrement all cooldown counters by 1
 	for i in range(skillsCooldownCurrent.size()):
 		if (skillsCooldownCurrent[i] > 0):
@@ -682,6 +688,15 @@ func check_shadow_walk():
 			invisibleCounter = 0
 			invisible = false
 			$Sprite.modulate = Color(1, 1, 1, 1)
+
+# Check invulnerability
+func check_invulnerable():
+	if (invulnerable == true):
+		invulnerableCounter -= 1
+		
+		if (invulnerableCounter == 0):
+			invulnerableCounter = 0
+			invulnerable = false
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
