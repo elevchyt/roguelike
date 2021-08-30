@@ -43,7 +43,7 @@ func use_skill(skillName):
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
-						Player.targetMode = false
+						Player.targetMode = false # leave target mode
 						
 						# Skill Projectile Animation
 						print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
@@ -226,7 +226,7 @@ func use_skill(skillName):
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true && targetCreature.isPlayer == false):
 					if (Player.skillInVision == true):
-						Player.targetMode = false
+						Player.targetMode = false # leave target mode
 						
 						# Camera Shake
 						CameraNode.shake(8, 0.2, 1)
@@ -294,7 +294,7 @@ func use_skill(skillName):
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
-						Player.targetMode = false
+						Player.targetMode = false # leave target mode
 						
 						# (Rogue) Remove invisibility
 						if (Player.invisible == true):
@@ -420,7 +420,7 @@ func use_skill(skillName):
 				var targetCreature = targetNode[0].get_parent()
 				if (targetCreature.isMonster == true):
 					if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
-						Player.targetMode = false
+						Player.targetMode = false # leave target mode
 						
 						# (Rogue) Remove invisibility
 						if (Player.invisible == true):
@@ -488,7 +488,7 @@ func use_skill(skillName):
 		'Dash':
 			# Use skill
 			if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
-				Player.targetMode = false
+				Player.targetMode = false # leave target mode
 				
 				# Leave skills toolbar
 				HUD.get_node('Tween').stop_all()
@@ -550,8 +550,6 @@ func use_skill(skillName):
 			Player.end_turn()
 			
 		'Healing Prayer':
-			Player.targetMode = false
-			
 			# Heal Calculation
 			var healing = ceil(Player.intelligence * 0.8)
 			var targetNode = PlayerTarget.get_overlapping_areas()
@@ -560,6 +558,7 @@ func use_skill(skillName):
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
+						Player.targetMode = false # leave target mode
 						# Camera Shake
 						CameraNode.shake(16, 0.4, 1)
 						
@@ -616,14 +615,13 @@ func use_skill(skillName):
 						# End Turn
 						Player.end_turn()
 		'Purify':
-			Player.targetMode = false
-			
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
+						Player.targetMode = false # leave target mode
 						# Camera Shake
 						CameraNode.shake(12, 0.2, 1)
 						
@@ -682,14 +680,13 @@ func use_skill(skillName):
 						# End Turn
 						Player.end_turn()
 		'Divine Shield':
-			Player.targetMode = false
-			
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state != 'dying' && targetCreature.state != 'dead'):
 					if (Player.skillInVision == true):
+						Player.targetMode = false # leave target mode
 						# Camera Shake
 						CameraNode.shake(10, 0.2, 0.8)
 						
@@ -746,14 +743,13 @@ func use_skill(skillName):
 						# End Turn
 						Player.end_turn()
 		'Ressurect':
-			Player.targetMode = false
-			
 			var targetNode = PlayerTarget.get_overlapping_areas()
 			if (targetNode.empty() == false):
 				var targetCreature = targetNode[0].get_parent()
 				# Use skill
 				if (targetCreature.isMonster == false && targetCreature.isPlayer == true && targetCreature.state == 'dying'):
 					if (Player.skillInVision == true):
+						Player.targetMode = false # leave target mode
 						# Camera Shake
 						CameraNode.shake(12, 0.2, 0.8)
 						
