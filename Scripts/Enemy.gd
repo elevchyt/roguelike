@@ -53,10 +53,10 @@ func activate():
 	if (GameManager.players.empty() == false):
 		var targetPlayer = GameManager.players[0]
 		var path = TileMapAStar.find_path(get_global_position(), GameManager.players[0].get_global_position())
-		var shortestPathSize = path.size()
+		var shortestPathSize = 999
 		for player in GameManager.players:
 			var currentPlayerPath = TileMapAStar.find_path(get_global_position(), player.get_global_position())
-			if (currentPlayerPath.size() < shortestPathSize):
+			if (currentPlayerPath.size() < shortestPathSize && player.invisible == false && player.invulnerable == false && player.state != 'dead' && player.state != 'dying'):
 				targetPlayer = player
 				path = TileMapAStar.find_path(get_global_position(), player.get_global_position())
 				shortestPathSize = path.size()
