@@ -75,13 +75,13 @@ func activate():
 				print(targetPlayer.name)
 				print(targetPlayer.invulnerable)
 				print(targetPlayer.invulnerableCounter)
-				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false && targetPlayer.invulnerable == false):
+				if (Ray.get_collider().get_parent() == targetPlayer && targetPlayer.invisible == false && targetPlayer.invulnerable == false && targetPlayer.state != 'dead' && targetPlayer.state != 'dying'):
 					targetInAttackRange = true
 					animation_attack(dir)
 					attack(targetPlayer)
 					
 		# Check if target is within vision to move to it (optimally, must check with a raycast for "real" vision)
-		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false):
+		if (path.size() <= visionRange && path.size() != 0 && targetPlayer.invisible == false && targetPlayer.state != 'dead' && targetPlayer.state != 'dying'):
 			move(path)
 		# If there is no path to the target
 		elif (path.size() == 0 && targetInAttackRange == false):
