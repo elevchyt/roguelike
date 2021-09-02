@@ -102,7 +102,8 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 'Tosses a net onto a target, rendering them unable to move and reducing their Evasion to 0% for the next 2 turns.',
 'Dashes up to DEX / 4 steps towards any direction. (max. 10 steps)',
 'Become invisible for the next DEX / 3 turns. Any non-movement action cancels the effect. Attacks while invisible deal a bonus (DEX + 2) / 3 damage.']
-var skillsSlotSprites = ['res://Sprites/skill_flare.png', 
+var skillsSlotSprites = [
+'res://Sprites/skill_flare.png', 
 'res://Sprites/skill_thunderclap.png', 
 'res://Sprites/skill_arcane_shield.png', 
 'res://Sprites/skill_curse.png',
@@ -112,8 +113,6 @@ var skillsSlotSprites = ['res://Sprites/skill_flare.png',
 'res://Sprites/skill_ressurect.png',
 'res://Sprites/skill_cleave.png',
 'res://Sprites/skill_retaliation.png',
-'res://Sprites/skill_execute.png',
-'res://Sprites/skill_berserk.png',
 'res://Sprites/skill_poison_dart.png',
 'res://Sprites/skill_ensnare.png',
 'res://Sprites/skill_dash.png',

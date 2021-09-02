@@ -300,7 +300,7 @@ func _process(delta):
 		skillChooseIndex -= 1
 		skillChoose = skills[skillChooseIndex]
 
-		skillSlots[skillChooseIndex - 1].z_index = 1
+		skillSlots[skillChooseIndex].z_index = 1
 		skillSlots[skillChooseIndex + 1].z_index = 0
 		
 		HUD.get_node('Tween').stop_all()

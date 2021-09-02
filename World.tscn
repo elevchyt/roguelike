@@ -143,8 +143,8 @@ dexterity = 1
 intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 576, 576 )
-playerClass = "Warrior"
+position = Vector2( 864, 192 )
+playerClass = "Mage"
 playerColor = "pink"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
