@@ -18,6 +18,7 @@ var hitSuccess = false
 
 # Skill Instances Pre-Load
 onready var objCleave = preload('res://Scenes/Skills/Cleave.tscn')
+onready var objRetaliation = preload('res://Scenes/Skills/Retaliation.tscn')
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
@@ -35,6 +36,45 @@ func use_skill(skillName):
 	hitSuccess = false
 	
 	match skillName:
+		'Retaliation':
+			Player.skillInVision = true # make sure non-targeted skills can be cast
+			
+			# End Turn Variables
+			Player.hasPlayed = true
+			Player.active = false
+			
+			# Reduce player mana & set cooldown
+			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+			
+			# Leave skills toolbar
+			HUD.get_node('Tween').stop_all()
+			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+			
+			# Play particle animation
+			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+			var instance = objRetaliation.instance()
+			var instanceSprite = instance.get_node("AnimatedSprite")
+			instance.z_index = -2
+			add_child(instance)
+			instanceSprite.playing = true
+			
+			yield(get_tree().create_timer(0.1), "timeout") # (!) makes sure the collisions register on Area2D (hitbox)
+			
+			# Camera Shake
+			CameraNode.shake(9, 0.01, 0.2)
+			
+			# Apply retaliation effect
+			Player.retaliation = true
+			Player.retaliationCounter = 2
+			instanceSprite.playing = true
+			Player.retaliationNode = instance
+			
+			# End Turn
+			yield(get_tree().create_timer(0.6), "timeout") # wait for this amount after all damage is dealt
+			Player.end_turn()
 		'Flare':
 			# Find eligible target
 			var targetNode = PlayerTarget.get_overlapping_areas()

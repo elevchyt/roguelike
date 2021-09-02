@@ -79,6 +79,9 @@ var invisible = false
 var invisibleCounter = 0
 var invulnerable = false
 var invulnerableCounter = 0
+var retaliation = false
+var retaliationCounter = 0
+var retaliationNode
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -104,6 +107,7 @@ func _ready():
 			intelligence = 1
 			
 			skillsClass.append('Cleave')
+			skillsClass.append('Retaliation')
 			
 			match playerColor:
 				"blue":
@@ -646,12 +650,21 @@ func status_check():
 		cleave = true
 	else:
 		cleave = false
-
+		
+	# Check retaliation counter (Warrior only)
+	if (retaliation == true):
+		retaliationCounter -= 1
+		
+		if (retaliationCounter == 0):
+			retaliationCounter = 0
+			retaliation = false
+			retaliationNode.queue_free()
+		
 	# Check dash range (Rogue only)
 	index = skills.find('Dash')
 	if (index != -1):
 		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
-
+		
 	# Check shadow walk duration (Rogue only) (Uses range for duration)
 	index = skills.find('Shadow Walk')
 	if (index != -1):

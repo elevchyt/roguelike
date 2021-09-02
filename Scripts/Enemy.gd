@@ -101,6 +101,21 @@ func attack(target):
 	# Check if hit successful
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
+		# (Warrior) Check for Retaliation
+		if (target.retaliation == true):
+			var retaliationDamage = ceil(target.strength / 3.0 + target.dexterity / 2.0)
+			health -= retaliationDamage
+			
+			if (health <= 0):
+				health = 0
+				
+				# Check for level-up
+				target.xpCurrent += level
+				target.level_up_check()
+				
+				# Destroy target
+				queue_free()
+				
 		# Damage Calculation (check for shields first)
 		var damageTotal
 		if (target.arcaneShield == true):
@@ -120,6 +135,11 @@ func attack(target):
 			target.state = 'dying'
 			target.get_node('Sprite').modulate.a = 0.5
 			GameManager.calc_turn_order()
+			
+			if (target.retaliation == true):
+				target.retaliation = false
+				target.retaliationCounter = 0
+				target.retaliationNode.queue_free()
 		
 		# Show damage text above target
 		z_index = 3
@@ -136,6 +156,8 @@ func attack(target):
 		z_index = 2
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
+		
+		
 	# Show miss text above target
 	else:
 		z_index = 3

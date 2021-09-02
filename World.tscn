@@ -136,15 +136,15 @@ dexterity = 1
 intelligence = 1
 
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 672, 480 )
+position = Vector2( 672, 576 )
 level = 1
-strength = 30
+strength = 20
 dexterity = 1
 intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 576, 576 )
-playerClass = "Rogue"
+playerClass = "Warrior"
 playerColor = "pink"
 
 [node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
