@@ -47,6 +47,7 @@ var skillInVision = true # to check if the current position of the target is wit
 # Warrior variables
 var cleave = false
 var cleaveChancePerc = 50
+var execute = false
 
 # Mage variables
 var arcaneShield = false
@@ -108,6 +109,7 @@ func _ready():
 			
 			skillsClass.append('Cleave')
 			skillsClass.append('Retaliation')
+			skillsClass.append('Execute')
 			
 			match playerColor:
 				"blue":
@@ -434,46 +436,77 @@ func attack(target):
 		# Cleave check
 		PlayerSkills.cleave_check(target)
 		
-		# Camera Shake
-		CameraNode.shake(2, 0.02, 0.2)
-		
-		# Reduce health
-		var damageTotal = strength + weaponDamage - target.damageResistance
-		
-		if (target.cursed == true):
-			damageTotal = damageTotal * 1.2
-		if (invisible == true):
-			damageTotal = damageTotal + ceil((dexterity + 2) / 3)
-		
-		if (damageTotal < 0):
-			damageTotal = 0
-		target.health -= damageTotal
-		
-		# Show damage text
-		var damageText = target.get_node('TextDamage')
-		
-		z_index = 3
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-		Tween.start()
-		damageText.visible = true
-		yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-		z_index = 2
-		damageText.visible = false
-		damageText.position = Vector2.ZERO
-		
-		# Check if killed & gain xp (check for level-up)
-		if (target.health <= 0):
+		# (Warrior) Check for execute
+		var executeChance = randi() % 100
+		print(executeChance)
+		print(target.health)
+		print(target.healthMax)
+		if (execute == true && executeChance <= 25 && target.health <= target.healthMax * 0.3):
+			# Camera Shake
+			CameraNode.shake(2, 0.02, 0.2)
+			
+			# Reduce health to 0
 			target.health = 0
 			
-			# Check for level-up
-			xpCurrent += target.level
-			level_up_check()
+			# Show executed text (independent on player)
+			var executedText = GameManager.objDamageTextIndependent.instance()
+			executedText.position = to_local(target.position)
+			add_child(executedText)
 			
-			# Destroy target
-			target.queue_free()
-
+			z_index = 3
+			executedText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]executed[/color][/center]'
+			executedText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]executed[/color][/center]'
+			Tween.interpolate_property(executedText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+			Tween.start()
+			
+			# Check if killed & gain xp (check for level-up)
+			if (target.health <= 0):
+				target.health = 0
+				
+				# Check for level-up
+				xpCurrent += target.level
+				level_up_check()
+				
+				# Destroy target
+				target.queue_free()
+		# Normal Attack
+		else:
+			# Reduce health
+			var damageTotal = strength + weaponDamage - target.damageResistance
+			
+			if (target.cursed == true):
+				damageTotal = damageTotal * 1.2
+			if (invisible == true):
+				damageTotal = damageTotal + ceil((dexterity + 2) / 3)
+			
+			if (damageTotal < 0):
+				damageTotal = 0
+			target.health -= damageTotal
+			
+			# Show damage text
+			var damageText = target.get_node('TextDamage')
+			
+			z_index = 3
+			damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
+			damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
+			Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+			Tween.start()
+			damageText.visible = true
+			yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
+			z_index = 2
+			damageText.visible = false
+			damageText.position = Vector2.ZERO
+			
+			# Check if killed & gain xp (check for level-up)
+			if (target.health <= 0):
+				target.health = 0
+				
+				# Check for level-up
+				xpCurrent += target.level
+				level_up_check()
+				
+				# Destroy target
+				target.queue_free()
 	# Show miss text above target
 	else:
 		z_index = 1
@@ -650,6 +683,12 @@ func status_check():
 		cleave = true
 	else:
 		cleave = false
+		
+	# Execute
+	if (skills.find('Execute') != -1):
+		execute = true
+	else:
+		execute = false
 		
 	# Check retaliation counter (Warrior only)
 	if (retaliation == true):
