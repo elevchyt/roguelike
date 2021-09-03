@@ -8,6 +8,7 @@ onready var playerCurrentIndex : int
 
 # General objects for instancing
 onready var objDamageText = preload('res://Scenes/TextDamage.tscn')
+onready var objStatusTextIndependent = preload('res://Scenes/TextStatusIndependent.tscn')
 onready var objDamageTextIndependent = preload('res://Scenes/TextDamageIndependent.tscn')
 
 # DEBUG BUTTONS

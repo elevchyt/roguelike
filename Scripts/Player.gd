@@ -449,7 +449,7 @@ func attack(target):
 			target.health = 0
 			
 			# Show executed text (independent on player)
-			var executedText = GameManager.objDamageTextIndependent.instance()
+			var executedText = GameManager.objStatusTextIndependent.instance()
 			executedText.position = to_local(target.position)
 			add_child(executedText)
 			
@@ -484,18 +484,15 @@ func attack(target):
 			target.health -= damageTotal
 			
 			# Show damage text
-			var damageText = target.get_node('TextDamage')
+			var damageText = GameManager.objDamageTextIndependent.instance()
+			damageText.position = to_local(target.position)
+			add_child(damageText)
 			
 			z_index = 3
 			damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
 			damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-			Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+			Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 			Tween.start()
-			damageText.visible = true
-			yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-			z_index = 2
-			damageText.visible = false
-			damageText.position = Vector2.ZERO
 			
 			# Check if killed & gain xp (check for level-up)
 			if (target.health <= 0):
