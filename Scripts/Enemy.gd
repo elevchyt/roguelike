@@ -156,8 +156,6 @@ func attack(target):
 		z_index = 2
 		damageText.visible = false
 		damageText.position = Vector2.ZERO
-		
-		
 	# Show miss text above target
 	else:
 		z_index = 3
