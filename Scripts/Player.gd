@@ -25,7 +25,7 @@ var items : Array # Current items in inventory (strings)
 var itemsDescription : Array # Curernt items' descriptions
 var itemsType : Array # Current items' type (consumable, equipment, misc)
 var itemsState : Array # Current items' state (equipped, unequipped)
-var itemsMode = false # The current skill highlighted before usage; during skillMode
+var itemMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item
 var itemChooseIndex : Array # Index of current highlighted item
 
