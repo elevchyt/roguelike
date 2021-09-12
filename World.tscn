@@ -150,6 +150,8 @@ playerColor = "pink"
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
 
+[node name="Tween" type="Tween" parent="GameManager"]
+
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )
 

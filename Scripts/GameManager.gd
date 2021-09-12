@@ -2,6 +2,8 @@ extends Node2D
 
 onready var CameraNode = get_node("/root/World/Camera2D")
 onready var HUD = get_node("/root/World/HUD")
+onready var Tween = $Tween
+
 onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int

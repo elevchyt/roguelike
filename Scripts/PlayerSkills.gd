@@ -426,13 +426,13 @@ func use_skill(skillName):
 								# Show poisoned status text (independent on player)
 								var poisonedText = GameManager.objStatusTextIndependent.instance()
 								poisonedText.position = to_local(targetCreature.position)
-								add_child(poisonedText)
+								GameManager.add_child(poisonedText)
 								
-								z_index = 3
+								poisonedText.z_index = 3
 								poisonedText.get_node('TextDamage').bbcode_text = '[center][color=#c2d368]poisoned[/color][/center]'
 								poisonedText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]poisoned[/color][/center]'
-								Player.Tween.interpolate_property(poisonedText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -224), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-								Player.Tween.start()
+								GameManager.Tween.interpolate_property(poisonedText, "position", targetCreature.position, targetCreature.position + Vector2(0, -224), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+								GameManager.Tween.start()
 						# Show miss text on successful evasion by the target creature
 						else:
 							var damageText = targetCreature.get_node('TextDamage')
