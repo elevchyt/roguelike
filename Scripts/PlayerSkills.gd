@@ -73,7 +73,7 @@ func use_skill(skillName):
 			Player.retaliationNode = instance
 			
 			# End Turn
-			yield(get_tree().create_timer(0.6), "timeout") # wait for this amount after all damage is dealt
+			yield(get_tree().create_timer(0.6), "timeout")
 			Player.end_turn()
 		'Flare':
 			# Find eligible target
@@ -136,18 +136,7 @@ func use_skill(skillName):
 							targetCreature.health -= damage
 
 							# Show damage text
-							var damageText = targetCreature.get_node('TextDamage')
-
-							z_index = 1
-							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
-							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
-							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-							PlayerTween.start()
-							damageText.visible = true
-							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-							z_index = 0
-							damageText.visible = false
-							damageText.position = Vector2.ZERO
+							GameManager.createDamageText(targetCreature, damage, '#ffffff')
 							
 							# Check if killed & gain xp (check for level-up)
 							if (targetCreature.health <= 0):
@@ -161,20 +150,10 @@ func use_skill(skillName):
 								targetCreature.queue_free()
 						# Show miss text on successful evasion by the target creature
 						else:
-							var damageText = targetCreature.get_node('TextDamage')
-
-							z_index = 1
-							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
-							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
-							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-							PlayerTween.start()
-							damageText.visible = true
-							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-							z_index = 0
-							damageText.visible = false
-							damageText.position = Vector2.ZERO
+							GameManager.createStatusText(targetCreature, 'MISS', '#ffffff')
 							
 						# End Turn
+						yield(get_tree().create_timer(1.5), "timeout") # wait for this amount after all damage is dealt
 						Player.end_turn()
 				# Else show invalid target feedback text
 				else:
@@ -231,18 +210,7 @@ func use_skill(skillName):
 				enemy.health -= damage
 				
 				# Show damage text
-				var damageText = enemy.get_node('TextDamage')
-				
-				z_index = 1
-				damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
-				damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
-				PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-				PlayerTween.start()
-				damageText.visible = true
-				yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-				z_index = 0
-				damageText.visible = false
-				damageText.position = Vector2.ZERO
+				GameManager.createDamageText(enemy, damage, '#ffffff')
 				
 				# Check if killed & gain xp (check for level-up)
 				if (enemy.health <= 0):
@@ -316,18 +284,7 @@ func use_skill(skillName):
 						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# Show cursed text
-						var damageText = targetCreature.get_node('TextDamage')
-						
-						z_index = 1
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]cursed[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]cursed[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(3), "timeout") # DELAYS NEXT TURN, TOO
-						z_index = 0
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createStatusText(targetCreature, 'cursed', '#ffffff')
 						
 						# End Turn
 						Player.end_turn()
@@ -403,50 +360,22 @@ func use_skill(skillName):
 							targetCreature.health -= damage
 
 							# Show damage text
-							var damageText = targetCreature.get_node('TextDamage')
-
-							z_index = 1
-							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damage) + '[/color][/center]'
-							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
-							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-							PlayerTween.start()
-							damageText.visible = true
-							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-							z_index = 0
-							damageText.visible = false
-							damageText.position = Vector2.ZERO
+							GameManager.createDamageText(targetCreature, damage, '#ffffff')
 							
 							# Check for poison effect application
 							var poisonChance = randi() % 100
 							if (poisonChance > 50):
+								
 								targetCreature.poisoned = true
 								targetCreature.poisonedCounter = 3
 								targetCreature.playerWhoPoisonedMe = Player
 								
-								# Show poisoned status text (independent on player)
-								var poisonedText = GameManager.objStatusTextIndependent.instance()
-								poisonedText.position = to_local(targetCreature.position)
-								GameManager.add_child(poisonedText)
+								# Show poisoned status text 
+								GameManager.createStatusText(targetCreature, 'poisoned', '#c2d368')
 								
-								poisonedText.z_index = 3
-								poisonedText.get_node('TextDamage').bbcode_text = '[center][color=#c2d368]poisoned[/color][/center]'
-								poisonedText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]poisoned[/color][/center]'
-								GameManager.Tween.interpolate_property(poisonedText, "position", targetCreature.position, targetCreature.position + Vector2(0, -224), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-								GameManager.Tween.start()
 						# Show miss text on successful evasion by the target creature
 						else:
-							var damageText = targetCreature.get_node('TextDamage')
-
-							z_index = 1
-							damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
-							damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
-							PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-							PlayerTween.start()
-							damageText.visible = true
-							yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-							z_index = 0
-							damageText.visible = false
-							damageText.position = Vector2.ZERO
+							GameManager.createStatusText(targetCreature, 'MISS', '#ffffff')
 						
 						# Check if killed & gain xp (check for level-up)
 						if (targetCreature.health <= 0):
@@ -460,6 +389,7 @@ func use_skill(skillName):
 							targetCreature.queue_free()
 							
 						# End Turn
+						yield(get_tree().create_timer(1.5), "timeout") # wait for this amount after all damage is dealt
 						Player.end_turn()
 					# Else show invalid target feedback text
 				else:
@@ -524,17 +454,7 @@ func use_skill(skillName):
 						targetCreature.evasionPerc = 0
 						
 						# Show ensnared status text
-						var damageText = targetCreature.get_node('TextDamage')
-						z_index = 1
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]ensnared[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]ensnared[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-						z_index = 0
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createStatusText(targetCreature, 'ensnared', '#ffffff')
 					
 						# End Turn
 						Player.end_turn()
@@ -543,7 +463,7 @@ func use_skill(skillName):
 					HUD.get_node('FeedbackTextTarget').visible = true
 					yield(get_tree().create_timer(1.2), "timeout")
 					HUD.get_node('FeedbackTextTarget').visible = false
-		'Dash':
+		'Leap':
 			# Use skill
 			if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
 				Player.targetMode = false # leave target mode
@@ -554,18 +474,24 @@ func use_skill(skillName):
 				Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 				Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 				
-				# Move player to target location
-				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.5, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-				Player.Tween.start()
-				
-				# Reset Target
+				# Reset Target (only visibility & collisions)
 				PlayerTarget.visible = false
 				PlayerTargetCollision.disabled = true
-				PlayerTarget.position = Vector2.ZERO
 				
 				# Reset RayCast
 				Player.RayTarget.set_cast_to(PlayerTarget.position)
 				Player.RayTarget.force_raycast_update()
+				
+				# Move player to target location
+				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.8, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+				Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale * 1.25, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+				Player.Tween.start()
+				yield(get_tree().create_timer(0.4), "timeout")
+				Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+				Player.Tween.start()
+				
+				# Reset target (position)
+				PlayerTarget.position = Vector2.ZERO
 				
 				# End Turn Variables
 				Player.hasPlayed = true
@@ -576,7 +502,7 @@ func use_skill(skillName):
 				Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 				
 				# End Turn
-				yield(get_tree().create_timer(0.8), "timeout")
+				yield(get_tree().create_timer(1.2), "timeout")
 				Player.end_turn()
 		'Shadow Walk':
 			# Use skill
@@ -602,6 +528,9 @@ func use_skill(skillName):
 			# Reduce player mana & set cooldown
 			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
 			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+			
+			# Show invisible text
+			GameManager.createStatusText(Player, 'invisible', '#ffffff')
 			
 			# End Turn
 			yield(get_tree().create_timer(1.5), "timeout")
@@ -655,21 +584,10 @@ func use_skill(skillName):
 						targetCreature.health = clamp(targetCreature.health + healing, 0, targetCreature.healthMax)
 
 						# Show healing text
-						z_index = 3
-						var damageText = GameManager.objDamageText.instance()
-						add_child(damageText)
-						
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]' + '+' + str(healing) + '[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(healing) + '[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1), "timeout")
-						z_index = 2
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createHealingText(targetCreature, healing)
 						
 						# End Turn
+						yield(get_tree().create_timer(1.5), "timeout")
 						Player.end_turn()
 				# Else show invalid target feedback text
 				else:
@@ -724,21 +642,10 @@ func use_skill(skillName):
 						targetCreature.cursed = false
 						
 						# Show purify text
-						z_index = 3
-						var damageText = GameManager.objDamageText.instance()
-						add_child(damageText)
-						
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]purified[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]purified[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1.2), "timeout")
-						z_index = 2
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createStatusText(targetCreature, 'purified', '#ffa2dcc7')
 						
 						# End Turn
+						yield(get_tree().create_timer(1.5), "timeout")
 						Player.end_turn()
 				# Else show invalid target feedback text
 				else:
@@ -791,21 +698,10 @@ func use_skill(skillName):
 						targetCreature.invulnerableCounter = 2
 						
 						# Show invulnerable text
-						z_index = 3
-						var damageText = GameManager.objDamageText.instance()
-						add_child(damageText)
-						
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]invulnerable[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]invulnerable[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1.2), "timeout")
-						z_index = 2
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createStatusText(targetCreature, 'invulnerable', '#ffa2dcc7')
 						
 						# End Turn
+						yield(get_tree().create_timer(1.5), "timeout")
 						Player.end_turn()
 				# Else show invalid target feedback text
 				else:
@@ -861,19 +757,7 @@ func use_skill(skillName):
 						targetCreature.get_node('Sprite').modulate.a = 1
 						
 						# Show ressurected text
-						z_index = 3
-						var damageText = GameManager.objDamageText.instance()
-						add_child(damageText)
-						
-						damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]ressurected[/color][/center]'
-						damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]ressurected[/color][/center]'
-						PlayerTween.interpolate_property(damageText, "position", to_local(targetCreature.position), to_local(targetCreature.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-						PlayerTween.start()
-						damageText.visible = true
-						yield(get_tree().create_timer(1.2), "timeout")
-						z_index = 2
-						damageText.visible = false
-						damageText.position = Vector2.ZERO
+						GameManager.createStatusText(targetCreature, 'ressurected', '#ffa2dcc7')
 						
 						# End Turn
 						Player.end_turn()
@@ -905,18 +789,7 @@ func cleave_check(target):
 					adjEnemy.health -= damageTotal
 					
 					# Show damage text
-					var damageText = adjEnemy.get_node('TextDamage')
-					
-					z_index = 3
-					damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-					damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-					adjEnemy.Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-					adjEnemy.Tween.start()
-					damageText.visible = true
-					yield(get_tree().create_timer(0.3), "timeout")
-					z_index = 2
-					damageText.visible = false
-					damageText.position = Vector2.ZERO
+					GameManager.createDamageText(adjEnemy, damageTotal, '#ffffff')
 					
 					# Check if killed & gain xp (check for level-up)
 					if (adjEnemy.health <= 0):

@@ -147,7 +147,7 @@ func _ready():
 			
 			skillsClass.append('Poison Dart')
 			skillsClass.append('Ensnare')
-			skillsClass.append('Dash')
+			skillsClass.append('Leap')
 			skillsClass.append('Shadow Walk')
 			
 			match playerColor:
@@ -489,15 +489,7 @@ func attack(target):
 			target.health -= damageTotal
 			
 			# Show damage text
-			var damageText = GameManager.objDamageTextIndependent.instance()
-			damageText.position = to_local(target.position)
-			add_child(damageText)
-			
-			z_index = 3
-			damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-			damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-			Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-			Tween.start()
+			GameManager.createDamageText(target, damageTotal, '#ffffff')
 			
 			# Check if killed & gain xp (check for level-up)
 			if (target.health <= 0):
@@ -511,17 +503,7 @@ func attack(target):
 				target.queue_free()
 	# Show miss text above target
 	else:
-		z_index = 1
-		var damageText = target.get_node('TextDamage')
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]MISS[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]MISS[/color][/center]'
-		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-		Tween.start()
-		damageText.visible = true
-		yield(get_tree().create_timer(1), "timeout")
-		z_index = 0
-		damageText.visible = false
-		damageText.position = Vector2.ZERO
+		GameManager.createStatusText(target, 'MISS', '#ffffff')
 	
 	# (Rogue) Remove invisibility
 	if (invisible == true):
@@ -701,8 +683,8 @@ func status_check():
 			retaliation = false
 			retaliationNode.queue_free()
 		
-	# Check dash range (Rogue only)
-	index = skills.find('Dash')
+	# Check leap range (Rogue only)
+	index = skills.find('Leap')
 	if (index != -1):
 		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
 		

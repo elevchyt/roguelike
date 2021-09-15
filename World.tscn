@@ -142,10 +142,22 @@ strength = 21
 dexterity = 1
 intelligence = 1
 
+[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 1056, 576 )
+level = 1
+strength = 2
+dexterity = 1
+intelligence = 1
+
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 864, 576 )
 playerClass = "Rogue"
-playerColor = "pink"
+playerColor = "blue"
+
+[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 864, 384 )
+playerClass = "Priest"
+playerColor = "orange"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )

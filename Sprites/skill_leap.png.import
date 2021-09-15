@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/skill_dash.png-f6171909a90ab0ac3638eeeae1526d5a.stex"
+path="res://.import/skill_leap.png-d10ed463f7262bcea9bf74c5b7e6140b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/skill_dash.png"
-dest_files=[ "res://.import/skill_dash.png-f6171909a90ab0ac3638eeeae1526d5a.stex" ]
+source_file="res://Sprites/skill_leap.png"
+dest_files=[ "res://.import/skill_leap.png-d10ed463f7262bcea9bf74c5b7e6140b.stex" ]
 
 [params]
 

@@ -86,12 +86,64 @@ func launch_ai_turns():
 	calc_turn_order()
 	next_player_turn()
 
+# DAMAGE/STATUS TEXT FUNCTIONS
+# Create independent damage text
+func createDamageText(target, damage, colorHex):
+	var damageText = objDamageTextIndependent.instance()
+	damageText.position = to_local(target.position)
+	add_child(damageText)
+	
+	z_index = 3
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=' + colorHex + ']' + '-' + str(damage) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+
+# Create independent damage text with X & Y Offset
+func createDamageTextOffset(target, damage, colorHex):
+	var randXOffset = ceil(rand_range(-48, 48))
+	var randYOffset = ceil(rand_range(-102, -148))
+	randomize()
+	var damageText = objDamageTextIndependent.instance()
+	damageText.position = to_local(target.position)
+	add_child(damageText)
+	
+	z_index = 3
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=' + colorHex + ']' + '-' + str(damage) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damage) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, randYOffset), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+
+# Create independent healing text
+func createHealingText(target, healing):
+	var damageText = objDamageTextIndependent.instance()
+	damageText.position = to_local(target.position)
+	add_child(damageText)
+	
+	z_index = 3
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffa2dcc7]' + '+' + str(healing) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(healing) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+
+# Create independent status text
+func createStatusText(target, text, colorHex):
+	var statusText = objDamageTextIndependent.instance()
+	statusText.position = to_local(target.position)
+	add_child(statusText)
+	
+	z_index = 3
+	statusText.get_node('TextDamage').bbcode_text = '[center][color=' + colorHex + ']' + str(text) + '[/color][/center]'
+	statusText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + str(text) + '[/color][/center]'
+	Tween.interpolate_property(statusText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -224), 2.3, Tween.EASE_IN_OUT, Tween.EASE_OUT)
+	Tween.start()
+
 ##################################################################################################
 # SKILLS LIBRARY (is referred after skill is granted to a player)
 var skillsNames = ['Flare', 'Thunderclap', 'Arcane Shield', 'Curse', 
 'Healing Prayer', 'Purify', 'Divine Shield', 'Ressurect',
 'Cleave', 'Retaliation', 'Execute',
-'Poison Dart', 'Ensnare', 'Dash', 'Shadow Walk']
+'Poison Dart', 'Ensnare', 'Leap', 'Shadow Walk']
 var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage to a target.', 
 'Inflicts INT + (STR / 2) damage to enemies around you. (Cannot be evaded)', 
 '(PASSIVE) All damage taken is reduced by 20%, as long as your Mana is over 50%.', 
@@ -105,7 +157,7 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 '(PASSIVE) Your melee attacks have a 25% chance to execute targets whose health is under 30%.',
 'Shoots a poisonous dart that inflicts STR damage with a 50% chance to poison its target for 3 turns. Poisoned targets take INT / 2 damage every time they finish their turn.',
 'Tosses a net onto a target, rendering them unable to move and reducing their Evasion to 0% for the next 2 turns.',
-'Dashes up to DEX / 4 steps towards any direction. (max. 10 steps)',
+'Leaps up to DEX / 4 steps towards any direction. (max. 10 steps)',
 'Become invisible for the next DEX / 3 turns. Any non-movement action cancels the effect. Attacks while invisible deal a bonus (DEX + 2) / 3 damage.']
 var skillsSlotSprites = [
 'res://Sprites/skill_flare.png', 
@@ -121,7 +173,7 @@ var skillsSlotSprites = [
 'res://Sprites/skill_execute.png',
 'res://Sprites/skill_poison_dart.png',
 'res://Sprites/skill_ensnare.png',
-'res://Sprites/skill_dash.png',
+'res://Sprites/skill_leap.png',
 'res://Sprites/skill_shadow_walk.png']
 var skillsManaCost = [4, 6, 0, 12, 
 5, 5, 12, 30,

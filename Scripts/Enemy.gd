@@ -142,36 +142,10 @@ func attack(target):
 				target.retaliationNode.queue_free()
 		
 		# Show damage text above target
-		z_index = 3
-		var damageText = GameManager.objDamageText.instance()
-		add_child(damageText)
-		
-		var randXOffset = ceil(rand_range(-48, 48))
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]' + '-' + str(damageTotal) + '[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-		Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-		Tween.start()
-		damageText.visible = true
-		yield(get_tree().create_timer(1), "timeout")
-		z_index = 2
-		damageText.visible = false
-		damageText.position = Vector2.ZERO
+		GameManager.createDamageTextOffset(target, damageTotal, '#ffffff')
 	# Show miss text above target
 	else:
-		z_index = 3
-		var damageText = GameManager.objDamageText.instance()
-		add_child(damageText)
-		
-		var randXOffset = ceil(rand_range(-48, 48))
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]miss[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]miss[/color][/center]'
-		Tween.interpolate_property(damageText, "position", to_local(target.position) + Vector2(randXOffset, 0), to_local(target.position) + Vector2(randXOffset, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-		Tween.start()
-		damageText.visible = true
-		yield(get_tree().create_timer(1), "timeout")
-		z_index = 2
-		damageText.visible = false
-		damageText.position = Vector2.ZERO
+		GameManager.createStatusText(target, 'MISS', '#ffffff')
 
 # Status Check (end turn)
 # Decrement/Increment counters (curse, poison etc.)
@@ -207,19 +181,7 @@ func status_check():
 			queue_free()
 			
 		# Show damage text above target
-		var damageText = GameManager.objDamageText.instance()
-		add_child(damageText)
-		
-		z_index = 3
-		damageText.get_node('TextDamage').bbcode_text = '[center][color=#c2d368]' + '-' + str(damageTotal) + '[/color][/center]'
-		damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '-' + str(damageTotal) + '[/color][/center]'
-		Tween.interpolate_property(damageText, "position", Vector2.ZERO, Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-		Tween.start()
-		damageText.visible = true
-		yield(get_tree().create_timer(1), "timeout") # DELAYS NEXT TURN, TOO
-		z_index = 2
-		damageText.visible = false
-		damageText.position = Vector2.ZERO
+		GameManager.createDamageText(self, damageTotal, '#c2d368')
 		
 		if (poisonedCounter == 0):
 			poisonedCounter = 0
