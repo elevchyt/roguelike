@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/selector_blue.png-5a4920e608efa8fc7aab3fdac7155358.stex"
+path="res://.import/selector_blu.png-a8f3015043e29d178ef0cee3b84b6970.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/selector_blue.png"
-dest_files=[ "res://.import/selector_blue.png-5a4920e608efa8fc7aab3fdac7155358.stex" ]
+source_file="res://Sprites/selector_blu.png"
+dest_files=[ "res://.import/selector_blu.png-a8f3015043e29d178ef0cee3b84b6970.stex" ]
 
 [params]
 

@@ -2,8 +2,6 @@
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/person_blue.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/cursor_blue_2.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/cursor_blue_1.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/cursor_pink_1.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/cursor_orange_1.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/cursor_pink_2.png" type="Texture" id=7]
@@ -12,8 +10,6 @@
 [ext_resource path="res://Sprites/hp_red.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/HealthBar.gd" type="Script" id=11]
 [ext_resource path="res://Fonts/Abaddon Bold.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://Sprites/target_skill_blue_1.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/target_skill_blue_2.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/target_skill_pink_2.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/target_skill_pink_1.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/target_skill_orange_2.png" type="Texture" id=17]
@@ -26,11 +22,17 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 48, 48 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/cursor_blue_1.png-f38c11bd831a08dcefd84737136512d4.stex"
+
+[sub_resource type="StreamTexture" id=3]
+load_path = "res://.import/cursor_blue_2.png-9704f4889d378e9da90a249d7ff45536.stex"
+
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
-"name": "cursor_blue",
+"name": "cursor_pink",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ) ],
@@ -38,29 +40,35 @@ animations = [ {
 "name": "cursor_orange",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
-"name": "cursor_pink",
+"name": "cursor_blue",
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
 size = 80
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 1, 1 )
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="StreamTexture" id=7]
+load_path = "res://.import/target_skill_blue_1.png-117eeb3261bbeba2608434ca846101a6.stex"
+
+[sub_resource type="StreamTexture" id=8]
+load_path = "res://.import/target_skill_blue_2.png-d415986635007abe8d3a090854bafeda.stex"
+
+[sub_resource type="SpriteFrames" id=9]
 animations = [ {
-"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
-"loop": true,
-"name": "target_pink",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
 "loop": true,
 "name": "target_orange",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "target_pink",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
@@ -68,7 +76,7 @@ animations = [ {
 "name": "target_no_vision",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "target_blue",
 "speed": 5.0
@@ -121,7 +129,7 @@ __meta__ = {
 visible = false
 position = Vector2( 0, -96 )
 z_index = 10
-frames = SubResource( 2 )
+frames = SubResource( 4 )
 animation = "cursor_blue"
 frame = 1
 playing = true
@@ -136,7 +144,7 @@ margin_left = -140.0
 margin_top = 4.0
 margin_right = 291.0
 margin_bottom = 100.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[center]Level-Up![/center]"
 text = "Level-Up!"
@@ -149,7 +157,7 @@ __meta__ = {
 margin_left = -144.0
 margin_right = 287.0
 margin_bottom = 96.0
-custom_fonts/normal_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
 bbcode_text = "[center]Level-Up![/center]"
 text = "Level-Up!"
@@ -170,12 +178,12 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
 modulate = Color( 0.168627, 0.992157, 0, 1 )
 position = Vector2( 48, 48 )
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 disabled = true
 
 [node name="TargetSprite" type="AnimatedSprite" parent="Target"]
 z_index = 11
-frames = SubResource( 5 )
+frames = SubResource( 9 )
 animation = "target_blue"
 speed_scale = 0.8
 playing = true
