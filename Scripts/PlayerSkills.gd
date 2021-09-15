@@ -464,48 +464,22 @@ func use_skill(skillName):
 					yield(get_tree().create_timer(1.2), "timeout")
 					HUD.get_node('FeedbackTextTarget').visible = false
 		'Leap':
-			# Use skill
-			if (Player.skillInVision == true && (Player.position != to_global(PlayerTarget.position))):
-				Player.targetMode = false # leave target mode
-				
-				# Leave skills toolbar
-				HUD.get_node('Tween').stop_all()
-				HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
-				Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
-				Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
-				
-				# Reset Target (only visibility & collisions)
-				PlayerTarget.visible = false
-				PlayerTargetCollision.disabled = true
-				
-				# Reset RayCast
-				Player.RayTarget.set_cast_to(PlayerTarget.position)
-				Player.RayTarget.force_raycast_update()
-				
-				# Move player to target location
-				Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.8, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-				Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale * 1.25, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-				Player.Tween.start()
-				yield(get_tree().create_timer(0.4), "timeout")
-				Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-				Player.Tween.start()
-				
-				# Reset target (position)
-				PlayerTarget.position = Vector2.ZERO
-				
-				# End Turn Variables
-				Player.hasPlayed = true
-				Player.active = false
-				
-				# Reduce player mana & set cooldown
-				Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
-				Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
-				
-				# End Turn
-				Player.z_index = 3
-				yield(get_tree().create_timer(1.2), "timeout")
-				Player.z_index = 2
-				Player.end_turn()
+			# Check target area
+			var targetNode = PlayerTarget.get_overlapping_areas()
+			if (targetNode.empty() == false):
+				var targetCreature = targetNode[0].get_parent()
+				if (targetCreature.isMonster == false && targetCreature.isPlayer == false):
+					# Use skill
+					useLeap()
+				# Else show invalid target feedback text
+				else:
+					HUD.get_node('FeedbackTextTarget').visible = true
+					yield(get_tree().create_timer(1.2), "timeout")
+					HUD.get_node('FeedbackTextTarget').visible = false
+			# If the tile is empty use skill
+			else:
+				# Use skill
+				useLeap()
 		'Shadow Walk':
 			# Use skill
 			Player.targetMode = false
@@ -802,3 +776,47 @@ func cleave_check(target):
 						
 						# Destroy target
 						adjEnemy.queue_free()
+################################################################################################################
+# Use leap (function to avoid code duplication)
+func useLeap():
+	if (Player.skillInVision == true && Player.position != to_global(PlayerTarget.position)):
+		Player.targetMode = false # leave target mode
+		
+		# Leave skills toolbar
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+		Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+		Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+		
+		# Reset Target (only visibility & collisions)
+		PlayerTarget.visible = false
+		PlayerTargetCollision.disabled = true
+		
+		# Reset RayCast
+		Player.RayTarget.set_cast_to(PlayerTarget.position)
+		Player.RayTarget.force_raycast_update()
+		
+		# Move player to target location
+		Player.Tween.interpolate_property(Player, "position", Player.position, to_global(PlayerTargetSprite.get_parent().position), 0.8, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale * 1.25, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		Player.Tween.start()
+		yield(get_tree().create_timer(0.4), "timeout")
+		Player.Tween.interpolate_property(PlayerSprite, "scale", Player.scale, Player.scale, 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		Player.Tween.start()
+		
+		# Reset target (position)
+		PlayerTarget.position = Vector2.ZERO
+		
+		# End Turn Variables
+		Player.hasPlayed = true
+		Player.active = false
+		
+		# Reduce player mana & set cooldown
+		Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+		Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+		
+		# End Turn
+		Player.z_index = 3
+		yield(get_tree().create_timer(1.2), "timeout")
+		Player.z_index = 2
+		Player.end_turn()

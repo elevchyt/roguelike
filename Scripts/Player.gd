@@ -240,22 +240,8 @@ func activate():
 func _process(delta):
 	# TEST
 	if (active == true && targetMode == false && skillMode == false):
-		if (Input.is_action_just_pressed("key_t")):
-			add_skill('Flare')
-		elif (Input.is_action_just_pressed("key_y")):
-			add_skill('Thunderclap')
-		elif (Input.is_action_just_pressed("key_u")):
-			add_skill('Arcane Shield')
-		elif (Input.is_action_just_pressed("key_i")):
-			add_skill('Curse')
-		elif (Input.is_action_just_pressed("key_f")):
-			add_skill('Healing Prayer')
-		elif (Input.is_action_just_pressed("key_c")):
-			add_skill('Cleave')
-		elif (Input.is_action_just_pressed("key_g")):
-			add_skill('Ensnare')
 		# Level up debug (home key gives 1 level)
-		elif (Input.is_action_just_pressed("key_home")):
+		if (Input.is_action_just_pressed("key_home")):
 			xpCurrent = xpToLevel
 			level_up_check()
 	
@@ -535,6 +521,10 @@ func move_target(direction):
 					if(RayTarget.get_collider() is TileMap):
 						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
 						print('** target not within vision **')
+					if(RayTarget.get_collider() is TileMap):
+						skillInVision = false # is used when skill is casted to either cast OR deny casting because of vision
+						print('** target not within vision **')
+					# Target visible
 					else:
 						skillInVision = true
 						print('** target is within vision **')
