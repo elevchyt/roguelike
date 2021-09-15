@@ -502,7 +502,9 @@ func use_skill(skillName):
 				Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 				
 				# End Turn
+				Player.z_index = 3
 				yield(get_tree().create_timer(1.2), "timeout")
+				Player.z_index = 2
 				Player.end_turn()
 		'Shadow Walk':
 			# Use skill
@@ -535,7 +537,6 @@ func use_skill(skillName):
 			# End Turn
 			yield(get_tree().create_timer(1.5), "timeout")
 			Player.end_turn()
-			
 		'Healing Prayer':
 			# Heal Calculation
 			var healing = ceil(Player.intelligence * 0.8)
