@@ -37,8 +37,11 @@ func calc_turn_order():
 		if (creature.isPlayer == false):
 			turnOrder.append(creature)
 		elif (creature.isPlayer):
-			players.append(creature)
-			
+			if (creature.state != 'dead'):
+				players.append(creature)
+		
+	
+	print('THIS IS THE SIZE: ' + str(players.size()))
 	turnOrder = players + turnOrder
 	
 	print('- TURN ORDER -')
@@ -48,15 +51,25 @@ func calc_turn_order():
 	
 # Activate the next available player, otherwise run the AI turns & reset index
 func next_player_turn():
+	print('-------------------')
+	print(playerCurrentIndex)
+	print(players.size())
+	print('-------------------')
 	# Check if all players are dead
 	if (players.empty()):
 		print('** ALL PLAYERS ARE DEAD! **')
 		print('** GAME OVER **')
+		HUD.hide()
 	# Activate players in order
-	elif (playerCurrentIndex != players.size()):
-		players[playerCurrentIndex].activate()
-		HUD.currentPlayer = players[playerCurrentIndex]
-		CameraNode.position = players[playerCurrentIndex].position
+	elif (playerCurrentIndex < players.size()):
+		if (players[playerCurrentIndex].state == 'alive'):
+			players[playerCurrentIndex].activate()
+			HUD.currentPlayer = players[playerCurrentIndex]
+			CameraNode.position = players[playerCurrentIndex].position
+		# Skip dying players' turn
+		else:
+			players[playerCurrentIndex].end_turn()
+			
 		playerCurrentIndex += 1
 	else:
 		playerCurrentIndex = 0
@@ -76,11 +89,16 @@ func launch_ai_turns():
 			print(player.dyingCounter)
 			player.dyingCounter -= 1
 			
-			# Check for death (removes node)
+			# Check for death of dying player
 			if (player.dyingCounter <= 0):
+				# Reset HUD 
+				HUD.currentPlayer = null
+				
+				# Set player state & current player index & remove node
+				playerCurrentIndex = 0
 				player.state = 'dead'
-				players.erase(player)
 				player.queue_free()
+				players.remove(playerCurrentIndex)
 	
 	# Start players' turns 
 	calc_turn_order()

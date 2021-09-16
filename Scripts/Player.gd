@@ -208,33 +208,28 @@ func _ready():
 
 # Activate function (when this unit enters its turn)
 func activate():
-	# If dead skip turn
-	if (state != 'dead' && state != 'dying'):
-		# Check status (poison, curse, passives etc.)
-		status_check()
-		
-		# Reset values
-		active = true
-		
-		# Activate cursor (selector on top of sprite's head)
-		$CursorSprite.visible = true
-		
-		# Refresh skills toolbar
-		var skillsArraySize = skills.size()
-		var i = 0 # counter
-		for slot in skillSlots:
-			# Make slots empty first
-			slot.set_texture(load('res://Sprites/skill_slot.png'))
-		
-			# Set correct slot sprites from GameManager skillSlotSprites (if not empty)
-			if (skills.empty() == false && skillsArraySize > i):
-				var index = GameManager.skillsNames.find(skills[i])
-				slot.texture = load(GameManager.skillsSlotSprites[index])
-				
-			i += 1 # counter increment
-	# If player is dead OR dying, skip its turn
-	else:
-		end_turn()
+	# Check status (poison, curse, passives etc.)
+	status_check()
+	
+	# Reset values
+	active = true
+	
+	# Activate cursor (selector on top of sprite's head)
+	$CursorSprite.visible = true
+	
+	# Refresh skills toolbar
+	var skillsArraySize = skills.size()
+	var i = 0 # counter
+	for slot in skillSlots:
+		# Make slots empty first
+		slot.set_texture(load('res://Sprites/skill_slot.png'))
+	
+		# Set correct slot sprites from GameManager skillSlotSprites (if not empty)
+		if (skills.empty() == false && skillsArraySize > i):
+			var index = GameManager.skillsNames.find(skills[i])
+			slot.texture = load(GameManager.skillsSlotSprites[index])
+			
+		i += 1 # counter increment
 
 # GET INPUT
 func _process(delta):

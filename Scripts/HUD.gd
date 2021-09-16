@@ -8,9 +8,9 @@ func _process(delta):
 	if (currentPlayer != null):
 		# Toggle hud visibility (H)
 		if (Input.is_action_just_pressed("key_h")):
-			scale = Vector2(0, 0)
+			hide()
 		elif (Input.is_action_just_released("key_h")):
-			scale = Vector2(1, 1)
+			show()
 		
 		# SET HUD VALUES
 		match (currentPlayer.playerColor):
@@ -71,3 +71,9 @@ func _process(delta):
 		else:
 			$Skill4.modulate.a = 1
 			$Skill4/Cooldown.visible = false
+
+func hide():
+	scale = Vector2(0, 0)
+
+func show():
+	scale = Vector2(1, 1)
