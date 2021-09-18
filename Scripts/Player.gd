@@ -272,6 +272,8 @@ func _process(delta):
 			HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
 			HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 			HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
+			HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
+			HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
 			HUD.get_node('SkillDetails').visible = true
 			
 	# Skills mode scroll 
@@ -292,6 +294,8 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
 		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
+		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
 	# Left
 	elif (skillMode == true && Input.is_action_just_pressed("key_a") && skillChooseIndex > 0):
 		skillChooseIndex -= 1
@@ -309,6 +313,8 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
 		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
+		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
 	# Cancel
 	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
 		skillMode = false
