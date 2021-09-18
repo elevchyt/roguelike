@@ -142,6 +142,10 @@ func use_skill(skillName):
 							if (targetCreature.health <= 0):
 								targetCreature.health = 0
 								
+								# Check if ensnared == true to remove ensnareNode on death
+								if (targetCreature.ensnared == true):
+									targetCreature.ensnareNode.queue_free()
+								
 								# Check for level-up
 								Player.xpCurrent += targetCreature.level
 								Player.level_up_check()
@@ -215,6 +219,10 @@ func use_skill(skillName):
 				# Check if killed & gain xp (check for level-up)
 				if (enemy.health <= 0):
 					enemy.health = 0
+					
+					# Check if ensnared == true to remove ensnareNode on death
+					if (enemy.ensnared == true):
+						enemy.ensnareNode.queue_free()
 					
 					# Check for level-up
 					Player.xpCurrent += enemy.level
@@ -380,6 +388,10 @@ func use_skill(skillName):
 						# Check if killed & gain xp (check for level-up)
 						if (targetCreature.health <= 0):
 							targetCreature.health = 0
+							
+							# Check if ensnared == true to remove ensnareNode on death
+							if (targetCreature.ensnared == true):
+								targetCreature.ensnareNode.queue_free()
 							
 							# Check for level-up
 							Player.xpCurrent += targetCreature.level
@@ -769,6 +781,10 @@ func cleave_check(target):
 					# Check if killed & gain xp (check for level-up)
 					if (adjEnemy.health <= 0):
 						adjEnemy.health
+						
+						# Check if ensnared == true to remove ensnareNode on death
+						if (adjEnemy.ensnared == true):
+							adjEnemy.ensnareNode.queue_free()
 						
 						# Check for level-up
 						Player.xpCurrent += adjEnemy.level

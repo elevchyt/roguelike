@@ -129,7 +129,7 @@ func attack(target):
 		# Reduce target health
 		target.health -= damageTotal
 		
-		# Check if killed & remove from players array & set his state to dead
+		# Check if killed & remove from players array & set its state to dead
 		if (target.health <= 0):
 			target.health = 0
 			target.state = 'dying'
@@ -172,6 +172,10 @@ func status_check():
 		# Check if killed & gain xp (check for level-up - for the player who poisoned this enemy)
 		if (health <= 0):
 			health = 0
+			
+			# Check if ensnared == true to remove ensnareNode on death
+			if (ensnared == true):
+				ensnareNode.queue_free()
 			
 			# Check for level-up
 			playerWhoPoisonedMe.xpCurrent += level

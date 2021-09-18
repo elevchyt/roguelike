@@ -490,6 +490,10 @@ func attack(target):
 			if (target.health <= 0):
 				target.health = 0
 				
+				# Check if ensnared == true to remove ensnareNode on death
+				if (target.ensnared == true):
+					target.ensnareNode.queue_free()
+				
 				# Check for level-up
 				xpCurrent += target.level
 				level_up_check()
