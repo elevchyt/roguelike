@@ -268,12 +268,12 @@ func _process(delta):
 			HUD.get_node('Tween').start()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('TweenTextTooltip').start()
-			HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
-			HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+			HUD.get_node('SkillDetails/SkillTitle').bbcode_text = '[center]' + skills[skillChooseIndex] + '[/center]'
+			HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[center][color=#ff212123]' + skills[skillChooseIndex] + '[/color][/center]'
 			HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 			HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
-			HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
-			HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
+			HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
+			HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
 			HUD.get_node('SkillDetails').visible = true
 			
 	# Skills mode scroll 
@@ -290,12 +290,12 @@ func _process(delta):
 		HUD.get_node('Tween').start()
 		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
-		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = '[center]' + skills[skillChooseIndex] + '[/center]'
+		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[center][color=#ff212123]' + skills[skillChooseIndex] + '[/color][/center]'
 		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
-		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
-		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
+		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
+		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
 	# Left
 	elif (skillMode == true && Input.is_action_just_pressed("key_a") && skillChooseIndex > 0):
 		skillChooseIndex -= 1
@@ -309,12 +309,12 @@ func _process(delta):
 		HUD.get_node('Tween').start()
 		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
-		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = '[center]' + skills[skillChooseIndex] + '[/center]'
+		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[center][color=#ff212123]' + skills[skillChooseIndex] + '[/color][/center]'
 		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
-		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[right]Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/right]'
-		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[right][color=#ff212123]' + 'Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + '[/color][/right]'
+		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
+		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
 	# Cancel
 	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
 		skillMode = false

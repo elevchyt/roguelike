@@ -90,19 +90,19 @@ font_data = ExtResource( 6 )
 size = 64
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=8]
 size = 64
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=9]
 size = 32
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 size = 48
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=11]
 size = 64
 font_data = ExtResource( 6 )
 
@@ -377,12 +377,12 @@ visible = false
 
 [node name="SkillTitleShadow" type="RichTextLabel" parent="HUD/SkillDetails"]
 margin_left = 1228.0
-margin_top = 820.0
+margin_top = 772.0
 margin_right = 1824.0
-margin_bottom = 888.0
-custom_fonts/normal_font = SubResource( 11 )
+margin_bottom = 840.0
+custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
-bbcode_text = "Skill Title"
+bbcode_text = "[center]Skill Title[/center]"
 text = "Skill Title"
 scroll_active = false
 __meta__ = {
@@ -391,12 +391,12 @@ __meta__ = {
 
 [node name="SkillTitle" type="RichTextLabel" parent="HUD/SkillDetails"]
 margin_left = 1224.0
-margin_top = 816.0
+margin_top = 768.0
 margin_right = 1824.0
-margin_bottom = 888.0
-custom_fonts/normal_font = SubResource( 11 )
+margin_bottom = 840.0
+custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
-bbcode_text = "Skill Title"
+bbcode_text = "[center]Skill Title[/center]"
 text = "Skill Title"
 scroll_active = false
 __meta__ = {
@@ -408,7 +408,7 @@ margin_left = 1226.0
 margin_top = 890.0
 margin_right = 1826.0
 margin_bottom = 1154.0
-custom_fonts/normal_font = SubResource( 10 )
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "Skill Description"
 text = "Skill Description"
@@ -422,7 +422,7 @@ margin_left = 1224.0
 margin_top = 888.0
 margin_right = 1824.0
 margin_bottom = 1152.0
-custom_fonts/normal_font = SubResource( 10 )
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "Skill Description"
 text = "Skill Description"
@@ -433,12 +433,12 @@ __meta__ = {
 
 [node name="SkillCostCooldownShadow" type="RichTextLabel" parent="HUD/SkillDetails"]
 margin_left = 1226.0
-margin_top = 770.0
+margin_top = 842.0
 margin_right = 1826.0
-margin_bottom = 910.0
-custom_fonts/normal_font = SubResource( 10 )
+margin_bottom = 982.0
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
-bbcode_text = "[right]Skill Cost[/right]"
+bbcode_text = "[center]Skill Cost[/center]"
 text = "Skill Cost"
 scroll_active = false
 __meta__ = {
@@ -447,12 +447,12 @@ __meta__ = {
 
 [node name="SkillCostCooldown" type="RichTextLabel" parent="HUD/SkillDetails"]
 margin_left = 1224.0
-margin_top = 768.0
+margin_top = 840.0
 margin_right = 1824.0
-margin_bottom = 912.0
-custom_fonts/normal_font = SubResource( 10 )
+margin_bottom = 984.0
+custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
-bbcode_text = "[right]Skill Cost[/right]"
+bbcode_text = "[center]Skill Cost[/center]"
 text = "Skill Cost"
 scroll_active = false
 __meta__ = {
@@ -617,7 +617,7 @@ margin_left = 484.0
 margin_top = 1156.0
 margin_right = 964.0
 margin_bottom = 1348.0
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 10 )
 bbcode_enabled = true
 bbcode_text = "[color=#ff212123]Space: Confirm
 Escape: Cancel[/color]"
@@ -633,7 +633,7 @@ margin_left = 480.0
 margin_top = 1152.0
 margin_right = 960.0
 margin_bottom = 1344.0
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 10 )
 bbcode_enabled = true
 bbcode_text = "Space: Confirm
 Escape: Cancel"
@@ -652,7 +652,7 @@ margin_left = 290.0
 margin_top = 1010.0
 margin_right = 770.0
 margin_bottom = 1202.0
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 10 )
 bbcode_enabled = true
 bbcode_text = "[right][color=#ff212123]Space: Use Bow[/color][/right]"
 text = "Space: Use Bow"
@@ -666,7 +666,7 @@ margin_left = 288.0
 margin_top = 1008.0
 margin_right = 768.0
 margin_bottom = 1200.0
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 10 )
 bbcode_enabled = true
 bbcode_text = "[right]Space: Use Bow[/right]"
 text = "Space: Use Bow"
@@ -686,7 +686,7 @@ margin_left = -428.0
 margin_top = -44.0
 margin_right = 436.0
 margin_bottom = 52.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ff212123]Not enough mana![/color][/center]"
 text = "Not enough mana!"
@@ -700,7 +700,7 @@ margin_left = -432.0
 margin_top = -48.0
 margin_right = 432.0
 margin_bottom = 48.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ffffff]Not enough mana![/color][/center]"
 text = "Not enough mana!"
@@ -720,7 +720,7 @@ margin_left = -428.0
 margin_top = -44.0
 margin_right = 436.0
 margin_bottom = 52.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ff212123]Skill on cooldown![/color][/center]"
 text = "Skill on cooldown!"
@@ -734,7 +734,7 @@ margin_left = -432.0
 margin_top = -48.0
 margin_right = 432.0
 margin_bottom = 48.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ffffff]Skill on cooldown![/color][/center]"
 text = "Skill on cooldown!"
@@ -754,7 +754,7 @@ margin_left = -428.0
 margin_top = -44.0
 margin_right = 436.0
 margin_bottom = 52.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ff212123]Invalid target![/color][/center]"
 text = "Invalid target!"
@@ -768,7 +768,7 @@ margin_left = -432.0
 margin_top = -48.0
 margin_right = 432.0
 margin_bottom = 48.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 11 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ffffff]Invalid target![/color][/center]"
 text = "Invalid target!"
