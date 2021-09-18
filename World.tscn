@@ -190,13 +190,13 @@ __meta__ = {
 }
 
 [node name="HealthShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 680.0
+margin_left = 536.0
 margin_top = 776.0
-margin_right = 1315.0
+margin_right = 1171.0
 margin_bottom = 884.0
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
-bbcode_text = "[center]HP: 9/9[/center]"
+bbcode_text = "[right]HP: 9/9[/right]"
 text = "HP: 9/9"
 scroll_active = false
 __meta__ = {
@@ -204,13 +204,13 @@ __meta__ = {
 }
 
 [node name="Health" type="RichTextLabel" parent="HUD"]
-margin_left = 672.0
+margin_left = 528.0
 margin_top = 768.0
-margin_right = 1307.0
+margin_right = 1163.0
 margin_bottom = 876.0
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
-bbcode_text = "[center]HP: 9/9[/center]"
+bbcode_text = "[right]HP: 9/9[/right]"
 text = "HP: 9/9"
 scroll_active = false
 __meta__ = {
@@ -218,13 +218,13 @@ __meta__ = {
 }
 
 [node name="ManaShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 680.0
+margin_left = 497.0
 margin_top = 872.0
-margin_right = 1354.0
+margin_right = 1171.0
 margin_bottom = 980.0
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
-bbcode_text = "[center]MP: 9/9[/center]"
+bbcode_text = "[right]MP: 9/9[/right]"
 text = "MP: 9/9"
 scroll_active = false
 __meta__ = {
@@ -232,13 +232,13 @@ __meta__ = {
 }
 
 [node name="Mana" type="RichTextLabel" parent="HUD"]
-margin_left = 672.0
+margin_left = 489.0
 margin_top = 864.0
-margin_right = 1346.0
+margin_right = 1163.0
 margin_bottom = 972.0
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
-bbcode_text = "[center]MP: 9/9[/center]"
+bbcode_text = "[right]MP: 9/9[/right]"
 text = "MP: 9/9"
 scroll_active = false
 __meta__ = {

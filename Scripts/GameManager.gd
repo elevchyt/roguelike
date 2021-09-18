@@ -7,6 +7,7 @@ onready var Tween = $Tween
 onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
+onready var gameOver = false
 
 # General objects for instancing
 onready var objDamageText = preload('res://Scenes/TextDamage.tscn')
@@ -59,6 +60,7 @@ func next_player_turn():
 	if (players.empty()):
 		print('** ALL PLAYERS ARE DEAD! **')
 		print('** GAME OVER **')
+		gameOver = true
 		HUD.hide()
 	# Activate players in order
 	elif (playerCurrentIndex < players.size()):
@@ -99,10 +101,11 @@ func launch_ai_turns():
 				player.state = 'dead'
 				player.queue_free()
 				players.remove(playerCurrentIndex)
-	
+				
 	# Start players' turns 
-	calc_turn_order()
-	next_player_turn()
+	if (gameOver == false):
+		calc_turn_order()
+		next_player_turn()
 
 # DAMAGE/STATUS TEXT FUNCTIONS
 # Create independent damage text

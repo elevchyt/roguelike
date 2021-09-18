@@ -25,10 +25,10 @@ func _process(delta):
 		
 		$XP.bbcode_text = '[color=#ffffff]XP: ' + str(currentPlayer.xpCurrent) + '/' + str(currentPlayer.xpToLevel) + '[/color]'
 		$XPShadow.bbcode_text = '[color=#ff212123]XP: ' + str(currentPlayer.xpCurrent) + '/' + str(currentPlayer.xpToLevel) + '[/color]'
-		$Health.bbcode_text = '[center]HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax) + '[/center]'
-		$HealthShadow.bbcode_text = '[center][color=#ff212123]HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax) + '[/color][/center]'
-		$ManaShadow.bbcode_text = '[center][color=#ff212123]MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax) + '[/color][/center]'
-		$Mana.bbcode_text = '[center]MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax) + '[/center]'
+		$Health.bbcode_text = '[right]HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax) + '[/right]'
+		$HealthShadow.bbcode_text = '[right][color=#ff212123]HP: ' + str(currentPlayer.health) + '/' + str(currentPlayer.healthMax) + '[/color][/right]'
+		$ManaShadow.bbcode_text = '[right][color=#ff212123]MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax) + '[/color][/right]'
+		$Mana.bbcode_text = '[right]MP: ' + str(currentPlayer.mana) + '/' + str(currentPlayer.manaMax) + '[/right]'
 		$STR.bbcode_text = 'STR: ' + str(currentPlayer.strength)
 		$STRShadow.bbcode_text = '[color=#ff212123]STR: ' + str(currentPlayer.strength) + '[/color]'
 		$DEX.bbcode_text = 'DEX: ' + str(currentPlayer.dexterity)
