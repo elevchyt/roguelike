@@ -591,11 +591,10 @@ func level_up_check():
 		# XP
 		xpCurrent = xpCurrent - xpToLevel
 		level += 1
-		healthMax = ceil(5 + strength * 1.2 + level * 2)
-		manaMax = ceil(5 + intelligence * 1.2 + level * 2)
-		health = healthMax
-		mana = manaMax
 		xpToLevel = ceil(10 + level * 2)
+		
+		print(evasionPerc)
+		
 		
 		# Add skills
 		match level:
@@ -630,7 +629,13 @@ func level_up_check():
 				strength += 2
 				dexterity += 1
 				intelligence += 1
-		
+				
+		# Change stats based on STR, DEX, INT increase
+		healthMax = ceil(5 + strength * 1.2 + level * 2)
+		manaMax = ceil(5 + intelligence * 1.2 + level * 2)
+		health = healthMax
+		mana = manaMax
+		evasionPerc = clamp(dexterity * 1.4, 0, 50)
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
