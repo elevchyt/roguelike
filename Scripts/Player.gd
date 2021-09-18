@@ -268,6 +268,11 @@ func _process(delta):
 			HUD.get_node('Tween').start()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('TweenTextTooltip').start()
+			HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
+			HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+			HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
+			HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
+			HUD.get_node('SkillDetails').visible = true
 			
 	# Skills mode scroll 
 	# Right
@@ -283,6 +288,10 @@ func _process(delta):
 		HUD.get_node('Tween').start()
 		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
+		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
+		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
+		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
 	# Left
 	elif (skillMode == true && Input.is_action_just_pressed("key_a") && skillChooseIndex > 0):
 		skillChooseIndex -= 1
@@ -296,6 +305,10 @@ func _process(delta):
 		HUD.get_node('Tween').start()
 		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
+		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = skills[skillChooseIndex]
+		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[color=#ff212123]' + skills[skillChooseIndex] + '[/color]'
+		HUD.get_node('SkillDetails/SkillDescription').bbcode_text = skillsDescription[skillChooseIndex]
+		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
 	# Cancel
 	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
 		skillMode = false
@@ -305,6 +318,7 @@ func _process(delta):
 		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale * 1.4, scale, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
 		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
 		HUD.get_node('Tween').start()
+		HUD.get_node('SkillDetails').visible = false
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false

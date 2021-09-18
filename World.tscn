@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/Rat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/wall.png" type="Texture" id=2]
@@ -88,6 +88,10 @@ font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 64
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 32
 font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=8]
@@ -190,9 +194,9 @@ __meta__ = {
 }
 
 [node name="HealthShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 536.0
+margin_left = 551.0
 margin_top = 776.0
-margin_right = 1171.0
+margin_right = 1186.0
 margin_bottom = 884.0
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
@@ -204,9 +208,9 @@ __meta__ = {
 }
 
 [node name="Health" type="RichTextLabel" parent="HUD"]
-margin_left = 528.0
+margin_left = 543.0
 margin_top = 768.0
-margin_right = 1163.0
+margin_right = 1178.0
 margin_bottom = 876.0
 custom_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
@@ -218,9 +222,9 @@ __meta__ = {
 }
 
 [node name="ManaShadow" type="RichTextLabel" parent="HUD"]
-margin_left = 497.0
+margin_left = 512.0
 margin_top = 872.0
-margin_right = 1171.0
+margin_right = 1186.0
 margin_bottom = 980.0
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
@@ -232,9 +236,9 @@ __meta__ = {
 }
 
 [node name="Mana" type="RichTextLabel" parent="HUD"]
-margin_left = 489.0
+margin_left = 504.0
 margin_top = 864.0
-margin_right = 1163.0
+margin_right = 1178.0
 margin_bottom = 972.0
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
@@ -291,6 +295,9 @@ bbcode_enabled = true
 bbcode_text = "STR: 9"
 text = "STR: 9"
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DEXShadow" type="RichTextLabel" parent="HUD"]
 margin_left = 4.0
@@ -356,6 +363,64 @@ custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "Ev: 2.3%"
 text = "Ev: 2.3%"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillDetails" type="Sprite" parent="HUD"]
+
+[node name="SkillTitleShadow" type="RichTextLabel" parent="HUD/SkillDetails"]
+margin_left = 1228.0
+margin_top = 820.0
+margin_right = 1824.0
+margin_bottom = 888.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "Skill Title"
+text = "Skill Title"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillTitle" type="RichTextLabel" parent="HUD/SkillDetails"]
+margin_left = 1224.0
+margin_top = 816.0
+margin_right = 1824.0
+margin_bottom = 888.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "Skill Title"
+text = "Skill Title"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillDescriptionShadow" type="RichTextLabel" parent="HUD/SkillDetails"]
+margin_left = 1226.0
+margin_top = 890.0
+margin_right = 1826.0
+margin_bottom = 1154.0
+custom_fonts/normal_font = SubResource( 10 )
+bbcode_enabled = true
+bbcode_text = "Skill Description"
+text = "Skill Description"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillDescription" type="RichTextLabel" parent="HUD/SkillDetails"]
+margin_left = 1224.0
+margin_top = 888.0
+margin_right = 1824.0
+margin_bottom = 1152.0
+custom_fonts/normal_font = SubResource( 10 )
+bbcode_enabled = true
+bbcode_text = "Skill Description"
+text = "Skill Description"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -515,9 +580,9 @@ __meta__ = {
 [node name="SkillsConfirmCancelButtons" type="Sprite" parent="HUD"]
 
 [node name="SkillsConfirmCancelButtonsShadow" type="RichTextLabel" parent="HUD/SkillsConfirmCancelButtons"]
-margin_left = 1252.0
+margin_left = 484.0
 margin_top = 1156.0
-margin_right = 1732.0
+margin_right = 964.0
 margin_bottom = 1348.0
 custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
@@ -531,9 +596,9 @@ __meta__ = {
 }
 
 [node name="SkillsConfirmCancelButtons" type="RichTextLabel" parent="HUD/SkillsConfirmCancelButtons"]
-margin_left = 1248.0
+margin_left = 480.0
 margin_top = 1152.0
-margin_right = 1728.0
+margin_right = 960.0
 margin_bottom = 1344.0
 custom_fonts/normal_font = SubResource( 8 )
 bbcode_enabled = true
