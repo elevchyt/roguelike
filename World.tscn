@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scenes/Rat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/wall.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Fonts/Abaddon Light.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://Sprites/skill_slot.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=11]
+[ext_resource path="res://Sprites/inventory_frame.png" type="Texture" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 96, 96, 0, 96, 0, 0, 96, 0 )
@@ -776,6 +777,12 @@ scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Inventory" type="Sprite" parent="HUD"]
+visible = false
+position = Vector2( 624, 816 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 12 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

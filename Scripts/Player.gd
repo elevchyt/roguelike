@@ -25,7 +25,7 @@ var items : Array # Current items in inventory (strings)
 var itemsDescription : Array # Curernt items' descriptions
 var itemsType : Array # Current items' type (consumable, equipment, misc)
 var itemsState : Array # Current items' state (equipped, unequipped)
-var itemMode = false # true when pressing inventory button (Tab)
+var inventoryMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item
 var itemChooseIndex : Array # Index of current highlighted item
 
@@ -241,7 +241,7 @@ func _process(delta):
 			level_up_check()
 	
 	# Check if the player has the ability to take an action
-	if (active == true && targetMode == false && skillMode == false):
+	if (active == true && targetMode == false && skillMode == false && inventoryMode == false):
 		# Movement
 		if (Input.is_action_just_pressed("key_w")):
 			move_to_position(Vector2(0, -96))
@@ -255,9 +255,18 @@ func _process(delta):
 		# Skip turn
 		elif (Input.is_action_just_pressed("key_ctrl")):
 			end_turn()
+		
+		# Inventory
+		elif (Input.is_action_just_pressed("key_tab")):
+			inventoryMode = true
 			
+			HUD.get_node('Tween').stop_all()
+			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, HUD.get_node('SkillsConfirmCancelButtons').position - Vector2(0, 192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+			HUD.get_node('TweenTextTooltip').start()
+			HUD.get_node('Tween').start()
+			HUD.get_node('Inventory').visible = true
 		# Skills
-		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false):
+		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false && inventoryMode == false):
 			skillMode = true
 			
 			skillChooseIndex = 0
@@ -275,7 +284,6 @@ func _process(delta):
 			HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
 			HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
 			HUD.get_node('SkillDetails').visible = true
-			
 	# Skills mode scroll 
 	# Right
 	elif (skillMode == true && Input.is_action_just_pressed("key_d") && skillChooseIndex < skills.size() - 1):
@@ -315,7 +323,7 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
 		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
 		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
-	# Cancel
+	# Cancel Skills
 	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
 		skillMode = false
 		
@@ -325,6 +333,14 @@ func _process(delta):
 		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
 		HUD.get_node('Tween').start()
 		HUD.get_node('SkillDetails').visible = false
+	# Cancel Inventory
+	elif (inventoryMode == true && Input.is_action_just_pressed("key_escape")):
+		inventoryMode = false
+		
+		# Leave inventory
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+		HUD.get_node('Inventory').visible = false
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
