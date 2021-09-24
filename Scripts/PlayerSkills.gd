@@ -50,6 +50,7 @@ func use_skill(skillName):
 			# Leave skills toolbar
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			HUD.get_node('SkillDetails').visible = false
 			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 			
@@ -100,6 +101,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -178,6 +180,7 @@ func use_skill(skillName):
 			# Leave skills toolbar
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			HUD.get_node('SkillDetails').visible = false
 			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 			
@@ -271,6 +274,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -332,6 +336,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -440,6 +445,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -502,6 +508,7 @@ func use_skill(skillName):
 			# Leave skills toolbar
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			HUD.get_node('SkillDetails').visible = false
 			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 			
@@ -547,6 +554,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -603,6 +611,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -660,6 +669,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -716,6 +726,7 @@ func use_skill(skillName):
 						# Leave skills toolbar
 						HUD.get_node('Tween').stop_all()
 						HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+						HUD.get_node('SkillDetails').visible = false
 						Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 						Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 						
@@ -801,6 +812,7 @@ func useLeap():
 		# Leave skills toolbar
 		HUD.get_node('Tween').stop_all()
 		HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+		HUD.get_node('SkillDetails').visible = false
 		Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
 		Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 		
