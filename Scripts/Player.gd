@@ -604,15 +604,10 @@ func level_up_check():
 		Tween.start()
 		$TextLevelUp.visible = true
 		
-		print('*** LEVEL-UP! ***')
-		
 		# XP
 		xpCurrent = xpCurrent - xpToLevel
 		level += 1
 		xpToLevel = ceil(10 + level * 2)
-		
-		print(evasionPerc)
-		
 		
 		# Add skills
 		match level:
@@ -654,6 +649,10 @@ func level_up_check():
 		health = healthMax
 		mana = manaMax
 		evasionPerc = clamp(dexterity * 1.4, 0, 50)
+		
+		# Check shadow walk & leap on level-up, too
+		checkLeap()
+		checkShadowWalk()
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
@@ -716,14 +715,10 @@ func status_check():
 			retaliationNode.queue_free()
 		
 	# Check leap range (Rogue only)
-	index = skills.find('Leap')
-	if (index != -1):
-		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
+	checkLeap()
 		
 	# Check shadow walk duration (Rogue only) (Uses range for duration)
-	index = skills.find('Shadow Walk')
-	if (index != -1):
-		skillsRange[index] = ceil(dexterity / 3.0)
+	checkShadowWalk()
 
 	# Check shadow walk counter (Rogue only)
 	if (invisible == true):
@@ -741,6 +736,18 @@ func status_check():
 		if (invulnerableCounter == 0):
 			invulnerableCounter = 0
 			invulnerable = false
+
+# Check shadow walk function
+func checkShadowWalk():
+	var index = skills.find('Shadow Walk')
+	if (index != -1):
+		skillsRange[index] = ceil(dexterity / 3.0)
+
+# Check leap function
+func checkLeap():
+	var index = skills.find('Leap')
+	if (index != -1):
+		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)
 ##########################################################################################
 # ANIMATIONS (Duration must be lower than 0.2 always)
 func animation_attack(direction):
