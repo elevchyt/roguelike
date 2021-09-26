@@ -834,6 +834,90 @@ offset = Vector2( -48, -48 )
 
 [node name="Tween" type="Tween" parent="HUD/Inventory"]
 
+[node name="ItemDetails" type="Sprite" parent="HUD"]
+visible = false
+
+[node name="ItemTitleShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_left = 4.0
+margin_top = 468.0
+margin_right = 600.0
+margin_bottom = 536.0
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "Item Title"
+text = "Item Title"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemTitle" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_top = 464.0
+margin_right = 600.0
+margin_bottom = 536.0
+custom_fonts/normal_font = SubResource( 8 )
+bbcode_enabled = true
+bbcode_text = "Item Title"
+text = "Item Title"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemDescriptionShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_left = 2.0
+margin_top = 610.0
+margin_right = 602.0
+margin_bottom = 874.0
+custom_fonts/normal_font = SubResource( 9 )
+bbcode_enabled = true
+bbcode_text = "Item Description"
+text = "Item Description"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemDescription" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_top = 608.0
+margin_right = 600.0
+margin_bottom = 872.0
+custom_fonts/normal_font = SubResource( 9 )
+bbcode_enabled = true
+bbcode_text = "Item Description"
+text = "Item Description"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemInfoShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_left = 2.0
+margin_top = 546.0
+margin_right = 602.0
+margin_bottom = 686.0
+custom_fonts/normal_font = SubResource( 9 )
+bbcode_enabled = true
+bbcode_text = "Item Info"
+text = "Item Info"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemInfo" type="RichTextLabel" parent="HUD/ItemDetails"]
+margin_top = 544.0
+margin_right = 600.0
+margin_bottom = 688.0
+custom_fonts/normal_font = SubResource( 9 )
+bbcode_enabled = true
+bbcode_text = "Item Info"
+text = "Item Info"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 smoothing_enabled = true

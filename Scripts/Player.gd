@@ -23,9 +23,9 @@ var dyingCounter = 5 # dies on 5th turn
 # Items / Inventory
 var items : Array # Current items in inventory (strings of item names)
 var itemsDescription : Array # Curernt items' descriptions
-var itemsType : Array # Current items' type (consumable, equipment, misc)
+var itemsType : Array # Current items' type (consumable, weapon, armor, misc)
 var itemsDamage : Array # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
-var itemsState : Array # Current items' state (-, equipped)
+var itemsState : Array # Current items' state (-, unequipped, equipped)
 var itemsConsumableValue : Array # Value of consumable (e.g. potion health restore value - use 0 for non-consumables)
 var itemSlots : Array # Array of item slot sprite nodes
 var itemsMode = false # true when pressing inventory button (Tab)
@@ -253,7 +253,7 @@ func _process(delta):
 		if (Input.is_action_just_pressed("key_c")):
 			add_item('Dagger')
 		if (Input.is_action_just_pressed("key_g")):
-			print(itemChooseIndex)
+			add_item('Health Potion')
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
@@ -278,11 +278,27 @@ func _process(delta):
 			# Find first non-null item slot & highlight it as soon as the inventory opens
 			for item in items:
 				if (item != null):
+					# Highlight item
 					itemChooseIndex = items.find(item)
 					itemChoose = items[itemChooseIndex]
-					itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+					itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
 					itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
 					itemSlots[itemChooseIndex].z_index = 1
+					
+					# Show item details text
+					HUD.get_node('ItemDetails').visible = true
+					HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
+					HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
+					HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
+					HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
+					
+					if (itemsType[itemChooseIndex] == 'weapon'):
+						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+					elif (itemsType[itemChooseIndex] == 'consumable'):
+						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
+						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
+					
 					break
 			# Animate the inventory opening
 			HUD.get_node('Tween').stop_all()
@@ -359,8 +375,22 @@ func _process(delta):
 		
 		itemSlots[itemChooseIndex - 1].get_parent().scale = Vector2(1, 1)
 		itemSlots[itemChooseIndex - 1].get_parent().modulate = Color(1, 1, 1, 1)
-		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
 		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+		
+		# Show item details text
+		HUD.get_node('ItemDetails').visible = true
+		HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
+		HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
+		
+		if (itemsType[itemChooseIndex] == 'weapon'):
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+		elif (itemsType[itemChooseIndex] == 'consumable'):
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
 #	# Left
 	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && itemChooseIndex > 0):
 		itemChooseIndex -= 1
@@ -371,10 +401,24 @@ func _process(delta):
 		
 		itemSlots[itemChooseIndex + 1].get_parent().scale = Vector2(1, 1)
 		itemSlots[itemChooseIndex + 1].get_parent().modulate = Color(1, 1, 1, 1)
-		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
 		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+		
+		# Show item details text
+		HUD.get_node('ItemDetails').visible = true
+		HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
+		HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
+		
+		if (itemsType[itemChooseIndex] == 'weapon'):
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+		elif (itemsType[itemChooseIndex] == 'consumable'):
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
 	# Cancel Skills
-	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
+	elif (skillMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_shift"))):
 		skillMode = false
 		
 		# Leave skills toolbar
@@ -385,7 +429,7 @@ func _process(delta):
 		HUD.get_node('TweenTextTooltip').start()
 		HUD.get_node('SkillDetails').visible = false
 	# Cancel Inventory
-	elif (itemsMode == true && Input.is_action_just_pressed("key_escape")):
+	elif (itemsMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_tab"))):
 		itemsMode = false
 		
 		# Reset current slot appearance & index
@@ -400,6 +444,7 @@ func _process(delta):
 		HUD.get_node('TweenTextTooltip').start()
 		HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		HUD.get_node('Inventory/Tween').start()
+		HUD.get_node('ItemDetails').visible = false
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
@@ -754,6 +799,7 @@ func add_item(itemName):
 			itemsType.append(GameManager.itemsType [index])
 			itemsDamage.append(GameManager.itemsDamage[index])
 			itemsConsumableValue.append(GameManager.itemsConsumableValue[index])
+			itemsState.append(GameManager.itemsState[index])
 			
 			return # leave function on empty slot found!
 		isFullCounter += 1
