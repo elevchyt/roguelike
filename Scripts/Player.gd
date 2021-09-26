@@ -263,8 +263,8 @@ func _process(delta):
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, 0), Vector2(0, -192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('TweenTextTooltip').start()
-			HUD.get_node('Tween').start()
-			HUD.get_node('Inventory').visible = true
+			HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", Vector2(-368, 688), Vector2(0, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			HUD.get_node('Inventory/Tween').start()
 		# Skills
 		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false && inventoryMode == false):
 			skillMode = true
@@ -342,7 +342,8 @@ func _process(delta):
 		HUD.get_node('Tween').stop_all()
 		HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, -192), Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		HUD.get_node('TweenTextTooltip').start()
-		HUD.get_node('Inventory').visible = false
+		HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", Vector2(0, 688), Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+		HUD.get_node('Inventory/Tween').start()
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
