@@ -867,7 +867,7 @@ __meta__ = {
 [node name="ItemDescriptionShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
 margin_left = 2.0
 margin_top = 610.0
-margin_right = 602.0
+margin_right = 384.0
 margin_bottom = 874.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
@@ -880,7 +880,7 @@ __meta__ = {
 
 [node name="ItemDescription" type="RichTextLabel" parent="HUD/ItemDetails"]
 margin_top = 608.0
-margin_right = 600.0
+margin_right = 384.0
 margin_bottom = 872.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
@@ -893,9 +893,9 @@ __meta__ = {
 
 [node name="ItemInfoShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
 margin_left = 2.0
-margin_top = 546.0
+margin_top = 538.0
 margin_right = 602.0
-margin_bottom = 686.0
+margin_bottom = 678.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "Item Info"
@@ -906,9 +906,9 @@ __meta__ = {
 }
 
 [node name="ItemInfo" type="RichTextLabel" parent="HUD/ItemDetails"]
-margin_top = 544.0
+margin_top = 536.0
 margin_right = 600.0
-margin_bottom = 688.0
+margin_bottom = 680.0
 custom_fonts/normal_font = SubResource( 9 )
 bbcode_enabled = true
 bbcode_text = "Item Info"

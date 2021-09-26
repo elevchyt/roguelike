@@ -26,7 +26,6 @@ var itemsDescription : Array # Curernt items' descriptions
 var itemsType : Array # Current items' type (consumable, weapon, armor, misc)
 var itemsDamage : Array # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
 var itemsState : Array # Current items' state (-, unequipped, equipped)
-var itemsConsumableValue : Array # Value of consumable (e.g. potion health restore value - use 0 for non-consumables)
 var itemSlots : Array # Array of item slot sprite nodes
 var itemsMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item (item name)
@@ -293,11 +292,11 @@ func _process(delta):
 					HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
 					
 					if (itemsType[itemChooseIndex] == 'weapon'):
-						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
 					elif (itemsType[itemChooseIndex] == 'consumable'):
-						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
-						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
+						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
+						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 					
 					break
 			# Animate the inventory opening
@@ -386,11 +385,11 @@ func _process(delta):
 		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
 		
 		if (itemsType[itemChooseIndex] == 'weapon'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
 		elif (itemsType[itemChooseIndex] == 'consumable'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 #	# Left
 	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && itemChooseIndex > 0):
 		itemChooseIndex -= 1
@@ -412,11 +411,11 @@ func _process(delta):
 		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
 		
 		if (itemsType[itemChooseIndex] == 'weapon'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
 		elif (itemsType[itemChooseIndex] == 'consumable'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex])
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Magnitude: ' + str(itemsConsumableValue[itemChooseIndex]) + '[/color]'
+			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
+			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 	# Cancel Skills
 	elif (skillMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_shift"))):
 		skillMode = false
@@ -798,7 +797,6 @@ func add_item(itemName):
 			itemsDescription.append(GameManager.itemsDescription[index])
 			itemsType.append(GameManager.itemsType [index])
 			itemsDamage.append(GameManager.itemsDamage[index])
-			itemsConsumableValue.append(GameManager.itemsConsumableValue[index])
 			itemsState.append(GameManager.itemsState[index])
 			
 			return # leave function on empty slot found!

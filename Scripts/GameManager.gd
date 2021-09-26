@@ -224,7 +224,7 @@ var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy
 var itemsNames = ['Dagger',
 'Health Potion']
 var itemsDescription = ['A sharp dagger made of steel.',
-'Restores the health of its user.']
+'Restores the health of its user by 10%.']
 var itemsSlotSprites = ['res://Sprites/item_dagger.png',
 'res://Sprites/item_potion_health.png']
 var itemsType = ['weapon', 
@@ -233,5 +233,3 @@ var itemsState = ['unequipped',
 '-']
 var itemsDamage = [Vector2(7, 10),
  Vector2(0, 0)]
-var itemsConsumableValue = [0,
-10]
