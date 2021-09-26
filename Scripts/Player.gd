@@ -273,7 +273,7 @@ func _process(delta):
 			skillChoose = skills[skillChooseIndex]
 			
 			HUD.get_node('Tween').stop_all()
-			HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+			HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", Vector2(1, 1), Vector2(1.4, 1.4), 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
 			HUD.get_node('Tween').start()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, 0), Vector2(0, -192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('TweenTextTooltip').start()
@@ -294,9 +294,9 @@ func _process(delta):
 		skillSlots[skillChooseIndex - 1].z_index = 0
 		
 		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", Vector2(1, 1), Vector2(1.4, 1.4), 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex - 1], "scale", Vector2(1.4, 1.4), Vector2(1, 1), 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
 		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = '[center]' + skills[skillChooseIndex] + '[/center]'
 		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[center][color=#ff212123]' + skills[skillChooseIndex] + '[/color][/center]'
@@ -313,9 +313,9 @@ func _process(delta):
 		skillSlots[skillChooseIndex + 1].z_index = 0
 		
 		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale, scale * 1.4, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", Vector2(1, 1), Vector2(1.4, 1.4), 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", scale * 1.4, scale, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex + 1], "scale", Vector2(1.4, 1.4), Vector2(1, 1), 0.5, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 		HUD.get_node('Tween').start()
 		HUD.get_node('SkillDetails/SkillTitle').bbcode_text = '[center]' + skills[skillChooseIndex] + '[/center]'
 		HUD.get_node('SkillDetails/SkillTitleShadow').bbcode_text = '[center][color=#ff212123]' + skills[skillChooseIndex] + '[/color][/center]'
@@ -329,7 +329,7 @@ func _process(delta):
 		
 		# Leave skills toolbar
 		HUD.get_node('Tween').stop_all()
-		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", scale * 1.4, scale, 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
+		HUD.get_node('Tween').interpolate_property(skillSlots[skillChooseIndex], "scale", Vector2(1.4, 1.4), Vector2(1, 1), 1.4, Tween.TRANS_ELASTIC, Tween.EASE_OUT )
 		HUD.get_node('Tween').start()
 		HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		HUD.get_node('TweenTextTooltip').start()
@@ -676,10 +676,10 @@ func add_skill(skillName):
 			skillsTargetType.append(GameManager.skillsTargetType[index])
 			
 			# Animation
-			HUD.get_node('Tween').interpolate_property(slot, "scale", scale, scale * 1.5, 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+			HUD.get_node('Tween').interpolate_property(slot, "scale", Vector2(1, 1), Vector2(1.5, 1.5), 1.2, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 			HUD.get_node('Tween').start()
 			yield(get_tree().create_timer(1.3), "timeout")
-			HUD.get_node('Tween').interpolate_property(slot, "scale", scale * 1.5, scale, 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			HUD.get_node('Tween').interpolate_property(slot, "scale", Vector2(1.5, 1.5), Vector2(1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			HUD.get_node('Tween').start()
 			
 			break # stop searching
