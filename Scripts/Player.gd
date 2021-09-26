@@ -21,16 +21,17 @@ var state = 'alive' # alive, dead, dying
 var dyingCounter = 5 # dies on 5th turn
 
 # Items / Inventory
-var items : Array # Current items in inventory (strings)
+var items : Array # Current items in inventory (strings of item names)
 var itemsDescription : Array # Curernt items' descriptions
 var itemsType : Array # Current items' type (consumable, equipment, misc)
-var itemsState : Array # Current items' state (equipped, unequipped)
-var inventoryMode = false # true when pressing inventory button (Tab)
-var itemChoose : String # Current highlighted item
+var itemsDamage : Array # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
+var itemsState : Array # Current items' state (-, equipped)
+var itemsMode = false # true when pressing inventory button (Tab)
+var itemChoose : String # Current highlighted item (item name)
 var itemChooseIndex : Array # Index of current highlighted item
 
-var weaponSlot : String # Equip slot for weapon
-var armorSlot : String # Equip slot for armor
+var weaponSlot : String # Equip slot for weapon (item name)
+var armorSlot : String # Equip slot for armor (item name)
 
 # Skills
 var skills : Array # Array of current skills
@@ -241,7 +242,7 @@ func _process(delta):
 			level_up_check()
 	
 	# Check if the player has the ability to take an action
-	if (active == true && targetMode == false && skillMode == false && inventoryMode == false):
+	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
 		# Movement
 		if (Input.is_action_just_pressed("key_w")):
 			move_to_position(Vector2(0, -96))
@@ -258,7 +259,7 @@ func _process(delta):
 		
 		# Inventory
 		elif (Input.is_action_just_pressed("key_tab")):
-			inventoryMode = true
+			itemsMode = true
 			
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, 0), Vector2(0, -192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
@@ -266,7 +267,7 @@ func _process(delta):
 			HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", Vector2(-368, 688), Vector2(0, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 			HUD.get_node('Inventory/Tween').start()
 		# Skills
-		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false && inventoryMode == false):
+		elif (Input.is_action_just_pressed("key_shift") && skills.empty() == false && itemsMode == false):
 			skillMode = true
 			
 			skillChooseIndex = 0
@@ -335,8 +336,8 @@ func _process(delta):
 		HUD.get_node('TweenTextTooltip').start()
 		HUD.get_node('SkillDetails').visible = false
 	# Cancel Inventory
-	elif (inventoryMode == true && Input.is_action_just_pressed("key_escape")):
-		inventoryMode = false
+	elif (itemsMode == true && Input.is_action_just_pressed("key_escape")):
+		itemsMode = false
 		
 		# Leave inventory
 		HUD.get_node('Tween').stop_all()

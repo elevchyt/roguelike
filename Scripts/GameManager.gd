@@ -218,3 +218,11 @@ var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy
 'target+friendly', 'target+friendly', 'target+friendly', 'target+friendly',
 'passive', 'self', 'passive',
 'target+enemy', 'target+enemy', 'target+floor', 'self']
+
+##################################################################################################
+# ITEMS LIBRARY (is referred after item is granted to a player)
+var itemsNames = []
+var itemsDescription = []
+var itemsSprites = []
+var itemsType = []
+var itemsDamage = []
