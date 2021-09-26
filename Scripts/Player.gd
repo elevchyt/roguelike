@@ -26,6 +26,8 @@ var itemsDescription : Array # Curernt items' descriptions
 var itemsType : Array # Current items' type (consumable, equipment, misc)
 var itemsDamage : Array # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
 var itemsState : Array # Current items' state (-, equipped)
+var itemsConsumableValue : Array # Value of consumable (e.g. potion health restore value - use 0 for non-consumables)
+var itemSlots : Array # Array of item slot sprite nodes
 var itemsMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item (item name)
 var itemChooseIndex : Array # Index of current highlighted item
@@ -105,6 +107,14 @@ func _ready():
 	skillSlots.append(HUD.get_node('Skill2'))
 	skillSlots.append(HUD.get_node('Skill3'))
 	skillSlots.append(HUD.get_node('Skill4'))
+	
+	# Assign item slot sprites
+	itemSlots.append(HUD.get_node('Inventory/InvSlot1/Slot'))
+	itemSlots.append(HUD.get_node('Inventory/InvSlot2/Slot'))
+	itemSlots.append(HUD.get_node('Inventory/InvSlot3/Slot'))
+	itemSlots.append(HUD.get_node('Inventory/InvSlot4/Slot'))
+	itemSlots.append(HUD.get_node('Inventory/InvSlot5/Slot'))
+	itemSlots.append(HUD.get_node('Inventory/InvSlot6/Slot'))
 	
 	# Class Sprite, Colors & Starting Stats
 	match playerClass:
@@ -240,6 +250,8 @@ func _process(delta):
 		if (Input.is_action_just_pressed("key_home")):
 			xpCurrent = xpToLevel
 			level_up_check()
+		if (Input.is_action_just_pressed("key_c")):
+			add_item('Dagger')
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
@@ -653,8 +665,8 @@ func level_up_check():
 		evasionPerc = clamp(dexterity * 1.4, 0, 50)
 		
 		# Check shadow walk & leap on level-up, too
-		checkLeap()
-		checkShadowWalk()
+		check_leap()
+		check_shadow_walk()
 	# Reset text
 	yield(get_tree().create_timer(2), "timeout") # DELAYS NEXT TURN, TOO
 	$TextLevelUp.visible = false
@@ -684,6 +696,27 @@ func add_skill(skillName):
 			HUD.get_node('Tween').start()
 			
 			break # stop searching
+
+# Gives an item to the player
+func add_item(itemName):
+	var isFullCounter = 0 # increments whenever a non-empty slot is found
+	for slot in itemSlots:
+		if (slot.texture == null):
+			# Add skill data & set skill sprite
+			var index = GameManager.itemsNames.find(itemName)
+			slot.texture = load(GameManager.itemsSlotSprites[index])
+
+			items.append(GameManager.itemsNames[index])
+			itemsDescription.append(GameManager.itemsDescription[index])
+			itemsType.append(GameManager.itemsType [index])
+			itemsDamage.append(GameManager.itemsDamage[index])
+			itemsConsumableValue.append(GameManager.itemsConsumableValue[index])
+			
+			return # leave function on empty slot found!
+		isFullCounter += 1
+	# If inventory is full
+	if (isFullCounter == 6):
+		print('** INVENTORY FULL **')
 
 # Check status (poison, curse etc.)
 func status_check():
@@ -717,10 +750,10 @@ func status_check():
 			retaliationNode.queue_free()
 		
 	# Check leap range (Rogue only)
-	checkLeap()
+	check_leap()
 		
 	# Check shadow walk duration (Rogue only) (Uses range for duration)
-	checkShadowWalk()
+	check_shadow_walk()
 
 	# Check shadow walk counter (Rogue only)
 	if (invisible == true):
@@ -740,13 +773,13 @@ func status_check():
 			invulnerable = false
 
 # Check shadow walk function
-func checkShadowWalk():
+func check_shadow_walk():
 	var index = skills.find('Shadow Walk')
 	if (index != -1):
 		skillsRange[index] = ceil(dexterity / 3.0)
 
 # Check leap function
-func checkLeap():
+func check_leap():
 	var index = skills.find('Leap')
 	if (index != -1):
 		skillsRange[index] = clamp(ceil(dexterity / 8.0), 0, 10)

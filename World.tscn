@@ -789,9 +789,15 @@ position = Vector2( 5, 15 )
 texture = ExtResource( 13 )
 centered = false
 
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot1"]
+centered = false
+
 [node name="InvSlot2" type="Sprite" parent="HUD/Inventory"]
 position = Vector2( 125, 15 )
 texture = ExtResource( 13 )
+centered = false
+
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot2"]
 centered = false
 
 [node name="InvSlot3" type="Sprite" parent="HUD/Inventory"]
@@ -799,9 +805,15 @@ position = Vector2( 245, 15 )
 texture = ExtResource( 13 )
 centered = false
 
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot3"]
+centered = false
+
 [node name="InvSlot4" type="Sprite" parent="HUD/Inventory"]
 position = Vector2( 5, 135 )
 texture = ExtResource( 13 )
+centered = false
+
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot4"]
 centered = false
 
 [node name="InvSlot5" type="Sprite" parent="HUD/Inventory"]
@@ -809,9 +821,15 @@ position = Vector2( 125, 135 )
 texture = ExtResource( 13 )
 centered = false
 
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot5"]
+centered = false
+
 [node name="InvSlot6" type="Sprite" parent="HUD/Inventory"]
 position = Vector2( 245, 135 )
 texture = ExtResource( 13 )
+centered = false
+
+[node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot6"]
 centered = false
 
 [node name="Tween" type="Tween" parent="HUD/Inventory"]
