@@ -30,7 +30,7 @@ var itemsConsumableValue : Array # Value of consumable (e.g. potion health resto
 var itemSlots : Array # Array of item slot sprite nodes
 var itemsMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item (item name)
-var itemChooseIndex : Array # Index of current highlighted item
+var itemChooseIndex : int # Index of current highlighted item
 
 var weaponSlot : String # Equip slot for weapon (item name)
 var armorSlot : String # Equip slot for armor (item name)
@@ -252,6 +252,8 @@ func _process(delta):
 			level_up_check()
 		if (Input.is_action_just_pressed("key_c")):
 			add_item('Dagger')
+		if (Input.is_action_just_pressed("key_g")):
+			print(itemChooseIndex)
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
@@ -273,6 +275,16 @@ func _process(delta):
 		elif (Input.is_action_just_pressed("key_tab")):
 			itemsMode = true
 			
+			# Find first non-null item slot & highlight it as soon as the inventory opens
+			for item in items:
+				if (item != null):
+					itemChooseIndex = items.find(item)
+					itemChoose = items[itemChooseIndex]
+					itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+					itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+					itemSlots[itemChooseIndex].z_index = 1
+					break
+			# Animate the inventory opening
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, 0), Vector2(0, -192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 			HUD.get_node('TweenTextTooltip').start()
@@ -336,6 +348,31 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
 		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
 		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
+	# Items mode scroll 
+	# Right
+	elif (itemsMode == true && Input.is_action_just_pressed("key_d") && itemChooseIndex < items.size() - 1):
+		itemChooseIndex += 1
+		itemChoose = items[itemChooseIndex]
+
+		itemSlots[itemChooseIndex].z_index = 1
+		itemSlots[itemChooseIndex - 1].z_index = 0
+		
+		itemSlots[itemChooseIndex - 1].get_parent().scale = Vector2(1, 1)
+		itemSlots[itemChooseIndex - 1].get_parent().modulate = Color(1, 1, 1, 1)
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+#	# Left
+	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && itemChooseIndex > 0):
+		itemChooseIndex -= 1
+		itemChoose = items[itemChooseIndex]
+
+		itemSlots[itemChooseIndex].z_index = 1
+		itemSlots[itemChooseIndex + 1].z_index = 0
+		
+		itemSlots[itemChooseIndex + 1].get_parent().scale = Vector2(1, 1)
+		itemSlots[itemChooseIndex + 1].get_parent().modulate = Color(1, 1, 1, 1)
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.2, 1.2)
+		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
 	# Cancel Skills
 	elif (skillMode == true && Input.is_action_just_pressed("key_escape")):
 		skillMode = false
@@ -350,6 +387,12 @@ func _process(delta):
 	# Cancel Inventory
 	elif (itemsMode == true && Input.is_action_just_pressed("key_escape")):
 		itemsMode = false
+		
+		# Reset current slot appearance & index
+		HUD.get_node('Inventory/Tween').stop_all()
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
+		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 1)
+		itemSlots[itemChooseIndex].z_index = 0
 		
 		# Leave inventory
 		HUD.get_node('Tween').stop_all()

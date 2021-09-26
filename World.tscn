@@ -785,52 +785,52 @@ texture = ExtResource( 12 )
 centered = false
 
 [node name="InvSlot1" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 5, 15 )
+position = Vector2( 60, 69 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot1"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="InvSlot2" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 125, 15 )
+position = Vector2( 180, 69 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot2"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="InvSlot3" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 245, 15 )
+position = Vector2( 300, 69 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot3"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="InvSlot4" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 5, 135 )
+position = Vector2( 60, 189 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot4"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="InvSlot5" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 125, 135 )
+position = Vector2( 180, 189 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot5"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="InvSlot6" type="Sprite" parent="HUD/Inventory"]
-position = Vector2( 245, 135 )
+position = Vector2( 300, 189 )
 texture = ExtResource( 13 )
-centered = false
 
 [node name="Slot" type="Sprite" parent="HUD/Inventory/InvSlot6"]
 centered = false
+offset = Vector2( -48, -48 )
 
 [node name="Tween" type="Tween" parent="HUD/Inventory"]
 
