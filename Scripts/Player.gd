@@ -1,5 +1,6 @@
 extends Node2D
 
+onready var RootNode = get_node("/root/World")
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var CameraNode = get_node("/root/World/Camera2D")
@@ -12,6 +13,8 @@ onready var Sprite = $Sprite
 onready var Area2D = $Area2D
 onready var healthBar = get_node('HealthBar/HealthBar')
 onready var HUD = get_node("/root/World/HUD")
+
+onready var objItem = preload('res://Scenes/Item.tscn')
 
 var isPlayer = true
 var isMonster = false
@@ -291,8 +294,18 @@ func _process(delta):
 			RayTarget.set_cast_to(Vector2(0, 0))
 			RayTarget.force_raycast_update()
 			
+			# Check if inventory is full
+			var isFullCounter = 0 # increments whenever a non-empty slot is found
+			var isFull = false
+			for item in items:
+				if (item != null):
+					isFullCounter += 1
+			# If inventory is full
+			if (isFullCounter == 6):
+				isFull = true
+		
 			# Add item to inventory, remove item node & end player turn
-			if (Ray.get_collider() != null):
+			if (Ray.get_collider() != null && isFull == false):
 				if (Ray.get_collider().get_parent().isItem == true):
 					add_item(Ray.get_collider().get_parent().itemName)
 					Ray.get_collider().get_parent().queue_free()
@@ -471,6 +484,39 @@ func _process(delta):
 		HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		HUD.get_node('Inventory/Tween').start()
 		HUD.get_node('ItemDetails').visible = false
+	# Drop Item
+	elif (itemsMode == true && Input.is_action_just_pressed("key_ctrl") && items.empty() == false):
+		# Leave inventory
+		HUD.get_node('Tween').stop_all()
+		HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+		HUD.get_node('TweenTextTooltip').start()
+		HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+		HUD.get_node('Inventory/Tween').start()
+		HUD.get_node('ItemDetails').visible = false
+		
+		# Check current tile for a collision with an item
+		RayTarget.set_cast_to(Vector2(0, 0))
+		RayTarget.force_raycast_update()
+		
+		# Create item node, remove item from inventory & end player turn
+		if (Ray.get_collider() == null):
+			itemsMode = false
+			
+			var instance = objItem.instance()
+			instance.itemName = items[itemChooseIndex]
+			instance.set_texture(itemSlots[itemChooseIndex].texture)
+			instance.position = position
+			RootNode.add_child(instance)
+			
+			items[itemChooseIndex] = null
+			itemsDamage[itemChooseIndex] = null
+			itemsDescription[itemChooseIndex] = null
+			itemsState[itemChooseIndex] = null
+			itemsType[itemChooseIndex] = null
+			itemSlots[itemChooseIndex].texture = null
+			itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
+			
+			#end_turn()
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
@@ -814,7 +860,6 @@ func add_skill(skillName):
 
 # Gives an item to the player
 func add_item(itemName):
-	var isFullCounter = 0 # increments whenever a non-empty slot is found
 	for slot in itemSlots:
 		if (slot.texture == null):
 			# Add skill data & set skill sprite
@@ -828,10 +873,6 @@ func add_item(itemName):
 			itemsState.append(GameManager.itemsState[index])
 			
 			return # leave function on empty slot found!
-		isFullCounter += 1
-	# If inventory is full
-	if (isFullCounter == 6):
-		print('** INVENTORY FULL **')
 
 # Check status (poison, curse etc.)
 func status_check():
