@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/Rat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/wall.png" type="Texture" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=11]
 [ext_resource path="res://Sprites/inventory_frame.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/inventory_slot.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/Item.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Sprites/item_dagger.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/item_potion_health.png" type="Texture" id=16]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 96, 96, 0, 96, 0, 0, 96, 0 )
@@ -146,7 +149,7 @@ dexterity = 1
 intelligence = 1
 
 [node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 768, 576 )
+position = Vector2( 192, 480 )
 level = 1
 strength = 21
 dexterity = 1
@@ -925,3 +928,33 @@ smoothing_speed = 10.0
 script = ExtResource( 11 )
 
 [node name="Tween" type="Tween" parent="Camera2D"]
+
+[node name="Item" parent="." instance=ExtResource( 14 )]
+position = Vector2( 864, 480 )
+texture = ExtResource( 15 )
+itemName = "Dagger"
+
+[node name="Item4" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1056, 384 )
+texture = ExtResource( 15 )
+itemName = "Dagger"
+
+[node name="Item5" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1152, 288 )
+texture = ExtResource( 15 )
+itemName = "Dagger"
+
+[node name="Item2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 768, 480 )
+texture = ExtResource( 16 )
+itemName = "Health Potion"
+
+[node name="Item3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 576, 288 )
+texture = ExtResource( 16 )
+itemName = "Health Potion"
+
+[node name="Item6" parent="." instance=ExtResource( 14 )]
+position = Vector2( 768, 288 )
+texture = ExtResource( 16 )
+itemName = "Health Potion"

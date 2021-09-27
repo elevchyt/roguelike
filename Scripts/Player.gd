@@ -15,6 +15,7 @@ onready var HUD = get_node("/root/World/HUD")
 
 var isPlayer = true
 var isMonster = false
+var isItem = false
 var hasPlayed = false
 var active = false
 var state = 'alive' # alive, dead, dying
@@ -234,12 +235,26 @@ func activate():
 		# Make slots empty first
 		slot.set_texture(load('res://Sprites/skill_slot.png'))
 	
-		# Set correct slot sprites from GameManager skillSlotSprites (if not empty)
+		# Set correct slot sprites from GameManager's skillSlotSprites (if not empty)
 		if (skills.empty() == false && skillsArraySize > i):
 			var index = GameManager.skillsNames.find(skills[i])
 			slot.texture = load(GameManager.skillsSlotSprites[index])
 			
 		i += 1 # counter increment
+	
+	# Refresh inventory
+	var itemsArraySize = items.size()
+	var j = 0 # counter
+	for slot in itemSlots:
+		# Make slots empty first
+		slot.texture = null
+	
+		# Set correct slot sprites from GameManager's itemSlotSprites (if not empty)
+		if (items.empty() == false && itemsArraySize > j):
+			var index = GameManager.itemsNames.find(items[j])
+			slot.texture = load(GameManager.itemsSlotSprites[index])
+			
+		j += 1 # counter increment
 
 # GET INPUT
 func _process(delta):
@@ -270,6 +285,18 @@ func _process(delta):
 		elif (Input.is_action_just_pressed("key_ctrl")):
 			end_turn()
 		
+		# Pick Up Item
+		elif (Input.is_action_just_pressed("key_f")):
+			# Check current tile for a collision with an item
+			RayTarget.set_cast_to(Vector2(0, 0))
+			RayTarget.force_raycast_update()
+			
+			# Add item to inventory, remove item node & end player turn
+			if (Ray.get_collider() != null):
+				if (Ray.get_collider().get_parent().isItem == true):
+					add_item(Ray.get_collider().get_parent().itemName)
+					Ray.get_collider().get_parent().queue_free()
+					end_turn()
 		# Inventory
 		elif (Input.is_action_just_pressed("key_tab")):
 			itemsMode = true
@@ -536,7 +563,8 @@ func move_to_position(direction):
 	Ray.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
-	if (Ray.get_collider() == null):
+	print()
+	if (Ray.get_collider() == null || Ray.get_collider().get_parent().isItem == true):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
 				# Move

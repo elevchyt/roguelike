@@ -11,6 +11,7 @@ onready var healthBar = get_node('HealthBar/HealthBar')
 export(int) var visionRange = 3 # the number of steps where this unit will become aggressive towards the player
 var isPlayer = false
 var isMonster = true
+var isItem = false
 var hasPlayed = false
 
 # Stats
