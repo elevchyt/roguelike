@@ -860,7 +860,7 @@ func drop_item(itemID):
 		itemsDescription[itemChooseIndex] = null
 		itemsState[itemChooseIndex] = null
 		itemsType[itemChooseIndex] = null
-		itemSlots[itemChooseIndex].texture = load("res://Sprites/inventory_slot.png")
+		itemSlots[itemChooseIndex].texture = null
 		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
 		
 		# Shift items in inventory
@@ -883,7 +883,7 @@ func drop_item(itemID):
 				itemsType[index] = null
 				itemSlots[index].texture = null
 			else:
-				break
+				break # stop searching
 			
 		# Close inventory
 		close_inventory()
