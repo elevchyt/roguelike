@@ -8,6 +8,7 @@ onready var turnOrder: Array
 onready var players : Array
 onready var playerCurrentIndex : int
 onready var gameOver = false
+onready var itemIDGenerator = 0 # increments & is assigned to an item in inventory when picked up
 
 # General objects for instancing
 onready var objDamageText = preload('res://Scenes/TextDamage.tscn')
@@ -106,6 +107,11 @@ func launch_ai_turns():
 	if (gameOver == false):
 		calc_turn_order()
 		next_player_turn()
+
+# Item ID Assign
+func create_item_id():
+	itemIDGenerator += 1
+	return itemIDGenerator
 
 # DAMAGE/STATUS TEXT FUNCTIONS
 # Create independent damage text

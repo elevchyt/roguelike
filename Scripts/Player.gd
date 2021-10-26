@@ -25,15 +25,16 @@ var state = 'alive' # alive, dead, dying
 var dyingCounter = 5 # dies on 5th turn
 
 # Items / Inventory
-var items : Array # Current items in inventory (strings of item names)
-var itemsDescription : Array # Curernt items' descriptions
-var itemsType : Array # Current items' type (consumable, weapon, armor, misc)
-var itemsDamage : Array # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
-var itemsState : Array # Current items' state (-, unequipped, equipped)
-var itemSlots : Array # Array of item slot sprite nodes
+var items = [null, null, null, null, null, null] # Current items in inventory (strings of item names)
+var itemsID = [null, null, null, null, null, null] # Current items in inventory (strings of item names)
+var itemsDescription = [null, null, null, null, null, null] # Curernt items' descriptions
+var itemsType = [null, null, null, null, null, null] # Current items' type (consumable, weapon, armor, misc)
+var itemsDamage = [null, null, null, null, null, null] # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
+var itemsState = [null, null, null, null, null, null] # Current items' state (null, unequipped, equipped)
+var itemSlots : Array
 var itemsMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item (item name)
-var itemChooseIndex : int # Index of current highlighted item
+var itemChooseIndex = -1 # Index of current highlighted item
 
 var weaponSlot : String # Equip slot for weapon (item name)
 var armorSlot : String # Equip slot for armor (item name)
@@ -111,7 +112,7 @@ func _ready():
 	skillSlots.append(HUD.get_node('Skill3'))
 	skillSlots.append(HUD.get_node('Skill4'))
 	
-	# Assign item slot sprites
+	# Assign item slot sprite nodes
 	itemSlots.append(HUD.get_node('Inventory/InvSlot1/Slot'))
 	itemSlots.append(HUD.get_node('Inventory/InvSlot2/Slot'))
 	itemSlots.append(HUD.get_node('Inventory/InvSlot3/Slot'))
@@ -246,18 +247,6 @@ func activate():
 		i += 1 # counter increment
 	
 	# Refresh inventory
-	var itemsArraySize = items.size()
-	var j = 0 # counter
-	for slot in itemSlots:
-		# Make slots empty first
-		slot.texture = null
-	
-		# Set correct slot sprites from GameManager's itemSlotSprites (if not empty)
-		if (items.empty() == false && itemsArraySize > j):
-			var index = GameManager.itemsNames.find(items[j])
-			slot.texture = load(GameManager.itemsSlotSprites[index])
-			
-		j += 1 # counter increment
 
 # GET INPUT
 func _process(delta):
@@ -271,6 +260,19 @@ func _process(delta):
 			add_item('Dagger')
 		if (Input.is_action_just_pressed("key_g")):
 			add_item('Health Potion')
+		if (Input.is_action_just_pressed("key_j")):
+			print("~~~~~~~")
+			print(items)
+			print(itemsID)
+			print(itemsDescription)
+			print(itemsDamage)
+			print(itemsMode)
+			print(itemsState)
+			print(itemsType)
+			print(itemSlots)
+			print("itemChooseIndex: " + str(itemChooseIndex))
+			print("itemChoose: " + itemChoose)
+			print("~~~~~~~")
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
@@ -295,21 +297,21 @@ func _process(delta):
 			RayTarget.force_raycast_update()
 			
 			# Check if inventory is full
-			var isFullCounter = 0 # increments whenever a non-empty slot is found
+			var isFullCounter = 0
 			var isFull = false
 			for item in items:
 				if (item != null):
 					isFullCounter += 1
-			# If inventory is full
 			if (isFullCounter == 6):
 				isFull = true
-		
+			
 			# Add item to inventory, remove item node & end player turn
 			if (Ray.get_collider() != null && isFull == false):
 				if (Ray.get_collider().get_parent().isItem == true):
 					add_item(Ray.get_collider().get_parent().itemName)
 					Ray.get_collider().get_parent().queue_free()
 					end_turn()
+					
 		# Inventory
 		elif (Input.is_action_just_pressed("key_tab")):
 			itemsMode = true
@@ -338,7 +340,8 @@ func _process(delta):
 						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
 						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 					
-					break
+					break # stop searching 
+					
 			# Animate the inventory opening
 			HUD.get_node('Tween').stop_all()
 			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", Vector2(0, 0), Vector2(0, -192), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
@@ -405,7 +408,7 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
 	# Items mode scroll 
 	# Right
-	elif (itemsMode == true && Input.is_action_just_pressed("key_d") && itemChooseIndex < items.size() - 1):
+	elif (itemsMode == true && Input.is_action_just_pressed("key_d") && items[itemChooseIndex + 1] != null):
 		itemChooseIndex += 1
 		itemChoose = items[itemChooseIndex]
 
@@ -431,7 +434,7 @@ func _process(delta):
 			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
 			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 #	# Left
-	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && itemChooseIndex > 0):
+	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && items[itemChooseIndex - 1] != null):
 		itemChooseIndex -= 1
 		itemChoose = items[itemChooseIndex]
 
@@ -456,6 +459,7 @@ func _process(delta):
 		elif (itemsType[itemChooseIndex] == 'consumable'):
 			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
 			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
+			
 	# Cancel Skills
 	elif (skillMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_shift"))):
 		skillMode = false
@@ -467,72 +471,15 @@ func _process(delta):
 		HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
 		HUD.get_node('TweenTextTooltip').start()
 		HUD.get_node('SkillDetails').visible = false
+		
 	# Cancel Inventory
 	elif (itemsMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_tab"))):
-		itemsMode = false
+		close_inventory()
 		
-		# Reset current slot appearance & index
-		HUD.get_node('Inventory/Tween').stop_all()
-		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
-		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 1)
-		itemSlots[itemChooseIndex].z_index = 0
-		
-		# Leave inventory
-		HUD.get_node('Tween').stop_all()
-		HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-		HUD.get_node('TweenTextTooltip').start()
-		HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-		HUD.get_node('Inventory/Tween').start()
-		HUD.get_node('ItemDetails').visible = false
 	# Drop Item
-	elif (itemsMode == true && Input.is_action_just_pressed("key_ctrl") && items.empty() == false):
-		# Check current tile for a collision with an item
-		RayTarget.set_cast_to(Vector2(0, 0))
-		RayTarget.force_raycast_update()
+	elif (itemsMode == true && Input.is_action_just_pressed("key_ctrl") && itemChooseIndex != -1):
+		drop_item(itemsID[itemChooseIndex])
 		
-		# Create item node, remove item from inventory & end player turn
-		if (Ray.get_collider() == null):
-			itemsMode = false
-			
-			# Leave inventory
-			HUD.get_node('Tween').stop_all()
-			HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-			HUD.get_node('TweenTextTooltip').start()
-			HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-			HUD.get_node('Inventory/Tween').start()
-			HUD.get_node('ItemDetails').visible = false
-			
-			# Create item node
-			var instance = objItem.instance()
-			instance.itemName = items[itemChooseIndex]
-			instance.set_texture(itemSlots[itemChooseIndex].texture)
-			instance.position = position
-			RootNode.add_child(instance)
-			
-			# Empty slot
-			items[itemChooseIndex] = null
-			itemsDamage[itemChooseIndex] = null
-			itemsDescription[itemChooseIndex] = null
-			itemsState[itemChooseIndex] = null
-			itemsType[itemChooseIndex] = null
-			itemSlots[itemChooseIndex].texture = null
-			itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
-			
-			# Shift items in inventory
-			if (itemChooseIndex < 6):
-				for i in range(itemChooseIndex + 1, items.size()):
-					if (items[i] != null):
-						items[i - 1] = items[i]
-						itemsDamage[i - 1] = itemsDamage[i]
-						itemsDescription[i - 1] = itemsDescription[i]
-						itemsState[i - 1] = itemsState[i]
-						itemsType[i - 1] = itemsType[i]
-						
-						var index = GameManager.itemsNames.find(items[i])
-						itemSlots[i - 1].texture = load(GameManager.itemsSlotSprites[index])
-					else:
-						break
-			#end_turn()
 	# Cancel Target (leaves from targetMode AND skillMode)
 	elif (targetMode == true && Input.is_action_just_pressed("key_escape")):
 		targetMode = false
@@ -876,19 +823,91 @@ func add_skill(skillName):
 
 # Gives an item to the player
 func add_item(itemName):
-	for slot in itemSlots:
-		if (slot.texture == null):
-			# Add skill data & set skill sprite
-			var index = GameManager.itemsNames.find(itemName)
-			slot.texture = load(GameManager.itemsSlotSprites[index])
-
-			items.append(GameManager.itemsNames[index])
-			itemsDescription.append(GameManager.itemsDescription[index])
-			itemsType.append(GameManager.itemsType [index])
-			itemsDamage.append(GameManager.itemsDamage[index])
-			itemsState.append(GameManager.itemsState[index])
+	for index in itemsID.size():
+		if (itemsID[index] == null):
+			itemsID[index] = GameManager.create_item_id()
+			items[index] = itemName
 			
-			return # leave function on empty slot found!
+			var libraryIndex = GameManager.itemsNames.find(itemName)
+			itemSlots[index].texture = load(GameManager.itemsSlotSprites[libraryIndex])
+			itemsDescription[index] = GameManager.itemsDescription[libraryIndex]
+			itemsType[index] = GameManager.itemsType[libraryIndex]
+			itemsDamage[index] = GameManager.itemsDamage[libraryIndex]
+			itemsState[index] = GameManager.itemsState[libraryIndex]
+			
+			break # stop searching
+			
+
+# Drop item from inventory
+func drop_item(itemID):
+	# Check current tile for a collision with an item
+	RayTarget.set_cast_to(Vector2(0, 0))
+	RayTarget.force_raycast_update()
+	
+	# Create item node, remove item from inventory & end player turn
+	if (Ray.get_collider() == null):
+		# Create item node
+		var instance = objItem.instance()
+		instance.itemName = items[itemChooseIndex]
+		instance.set_texture(itemSlots[itemChooseIndex].texture)
+		instance.position = position
+		RootNode.add_child(instance)
+		
+		# Empty the inventory slot
+		items[itemChooseIndex] = null
+		itemsID[itemChooseIndex] = null
+		itemsDamage[itemChooseIndex] = null
+		itemsDescription[itemChooseIndex] = null
+		itemsState[itemChooseIndex] = null
+		itemsType[itemChooseIndex] = null
+		itemSlots[itemChooseIndex].texture = load("res://Sprites/inventory_slot.png")
+		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
+		
+		# Shift items in inventory
+		for index in range(itemChooseIndex + 1, items.size()):
+			if (items[index] != null):
+				# Move item in the empty slot & make its current slot null
+				items[index - 1] = items[index]
+				itemsID[index - 1] = itemsID[index]
+				itemsDamage[index - 1] = itemsDamage[index]
+				itemsDescription[index - 1] = itemsDescription[index]
+				itemsState[index - 1] = itemsState[index]
+				itemsType[index - 1] = itemsType[index]
+				itemSlots[index - 1].texture = itemSlots[index].texture
+				
+				items[index] = null
+				itemsID[index] = null
+				itemsDamage[index] = null
+				itemsDescription[index] = null
+				itemsState[index] = null
+				itemsType[index] = null
+				itemSlots[index].texture = load("res://Sprites/inventory_slot.png")
+			else:
+				break
+			
+		# Close inventory
+		close_inventory()
+		#end_turn()
+	
+# Close inventory
+func close_inventory():
+	itemsMode = false
+	itemChooseIndex = -1
+	itemChoose = ""
+	
+	# Reset current slot appearance & index
+	HUD.get_node('Inventory/Tween').stop_all()
+	itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
+	itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 1)
+	itemSlots[itemChooseIndex].z_index = 0
+	
+	# Leave inventory
+	HUD.get_node('Tween').stop_all()
+	HUD.get_node('TweenTextTooltip').interpolate_property(HUD.get_node('SkillsConfirmCancelButtons'), "position", HUD.get_node('SkillsConfirmCancelButtons').position, Vector2(0, 0), 0.4, Tween.TRANS_BACK, Tween.EASE_IN_OUT)
+	HUD.get_node('TweenTextTooltip').start()
+	HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	HUD.get_node('Inventory/Tween').start()
+	HUD.get_node('ItemDetails').visible = false
 
 # Check status (poison, curse etc.)
 func status_check():
