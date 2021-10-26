@@ -881,7 +881,7 @@ func drop_item(itemID):
 				itemsDescription[index] = null
 				itemsState[index] = null
 				itemsType[index] = null
-				itemSlots[index].texture = load("res://Sprites/inventory_slot.png")
+				itemSlots[index].texture = null
 			else:
 				break
 			
