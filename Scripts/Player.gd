@@ -245,8 +245,14 @@ func activate():
 			slot.texture = load(GameManager.skillsSlotSprites[index])
 			
 		i += 1 # counter increment
-	
+		
 	# Refresh inventory
+	for index in items.size():
+		itemSlots[index].texture = null
+		
+		if (items[index] != null):
+			var libraryIndex = GameManager.itemsNames.find(items[index])
+			itemSlots[index].texture = load(GameManager.itemsSlotSprites[libraryIndex])
 
 # GET INPUT
 func _process(delta):
@@ -885,14 +891,13 @@ func drop_item(itemID):
 			else:
 				break # stop searching
 			
-		# Close inventory
+		# Close inventory & end turn
 		close_inventory()
-		#end_turn()
+		end_turn()
 	
 # Close inventory
 func close_inventory():
 	itemsMode = false
-	itemChooseIndex = -1
 	itemChoose = ""
 	
 	# Reset current slot appearance & index
@@ -900,6 +905,9 @@ func close_inventory():
 	itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
 	itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 1)
 	itemSlots[itemChooseIndex].z_index = 0
+	
+	# Reset itemChooseIndex
+	itemChooseIndex = -1
 	
 	# Leave inventory
 	HUD.get_node('Tween').stop_all()
