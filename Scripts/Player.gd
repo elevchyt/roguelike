@@ -582,7 +582,7 @@ func move_to_position(direction):
 	Ray.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
-	if (Ray.get_collider() == null || Ray.get_collider().get_parent().isItem == true):
+	if (Ray.get_collider() == null):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
 				# Move
