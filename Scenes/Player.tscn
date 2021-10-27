@@ -61,16 +61,6 @@ load_path = "res://.import/target_skill_blue_2.png-d415986635007abe8d3a090854baf
 
 [sub_resource type="SpriteFrames" id=9]
 animations = [ {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
-"loop": true,
-"name": "target_no_vision",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
-"loop": true,
-"name": "target_orange",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "target_pink",
@@ -79,6 +69,16 @@ animations = [ {
 "frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "target_blue",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "target_orange",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "target_no_vision",
 "speed": 5.0
 } ]
 
@@ -105,7 +105,6 @@ position = Vector2( 48, 48 )
 enabled = true
 cast_to = Vector2( 0, 0 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 48, 48 )
@@ -193,6 +192,7 @@ disabled = true
 z_index = 11
 frames = SubResource( 9 )
 animation = "target_blue"
+frame = 1
 speed_scale = 0.8
 playing = true
 offset = Vector2( 48, 48 )

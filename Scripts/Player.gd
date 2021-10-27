@@ -4,7 +4,7 @@ onready var RootNode = get_node("/root/World")
 onready var TileMapAStar = get_node("/root/World/TileMapAStar")
 onready var GameManager = get_node("/root/World/GameManager")
 onready var CameraNode = get_node("/root/World/Camera2D")
-onready var Ray = $Area2D/RayCastMovement
+onready var RayMovement = $Area2D/RayCastMovement
 onready var RayTarget = $RayCastVision
 onready var RayItems = $RayCastItems
 onready var Target = $Target
@@ -578,11 +578,11 @@ func _process(delta):
 # Move To Position
 func move_to_position(direction):
 	# Cast the ray (for non-tilemap solid objects)
-	Ray.set_cast_to(direction)
-	Ray.force_raycast_update()
+	RayMovement.set_cast_to(direction)
+	RayMovement.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
-	if (Ray.get_collider() == null):
+	if (RayMovement.get_collider() == null || RayMovement.get_collider().name == "Walls"):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
 				# Move
@@ -590,11 +590,10 @@ func move_to_position(direction):
 				
 				# End Turn
 				end_turn()
-				
 	# Attack (if monster is at position)
-	elif (Ray.get_collider().get_parent().isMonster == true):
+	elif (RayMovement.get_collider().get_parent().isMonster == true):
 		animation_attack(direction)
-		attack(Ray.get_collider().get_parent())
+		attack(RayMovement.get_collider().get_parent())
 
 # Attack
 func attack(target):
@@ -854,7 +853,7 @@ func drop_item(itemID):
 	RayTarget.force_raycast_update()
 	
 	# Create item node, remove item from inventory & end player turn
-	if (Ray.get_collider() == null):
+	if (RayTarget.get_collider() == null):
 		# Create item node
 		var instance = objItem.instance()
 		instance.itemName = items[itemChooseIndex]
