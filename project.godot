@@ -196,6 +196,11 @@ key_j={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="General Layer"
+2d_physics/layer_2="Items Layer"
+
 [rendering]
 
 environment/default_clear_color=Color( 0.129412, 0.129412, 0.137255, 1 )

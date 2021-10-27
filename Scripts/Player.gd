@@ -6,6 +6,7 @@ onready var GameManager = get_node("/root/World/GameManager")
 onready var CameraNode = get_node("/root/World/Camera2D")
 onready var Ray = $Area2D/RayCastMovement
 onready var RayTarget = $RayCastVision
+onready var RayItems = $RayCastItems
 onready var Target = $Target
 onready var PlayerSkills = $PlayerSkills
 onready var Tween = $Tween
@@ -302,8 +303,8 @@ func _process(delta):
 		# Pick Up Item
 		elif (Input.is_action_just_pressed("key_f")):
 			# Check current tile for a collision with an item
-			RayTarget.set_cast_to(Vector2(0, 0))
-			RayTarget.force_raycast_update()
+			RayItems.set_cast_to(Vector2(0, 0))
+			RayItems.force_raycast_update()
 			
 			# Check if inventory is full
 			var isFullCounter = 0
@@ -315,10 +316,10 @@ func _process(delta):
 				isFull = true
 			
 			# Add item to inventory, remove item node & end player turn
-			if (Ray.get_collider() != null && isFull == false):
-				if (Ray.get_collider().get_parent().isItem == true):
-					add_item(Ray.get_collider().get_parent().itemName)
-					Ray.get_collider().get_parent().queue_free()
+			if (RayItems.get_collider() != null && isFull == false):
+				if (RayItems.get_collider().get_parent().isItem == true):
+					add_item(RayItems.get_collider().get_parent().itemName)
+					RayItems.get_collider().get_parent().queue_free()
 					end_turn()
 					
 		# Inventory
@@ -581,7 +582,6 @@ func move_to_position(direction):
 	Ray.force_raycast_update()
 	
 	# Check all tilemaps for wall at ray cast direction and move (index of wall is 0 in the tileset!)
-	print()
 	if (Ray.get_collider() == null || Ray.get_collider().get_parent().isItem == true):
 		for tilemap in TileMapAStar.get_children():
 			if (tilemap.get_cellv(tilemap.world_to_map(get_global_position() + direction)) != -1):
