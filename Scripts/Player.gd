@@ -31,13 +31,16 @@ var itemsDescription = [null, null, null, null, null, null] # Curernt items' des
 var itemsType = [null, null, null, null, null, null] # Current items' type (consumable, weapon, armor, misc)
 var itemsDamage = [null, null, null, null, null, null] # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
 var itemsState = [null, null, null, null, null, null] # Current items' state (null, unequipped, equipped)
-var itemSlots : Array
+var itemSlots : Array # Array of item slot sprite nodes (sprites inside each inventory slot)
 var itemsMode = false # true when pressing inventory button (Tab)
 var itemChoose : String # Current highlighted item (item name)
 var itemChooseIndex = -1 # Index of current highlighted item
 
-var weaponSlot : String # Equip slot for weapon (item name)
-var armorSlot : String # Equip slot for armor (item name)
+# Items Equipped
+var hasEquipedWeapon = false
+var hasEquipedArmor = false
+var equipedWeaponID = null
+var equipedArmorID = null
 
 # Skills
 var skills : Array # Array of current skills
