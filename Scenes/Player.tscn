@@ -61,6 +61,11 @@ load_path = "res://.import/target_skill_blue_2.png-d415986635007abe8d3a090854baf
 
 [sub_resource type="SpriteFrames" id=9]
 animations = [ {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "target_no_vision",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "target_pink",
@@ -75,11 +80,6 @@ animations = [ {
 "loop": true,
 "name": "target_orange",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 20 ), ExtResource( 21 ) ],
-"loop": true,
-"name": "target_no_vision",
-"speed": 5.0
 } ]
 
 [node name="Player" type="Node2D"]
@@ -91,6 +91,8 @@ __meta__ = {
 
 [node name="PlayerSkills" type="Node2D" parent="."]
 script = ExtResource( 19 )
+
+[node name="PlayerItems" type="Node2D" parent="."]
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -130,6 +132,7 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 4 )
 animation = "cursor_blue"
+frame = 1
 playing = true
 centered = false
 

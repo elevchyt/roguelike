@@ -156,7 +156,7 @@ dexterity = 1
 intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 864, 384 )
+position = Vector2( 864, 288 )
 playerClass = "Rogue"
 playerColor = "blue"
 

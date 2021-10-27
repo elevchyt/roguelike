@@ -38,10 +38,12 @@ var itemChoose : String # Current highlighted item (item name)
 var itemChooseIndex = -1 # Index of current highlighted item
 
 # Items Equipped
-var hasEquipedWeapon = false
-var hasEquipedArmor = false
-var equipedWeaponID = null
-var equipedArmorID = null
+var hasEquippedWeapon = false
+var hasEquippedArmor = false
+var equippedWeaponID = null
+var equippedArmorID = null
+var equippedWeaponDamage = null
+var equippedArmorResistance = null
 
 # Skills
 var skills : Array # Array of current skills
@@ -283,6 +285,13 @@ func _process(delta):
 			print("itemChooseIndex: " + str(itemChooseIndex))
 			print("itemChoose: " + itemChoose)
 			print("~~~~~~~")
+		if (Input.is_action_just_pressed("key_k")):
+			print("++++++++++++++++++++++")
+			print("hasEquippedArmor: " + str(hasEquippedArmor))
+			print("hasEquippedWeapon: " + str(hasEquippedWeapon))
+			print("equippedArmorID: " + str(equippedArmorID))
+			print("equippedWeaponID: " + str(equippedWeaponID))
+			print("++++++++++++++++++++++")
 	
 	# Check if the player has the ability to take an action
 	if (active == true && targetMode == false && skillMode == false && itemsMode == false):
@@ -486,6 +495,19 @@ func _process(delta):
 	elif (itemsMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_tab"))):
 		close_inventory()
 		
+	# Use item (Choose) #work123
+	elif (itemsMode == true && itemChooseIndex != -1 && Input.is_action_just_pressed("key_space")):
+		# Check item type and act accordingly (Consume/Equip/etc.)
+		print(items[itemChooseIndex])
+		if (itemsType[itemChooseIndex] == 'consumable'):
+			print('this item is a consumable') # PlayerItems.use_item(itemName) (todo)
+			remove_item(itemsID[itemChooseIndex])
+			close_inventory()
+		elif (itemsType[itemChooseIndex] == 'weapon'):
+			print('this item is a weapon')
+		elif (itemsType[itemChooseIndex] == 'armor'):
+			print('this item is an armor')
+	
 	# Drop Item
 	elif (itemsMode == true && Input.is_action_just_pressed("key_ctrl") && itemChooseIndex != -1):
 		drop_item(itemsID[itemChooseIndex])
@@ -508,7 +530,7 @@ func _process(delta):
 		# Reset RayCast
 		RayTarget.set_cast_to($Target.position)
 		RayTarget.force_raycast_update()
-	# Choose
+	# Choose Skill
 	elif (skillMode == true && Input.is_action_just_pressed("key_space")):
 		# Check for mana cost & cooldown first
 		if (mana >= skillsManaCost[skillChooseIndex] && skillsCooldownCurrent[skillChooseIndex] <= 0):
@@ -896,6 +918,40 @@ func drop_item(itemID):
 		# Close inventory & end turn
 		close_inventory()
 		end_turn()
+	
+# Remove item from inventory
+func remove_item(itemID):
+	# Empty the inventory slot
+	items[itemChooseIndex] = null
+	itemsID[itemChooseIndex] = null
+	itemsDamage[itemChooseIndex] = null
+	itemsDescription[itemChooseIndex] = null
+	itemsState[itemChooseIndex] = null
+	itemsType[itemChooseIndex] = null
+	itemSlots[itemChooseIndex].texture = null
+	itemSlots[itemChooseIndex].get_parent().scale = Vector2(1, 1)
+	
+	# Shift items in inventory
+	for index in range(itemChooseIndex + 1, items.size()):
+		if (items[index] != null):
+			# Move item in the empty slot & make its current slot null
+			items[index - 1] = items[index]
+			itemsID[index - 1] = itemsID[index]
+			itemsDamage[index - 1] = itemsDamage[index]
+			itemsDescription[index - 1] = itemsDescription[index]
+			itemsState[index - 1] = itemsState[index]
+			itemsType[index - 1] = itemsType[index]
+			itemSlots[index - 1].texture = itemSlots[index].texture
+			
+			items[index] = null
+			itemsID[index] = null
+			itemsDamage[index] = null
+			itemsDescription[index] = null
+			itemsState[index] = null
+			itemsType[index] = null
+			itemSlots[index].texture = null
+		else:
+			break # stop searching
 	
 # Close inventory
 func close_inventory():
