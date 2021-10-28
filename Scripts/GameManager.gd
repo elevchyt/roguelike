@@ -229,11 +229,11 @@ var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy
 # ITEMS LIBRARY (is referred after item is granted to a player)
 var itemsNames = ['Dagger',
 'Health Potion']
-var itemsDescription = ['A sharp dagger made of steel.',
-'Restores the health of its user by 10%.']
+var itemsDescription = ["A sharp dagger made of steel.",
+"Restores 10% of the user's health."]
 var itemsSlotSprites = ['res://Sprites/item_dagger.png',
 'res://Sprites/item_potion_health.png']
-var itemsType = ['weapon', 
+var itemsType = ['weaponMelee', 
 'consumable']
 var itemsState = ['unequipped', 
 '-']

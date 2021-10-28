@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/person_blue.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/PlayerItems.gd" type="Script" id=3]
 [ext_resource path="res://Sprites/cursor_pink_1.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/cursor_orange_1.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/cursor_pink_2.png" type="Texture" id=7]
@@ -93,6 +94,7 @@ __meta__ = {
 script = ExtResource( 19 )
 
 [node name="PlayerItems" type="Node2D" parent="."]
+script = ExtResource( 3 )
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -132,7 +134,6 @@ position = Vector2( 0, -96 )
 z_index = 10
 frames = SubResource( 4 )
 animation = "cursor_blue"
-frame = 1
 playing = true
 centered = false
 
@@ -195,7 +196,6 @@ disabled = true
 z_index = 11
 frames = SubResource( 9 )
 animation = "target_blue"
-frame = 1
 speed_scale = 0.8
 playing = true
 offset = Vector2( 48, 48 )

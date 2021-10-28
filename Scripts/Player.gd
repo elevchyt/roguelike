@@ -9,6 +9,7 @@ onready var RayTarget = $RayCastVision
 onready var RayItems = $RayCastItems
 onready var Target = $Target
 onready var PlayerSkills = $PlayerSkills
+onready var PlayerItems = $PlayerItems
 onready var Tween = $Tween
 onready var Sprite = $Sprite
 onready var Area2D = $Area2D
@@ -29,7 +30,7 @@ var dyingCounter = 5 # dies on 5th turn
 var items = [null, null, null, null, null, null] # Current items in inventory (strings of item names)
 var itemsID = [null, null, null, null, null, null] # Current items in inventory (strings of item names)
 var itemsDescription = [null, null, null, null, null, null] # Curernt items' descriptions
-var itemsType = [null, null, null, null, null, null] # Current items' type (consumable, weapon, armor, misc)
+var itemsType = [null, null, null, null, null, null] # Current items' type (consumable, weaponMelee, weaponRanged, armor, misc)
 var itemsDamage = [null, null, null, null, null, null] # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
 var itemsState = [null, null, null, null, null, null] # Current items' state (null, unequipped, equipped)
 var itemSlots : Array # Array of item slot sprite nodes (sprites inside each inventory slot)
@@ -345,19 +346,7 @@ func _process(delta):
 					itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
 					itemSlots[itemChooseIndex].z_index = 1
 					
-					# Show item details text
-					HUD.get_node('ItemDetails').visible = true
-					HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
-					HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
-					HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
-					HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
-					
-					if (itemsType[itemChooseIndex] == 'weapon'):
-						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
-					elif (itemsType[itemChooseIndex] == 'consumable'):
-						HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
-						HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
+					show_item_details()
 					
 					break # stop searching 
 					
@@ -439,19 +428,7 @@ func _process(delta):
 		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
 		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
 		
-		# Show item details text
-		HUD.get_node('ItemDetails').visible = true
-		HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
-		HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
-		
-		if (itemsType[itemChooseIndex] == 'weapon'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
-		elif (itemsType[itemChooseIndex] == 'consumable'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
+		show_item_details()
 #	# Left
 	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && items[itemChooseIndex - 1] != null):
 		itemChooseIndex -= 1
@@ -465,20 +442,7 @@ func _process(delta):
 		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
 		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
 		
-		# Show item details text
-		HUD.get_node('ItemDetails').visible = true
-		HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
-		HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
-		
-		if (itemsType[itemChooseIndex] == 'weapon'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
-		elif (itemsType[itemChooseIndex] == 'consumable'):
-			HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
-			HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
-			
+		show_item_details()
 	# Cancel Skills
 	elif (skillMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_shift"))):
 		skillMode = false
@@ -500,9 +464,10 @@ func _process(delta):
 		# Check item type and act accordingly (Consume/Equip/etc.)
 		print(items[itemChooseIndex])
 		if (itemsType[itemChooseIndex] == 'consumable'):
-			print('this item is a consumable') # PlayerItems.use_item(itemName) (todo)
+			PlayerItems.consume_item(items[itemChooseIndex])
 			remove_item(itemsID[itemChooseIndex])
 			close_inventory()
+			end_turn()
 		elif (itemsType[itemChooseIndex] == 'weapon'):
 			print('this item is a weapon')
 		elif (itemsType[itemChooseIndex] == 'armor'):
@@ -974,6 +939,24 @@ func close_inventory():
 	HUD.get_node('Inventory/Tween').interpolate_property(HUD.get_node('Inventory'), "position", HUD.get_node('Inventory').position, Vector2(-368, 688), 0.4, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	HUD.get_node('Inventory/Tween').start()
 	HUD.get_node('ItemDetails').visible = false
+
+func show_item_details():
+	# Show item details text
+	HUD.get_node('ItemDetails').visible = true
+	HUD.get_node('ItemDetails/ItemTitle').bbcode_text = items[itemChooseIndex]
+	HUD.get_node('ItemDetails/ItemTitleShadow').bbcode_text = '[color=#ff212123]' + items[itemChooseIndex] + '[/color]'
+	HUD.get_node('ItemDetails/ItemDescription').bbcode_text = itemsDescription[itemChooseIndex]
+	HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
+	
+	if (itemsType[itemChooseIndex] == 'weaponMelee'):
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Melee Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Melee Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+	elif (itemsType[itemChooseIndex] == 'weaponRanged'):
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+	elif (itemsType[itemChooseIndex] == 'consumable'):
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
 
 # Check status (poison, curse etc.)
 func status_check():
