@@ -13,6 +13,4 @@ func consume_item(itemName):
 			
 			# Show health added number text
 			GameManager.createStatusText(Player, "+" + str(amount) + " HP", '#ffffff')
-		
-func equip_item(itemID):
-	pass
+			

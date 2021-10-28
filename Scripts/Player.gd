@@ -292,6 +292,8 @@ func _process(delta):
 			print("hasEquippedWeapon: " + str(hasEquippedWeapon))
 			print("equippedArmorID: " + str(equippedArmorID))
 			print("equippedWeaponID: " + str(equippedWeaponID))
+			print("equippedWeaponDamage: " + str(equippedWeaponDamage))
+			print("equippedArmorResistance: " + str(equippedArmorResistance))
 			print("++++++++++++++++++++++")
 	
 	# Check if the player has the ability to take an action
@@ -468,8 +470,34 @@ func _process(delta):
 			remove_item(itemsID[itemChooseIndex])
 			close_inventory()
 			end_turn()
-		elif (itemsType[itemChooseIndex] == 'weapon'):
-			print('this item is a weapon')
+		elif (itemsType[itemChooseIndex] == 'weaponMelee' || itemsType[itemChooseIndex] == 'weaponRanged'):
+			# Equip weapon (if its ID is different than equippedWeaponID)
+			if (equippedWeaponID != itemsID[itemChooseIndex]):
+				# Check if a weapon is already equipped and unequip it
+				if (hasEquippedWeapon == true):
+					var index = itemsID.find(equippedWeaponID)
+					itemsState[index] = "unequipped"
+				
+				# Equip
+				hasEquippedWeapon = true
+				equippedWeaponID = itemsID[itemChooseIndex]
+				equippedWeaponDamage = itemsDamage[itemChooseIndex]
+				itemsState[itemChooseIndex] = 'equipped'
+				
+				# Show *equip* text
+				GameManager.createStatusText(self, "*equip*", '#ffffff')
+			# Unequip weapon if the item pressed's ID is the same as equippedWeaponID
+			else:
+				hasEquippedWeapon = false
+				equippedWeaponID = null
+				equippedWeaponDamage = null
+				itemsState[itemChooseIndex] = 'unequipped'
+				
+				# Show *unequip* text
+				GameManager.createStatusText(self, "*unequip*", '#ffffff')
+				
+			# Refresh HUD item details
+			show_item_details()
 		elif (itemsType[itemChooseIndex] == 'armor'):
 			print('this item is an armor')
 	
