@@ -803,6 +803,28 @@ func cleave_check(target):
 						
 						# Destroy target
 						adjEnemy.queue_free()
+
+# Execute (Passive Skill)
+func execute_target(target):
+	# Camera Shake
+	CameraNode.shake(15, 0.04, 0.5)
+	
+	# Reduce health to 0
+	target.health = 0
+	
+	# Show executed text
+	GameManager.create_status_text(target, "*executed*", '#ffffff')
+	
+	# Check if killed & gain xp (check for level-up)
+	if (target.health <= 0):
+		target.health = 0
+		
+		# Check for level-up
+		Player.xpCurrent += target.level
+		Player.level_up_check()
+		
+		# Destroy target
+		target.queue_free()
 ################################################################################################################
 # Use leap (function to avoid code duplication)
 func useLeap():

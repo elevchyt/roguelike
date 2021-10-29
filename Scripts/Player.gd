@@ -622,43 +622,15 @@ func attack(target):
 	# Check if hit is successful (evasion)
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
-		# Cleave check
+		# (Warrior) Cleave check
 		PlayerSkills.cleave_check(target)
 		
 		# (Warrior) Check for execute
 		var executeChance = randi() % 100
-		print(executeChance)
-		print(target.health)
-		print(target.healthMax)
 		if (execute == true && executeChance <= 25 && target.health <= target.healthMax * 0.3):
-			# Camera Shake
-			CameraNode.shake(2, 0.02, 0.2)
-			
-			# Reduce health to 0
-			target.health = 0
-			
-			# Show executed text (independent on player)
-			var executedText = GameManager.objStatusTextIndependent.instance()
-			executedText.position = to_local(target.position)
-			add_child(executedText)
-			
-			z_index = 3
-			executedText.get_node('TextDamage').bbcode_text = '[center][color=#ffffff]executed[/color][/center]'
-			executedText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]executed[/color][/center]'
-			Tween.interpolate_property(executedText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
-			Tween.start()
-			
-			# Check if killed & gain xp (check for level-up)
-			if (target.health <= 0):
-				target.health = 0
-				
-				# Check for level-up
-				xpCurrent += target.level
-				level_up_check()
-				
-				# Destroy target
-				target.queue_free()
-		# Normal Attack
+			PlayerSkills.execute_target(target)
+		
+		# NORMAL ATTACK !!!
 		else:
 			# Reduce health
 			var weaponDamage = int(equippedWeaponDamage.x) + randi() % int(equippedWeaponDamage.y)

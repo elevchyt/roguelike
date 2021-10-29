@@ -142,33 +142,16 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Creatures" type="Node2D" parent="."]
 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 96, 672 )
+position = Vector2( 864, 480 )
 level = 1
-strength = 5
-dexterity = 1
-intelligence = 1
-
-[node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 864, 576 )
-level = 1
-strength = 5
+strength = 25
 dexterity = 1
 intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 864, 288 )
-playerClass = "Rogue"
-playerColor = "blue"
-
-[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 672, 192 )
-playerClass = "Priest"
-playerColor = "orange"
-
-[node name="Player3" parent="Creatures" instance=ExtResource( 5 )]
-position = Vector2( 1056, 192 )
 playerClass = "Warrior"
-playerColor = "pink"
+playerColor = "blue"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
