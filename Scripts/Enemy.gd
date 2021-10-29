@@ -120,9 +120,9 @@ func attack(target):
 		# Damage Calculation (check for shields first)
 		var damageTotal
 		if (target.arcaneShield == true):
-			damageTotal = ceil(strength * 0.8) - target.damageResistance
+			damageTotal = ceil(strength * 0.8) - target.equippedArmorResistance
 		else:
-			damageTotal = ceil(strength) - target.damageResistance
+			damageTotal = strength - target.equippedArmorResistance
 			
 		if (damageTotal < 0):
 			damageTotal = 0

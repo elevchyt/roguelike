@@ -43,8 +43,9 @@ var hasEquippedWeapon = false
 var hasEquippedArmor = false
 var equippedWeaponID = null
 var equippedArmorID = null
-var equippedWeaponDamage = null
-var equippedArmorResistance = null
+var equippedWeaponDamage = Vector2(0, 1)
+var equippedWeaponType = null
+var equippedArmorResistance = 0
 
 # Skills
 var skills : Array # Array of current skills
@@ -83,8 +84,6 @@ onready var mana = manaMax
 var xpCurrent = 0
 onready var xpToLevel = ceil(10 + level * 2)
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
-var weaponDamage = 0
-var damageResistance = 0
 
 # Status variables (poisoned, cursed etc.)
 var cursed = false
@@ -293,6 +292,7 @@ func _process(delta):
 			print("equippedArmorID: " + str(equippedArmorID))
 			print("equippedWeaponID: " + str(equippedWeaponID))
 			print("equippedWeaponDamage: " + str(equippedWeaponDamage))
+			print("equippedWeaponType: " + str(equippedWeaponType))
 			print("equippedArmorResistance: " + str(equippedArmorResistance))
 			print("++++++++++++++++++++++")
 	
@@ -484,6 +484,7 @@ func _process(delta):
 				hasEquippedWeapon = true
 				equippedWeaponID = itemsID[itemChooseIndex]
 				equippedWeaponDamage = itemsDamage[itemChooseIndex]
+				equippedWeaponType = itemsType[itemChooseIndex]
 				itemsState[itemChooseIndex] = 'equipped'
 				
 				# Show *equip* text
@@ -492,7 +493,8 @@ func _process(delta):
 			else:
 				hasEquippedWeapon = false
 				equippedWeaponID = null
-				equippedWeaponDamage = null
+				equippedWeaponDamage = Vector2(0, 1)
+				equippedWeaponType = null
 				itemsState[itemChooseIndex] = 'unequipped'
 				
 				# Show *unequip* text
@@ -659,7 +661,12 @@ func attack(target):
 		# Normal Attack
 		else:
 			# Reduce health
+			var weaponDamage = int(equippedWeaponDamage.x) + randi() % int(equippedWeaponDamage.y)
 			var damageTotal = strength + weaponDamage - target.damageResistance
+			
+			print("////////////////")
+			print(weaponDamage)
+			print("////////////////")
 			
 			if (target.cursed == true):
 				damageTotal = damageTotal * 1.2
