@@ -487,7 +487,7 @@ func _process(delta):
 				itemsState[itemChooseIndex] = 'equipped'
 				
 				# Show *equip* text
-				GameManager.createStatusText(self, "*equip*", '#ffffff')
+				GameManager.create_status_text(self, "*equip*", '#ffffff')
 			# Unequip weapon if the item pressed's ID is the same as equippedWeaponID
 			else:
 				hasEquippedWeapon = false
@@ -496,7 +496,7 @@ func _process(delta):
 				itemsState[itemChooseIndex] = 'unequipped'
 				
 				# Show *unequip* text
-				GameManager.createStatusText(self, "*unequip*", '#ffffff')
+				GameManager.create_status_text(self, "*unequip*", '#ffffff')
 				
 			# Refresh HUD item details
 			show_item_details()
@@ -671,7 +671,7 @@ func attack(target):
 			target.health -= damageTotal
 			
 			# Show damage text
-			GameManager.createDamageText(target, damageTotal, '#ffffff')
+			GameManager.create_damage_text(target, damageTotal, '#ffffff')
 			
 			# Check if killed & gain xp (check for level-up)
 			if (target.health <= 0):
@@ -689,7 +689,7 @@ func attack(target):
 				target.queue_free()
 	# Show miss text above target
 	else:
-		GameManager.createStatusText(target, 'MISS', '#ffffff')
+		GameManager.create_status_text(target, 'MISS', '#ffffff')
 	
 	# (Rogue) Remove invisibility
 	if (invisible == true):

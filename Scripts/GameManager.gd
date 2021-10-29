@@ -115,7 +115,7 @@ func create_item_id():
 
 # DAMAGE/STATUS TEXT FUNCTIONS
 # Create independent damage text
-func createDamageText(target, damage, colorHex):
+func create_damage_text(target, damage, colorHex):
 	var damageText = objDamageTextIndependent.instance()
 	damageText.position = to_local(target.position)
 	add_child(damageText)
@@ -127,7 +127,7 @@ func createDamageText(target, damage, colorHex):
 	Tween.start()
 
 # Create independent damage text with X & Y Offset
-func createDamageTextOffset(target, damage, colorHex):
+func create_damage_text_offset(target, damage, colorHex):
 	var randXOffset = ceil(rand_range(-48, 48))
 	var randYOffset = ceil(rand_range(-102, -148))
 	randomize()
@@ -142,7 +142,7 @@ func createDamageTextOffset(target, damage, colorHex):
 	Tween.start()
 
 # Create independent healing text
-func createHealingText(target, healing):
+func create_healing_text(target, healing):
 	var damageText = objDamageTextIndependent.instance()
 	damageText.position = to_local(target.position)
 	add_child(damageText)
@@ -154,7 +154,7 @@ func createHealingText(target, healing):
 	Tween.start()
 
 # Create independent status text
-func createStatusText(target, text, colorHex):
+func create_status_text(target, text, colorHex):
 	var statusText = objDamageTextIndependent.instance()
 	statusText.position = to_local(target.position)
 	add_child(statusText)

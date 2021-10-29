@@ -138,7 +138,7 @@ func use_skill(skillName):
 							targetCreature.health -= damage
 
 							# Show damage text
-							GameManager.createDamageText(targetCreature, damage, '#ffffff')
+							GameManager.create_damage_text(targetCreature, damage, '#ffffff')
 							
 							# Check if killed & gain xp (check for level-up)
 							if (targetCreature.health <= 0):
@@ -156,7 +156,7 @@ func use_skill(skillName):
 								targetCreature.queue_free()
 						# Show miss text on successful evasion by the target creature
 						else:
-							GameManager.createStatusText(targetCreature, 'MISS', '#ffffff')
+							GameManager.create_status_text(targetCreature, 'MISS', '#ffffff')
 							
 						# End Turn
 						yield(get_tree().create_timer(1.5), "timeout") # wait for this amount after all damage is dealt
@@ -217,7 +217,7 @@ func use_skill(skillName):
 				enemy.health -= damage
 				
 				# Show damage text
-				GameManager.createDamageText(enemy, damage, '#ffffff')
+				GameManager.create_damage_text(enemy, damage, '#ffffff')
 				
 				# Check if killed & gain xp (check for level-up)
 				if (enemy.health <= 0):
@@ -296,7 +296,7 @@ func use_skill(skillName):
 						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# Show cursed text
-						GameManager.createStatusText(targetCreature, 'cursed', '#ffffff')
+						GameManager.create_status_text(targetCreature, 'cursed', '#ffffff')
 						
 						# End Turn
 						Player.end_turn()
@@ -373,7 +373,7 @@ func use_skill(skillName):
 							targetCreature.health -= damage
 
 							# Show damage text
-							GameManager.createDamageText(targetCreature, damage, '#ffffff')
+							GameManager.create_damage_text(targetCreature, damage, '#ffffff')
 							
 							# Check for poison effect application
 							var poisonChance = randi() % 100
@@ -384,11 +384,11 @@ func use_skill(skillName):
 								targetCreature.playerWhoPoisonedMe = Player
 								
 								# Show poisoned status text 
-								GameManager.createStatusText(targetCreature, 'poisoned', '#c2d368')
+								GameManager.create_status_text(targetCreature, 'poisoned', '#c2d368')
 								
 						# Show miss text on successful evasion by the target creature
 						else:
-							GameManager.createStatusText(targetCreature, 'MISS', '#ffffff')
+							GameManager.create_status_text(targetCreature, 'MISS', '#ffffff')
 						
 						# Check if killed & gain xp (check for level-up)
 						if (targetCreature.health <= 0):
@@ -472,7 +472,7 @@ func use_skill(skillName):
 						targetCreature.evasionPerc = 0
 						
 						# Show ensnared status text
-						GameManager.createStatusText(targetCreature, 'ensnared', '#ffffff')
+						GameManager.create_status_text(targetCreature, 'ensnared', '#ffffff')
 					
 						# End Turn
 						Player.end_turn()
@@ -525,7 +525,7 @@ func use_skill(skillName):
 			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 			
 			# Show invisible text
-			GameManager.createStatusText(Player, 'invisible', '#ffffff')
+			GameManager.create_status_text(Player, 'invisible', '#ffffff')
 			
 			# End Turn
 			yield(get_tree().create_timer(1.5), "timeout")
@@ -579,7 +579,7 @@ func use_skill(skillName):
 						targetCreature.health = clamp(targetCreature.health + healing, 0, targetCreature.healthMax)
 
 						# Show healing text
-						GameManager.createHealingText(targetCreature, healing)
+						GameManager.create_healing_text(targetCreature, healing)
 						
 						# End Turn
 						yield(get_tree().create_timer(1.5), "timeout")
@@ -638,7 +638,7 @@ func use_skill(skillName):
 						targetCreature.cursed = false
 						
 						# Show purify text
-						GameManager.createStatusText(targetCreature, 'purified', '#ffa2dcc7')
+						GameManager.create_status_text(targetCreature, 'purified', '#ffa2dcc7')
 						
 						# End Turn
 						yield(get_tree().create_timer(1.5), "timeout")
@@ -695,7 +695,7 @@ func use_skill(skillName):
 						targetCreature.invulnerableCounter = 2
 						
 						# Show invulnerable text
-						GameManager.createStatusText(targetCreature, 'invulnerable', '#ffa2dcc7')
+						GameManager.create_status_text(targetCreature, 'invulnerable', '#ffa2dcc7')
 						
 						# End Turn
 						yield(get_tree().create_timer(1.5), "timeout")
@@ -755,7 +755,7 @@ func use_skill(skillName):
 						targetCreature.get_node('Sprite').modulate.a = 1
 						
 						# Show ressurected text
-						GameManager.createStatusText(targetCreature, 'ressurected', '#ffa2dcc7')
+						GameManager.create_status_text(targetCreature, 'ressurected', '#ffa2dcc7')
 						
 						# End Turn
 						Player.end_turn()
@@ -787,7 +787,7 @@ func cleave_check(target):
 					adjEnemy.health -= damageTotal
 					
 					# Show damage text
-					GameManager.createDamageText(adjEnemy, damageTotal, '#ffffff')
+					GameManager.create_damage_text(adjEnemy, damageTotal, '#ffffff')
 					
 					# Check if killed & gain xp (check for level-up)
 					if (adjEnemy.health <= 0):

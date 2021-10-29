@@ -12,5 +12,5 @@ func consume_item(itemName):
 			Player.health = clamp(Player.health + amount, Player.health, Player.healthMax)
 			
 			# Show health added number text
-			GameManager.createStatusText(Player, "+" + str(amount) + " HP", '#ffffff')
+			GameManager.create_healing_text(Player, str(amount) + " HP")
 			

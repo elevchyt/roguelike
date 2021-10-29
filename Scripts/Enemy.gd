@@ -143,10 +143,10 @@ func attack(target):
 				target.retaliationNode.queue_free()
 		
 		# Show damage text above target
-		GameManager.createDamageTextOffset(target, damageTotal, '#ffffff')
+		GameManager.create_damage_text_offset(target, damageTotal, '#ffffff')
 	# Show miss text above target
 	else:
-		GameManager.createStatusText(target, 'MISS', '#ffffff')
+		GameManager.create_status_text(target, 'MISS', '#ffffff')
 
 # Status Check (end turn)
 # Decrement/Increment counters (curse, poison etc.)
@@ -186,7 +186,7 @@ func status_check():
 			queue_free()
 			
 		# Show damage text above target
-		GameManager.createDamageText(self, damageTotal, '#c2d368')
+		GameManager.create_damage_text(self, damageTotal, '#c2d368')
 		
 		if (poisonedCounter == 0):
 			poisonedCounter = 0
