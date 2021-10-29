@@ -416,35 +416,37 @@ func _process(delta):
 		HUD.get_node('SkillDetails/SkillDescriptionShadow').bbcode_text = '[color=#ff212123]' + skillsDescription[skillChooseIndex] + '[/color]'
 		HUD.get_node('SkillDetails/SkillCostCooldown').bbcode_text = '[center]- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/center]'
 		HUD.get_node('SkillDetails/SkillCostCooldownShadow').bbcode_text = '[center][color=#ff212123]' + '- Cooldown: ' + str(skillsCooldown[skillChooseIndex]) + ', MP: ' + str(skillsManaCost[skillChooseIndex]) + ' -[/color][/center]'
-	# Items mode scroll 
+	# Items mode scroll
 	# Right
-	elif (itemsMode == true && Input.is_action_just_pressed("key_d") && items[itemChooseIndex + 1] != null):
-		itemChooseIndex += 1
-		itemChoose = items[itemChooseIndex]
+	elif (itemsMode == true && Input.is_action_just_pressed("key_d") && itemChooseIndex < 5 && itemChooseIndex != -1):
+		if (items[itemChooseIndex + 1] != null):
+			itemChooseIndex += 1
+			itemChoose = items[itemChooseIndex]
 
-		itemSlots[itemChooseIndex].z_index = 1
-		itemSlots[itemChooseIndex - 1].z_index = 0
-		
-		itemSlots[itemChooseIndex - 1].get_parent().scale = Vector2(1, 1)
-		itemSlots[itemChooseIndex - 1].get_parent().modulate = Color(1, 1, 1, 1)
-		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
-		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
-		
-		show_item_details()
+			itemSlots[itemChooseIndex].z_index = 1
+			itemSlots[itemChooseIndex - 1].z_index = 0
+			
+			itemSlots[itemChooseIndex - 1].get_parent().scale = Vector2(1, 1)
+			itemSlots[itemChooseIndex - 1].get_parent().modulate = Color(1, 1, 1, 1)
+			itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
+			itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+			
+			show_item_details()
 #	# Left
-	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && items[itemChooseIndex - 1] != null):
-		itemChooseIndex -= 1
-		itemChoose = items[itemChooseIndex]
+	elif (itemsMode == true && Input.is_action_just_pressed("key_a") && itemChooseIndex > 0 && itemChooseIndex != -1):
+		if (items[itemChooseIndex - 1] != null):
+			itemChooseIndex -= 1
+			itemChoose = items[itemChooseIndex]
 
-		itemSlots[itemChooseIndex].z_index = 1
-		itemSlots[itemChooseIndex + 1].z_index = 0
-		
-		itemSlots[itemChooseIndex + 1].get_parent().scale = Vector2(1, 1)
-		itemSlots[itemChooseIndex + 1].get_parent().modulate = Color(1, 1, 1, 1)
-		itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
-		itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
-		
-		show_item_details()
+			itemSlots[itemChooseIndex].z_index = 1
+			itemSlots[itemChooseIndex + 1].z_index = 0
+			
+			itemSlots[itemChooseIndex + 1].get_parent().scale = Vector2(1, 1)
+			itemSlots[itemChooseIndex + 1].get_parent().modulate = Color(1, 1, 1, 1)
+			itemSlots[itemChooseIndex].get_parent().scale = Vector2(1.3, 1.3)
+			itemSlots[itemChooseIndex].get_parent().modulate = Color(1, 1, 1, 0.8)
+			
+			show_item_details()
 	# Cancel Skills
 	elif (skillMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_shift"))):
 		skillMode = false
@@ -461,7 +463,7 @@ func _process(delta):
 	elif (itemsMode == true && (Input.is_action_just_pressed("key_escape") || Input.is_action_just_pressed("key_tab"))):
 		close_inventory()
 		
-	# Use item (Choose) #work123
+	# Use item (Choose)
 	elif (itemsMode == true && itemChooseIndex != -1 && Input.is_action_just_pressed("key_space")):
 		# Check item type and act accordingly (Consume/Equip/etc.)
 		print(items[itemChooseIndex])
