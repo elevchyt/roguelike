@@ -123,6 +123,7 @@ func use_skill(skillName):
 						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# EVASION CHECK
+						randomize()
 						var hitChance = randi() % 100
 						if (hitChance > targetCreature.evasionPerc):
 							hitSuccess = true
@@ -358,6 +359,7 @@ func use_skill(skillName):
 						Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
 						
 						# EVASION CHECK
+						randomize()
 						var hitChance = randi() % 100
 						if (hitChance > targetCreature.evasionPerc):
 							hitSuccess = true
@@ -376,6 +378,7 @@ func use_skill(skillName):
 							GameManager.create_damage_text(targetCreature, damage, '#ffffff')
 							
 							# Check for poison effect application
+							randomize()
 							var poisonChance = randi() % 100
 							if (poisonChance > 50):
 								
@@ -780,6 +783,7 @@ func cleave_check(target):
 		# Check for a hit on every adjacent enemy
 		if (enemiesToHit.empty() == false):
 			for adjEnemy in enemiesToHit:
+				randomize()
 				var hitChance = randi() % 100
 				if (hitChance <= Player.cleaveChancePerc):
 					# Reduce health

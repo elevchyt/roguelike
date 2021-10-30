@@ -620,12 +620,14 @@ func attack(target):
 	active = false
 	
 	# Check if hit is successful (evasion)
+	randomize()
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
 		# (Warrior) Cleave check
 		PlayerSkills.cleave_check(target)
 		
 		# (Warrior) Check for execute
+		randomize()
 		var executeChance = randi() % 100
 		if (execute == true && executeChance <= 25 && target.health <= target.healthMax * 0.3):
 			PlayerSkills.execute_target(target)
@@ -633,6 +635,7 @@ func attack(target):
 		# NORMAL ATTACK !!!
 		else:
 			# Reduce health
+			randomize()
 			var weaponDamage = int(equippedWeaponDamage.x) + randi() % int(equippedWeaponDamage.y)
 			var damageTotal = strength + weaponDamage - target.damageResistance
 			

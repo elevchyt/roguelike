@@ -100,6 +100,7 @@ func activate():
 # Attack
 func attack(target):
 	# Check if hit successful
+	randomize()
 	var hitChance = randi() % 100
 	if (hitChance > target.evasionPerc):
 		# (Warrior) Check for Retaliation
