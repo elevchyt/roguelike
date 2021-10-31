@@ -32,6 +32,8 @@ var itemsID = [null, null, null, null, null, null] # Current items in inventory 
 var itemsDescription = [null, null, null, null, null, null] # Curernt items' descriptions
 var itemsType = [null, null, null, null, null, null] # Current items' type (consumable, weaponMelee, weaponRanged, armor, misc)
 var itemsDamage = [null, null, null, null, null, null] # Array of vector2s that contain the minimum & maximum damage of weapons (Vector2.ZERO for non-weapon items)
+var itemsResistance = [null, null, null, null, null, null] # Percentage of blocking damage for armor
+var itemsEvasionReduce = [null, null, null, null, null, null] # The percentage of evasion reduction of items (armor mostly)
 var itemsState = [null, null, null, null, null, null] # Current items' state (null, unequipped, equipped)
 var itemSlots : Array # Array of item slot sprite nodes (sprites inside each inventory slot)
 var itemsMode = false # true when pressing inventory button (Tab)
@@ -46,6 +48,7 @@ var equippedArmorID = null
 var equippedWeaponDamage = Vector2(0, 1)
 var equippedWeaponType = null
 var equippedArmorResistance = 0
+var equippedArmorEvasionReduction = 0
 
 # Skills
 var skills : Array # Array of current skills
@@ -278,6 +281,8 @@ func _process(delta):
 			print(itemsID)
 			print(itemsDescription)
 			print(itemsDamage)
+			print(itemsResistance)
+			print(itemsEvasionReduce)
 			print(itemsMode)
 			print(itemsState)
 			print(itemsType)
@@ -292,8 +297,9 @@ func _process(delta):
 			print("equippedArmorID: " + str(equippedArmorID))
 			print("equippedWeaponID: " + str(equippedWeaponID))
 			print("equippedWeaponDamage: " + str(equippedWeaponDamage))
-			print("equippedWeaponType: " + str(equippedWeaponType))
 			print("equippedArmorResistance: " + str(equippedArmorResistance))
+			print("equippedArmorEvasionReduction: " + str(equippedArmorEvasionReduction))
+			print("equippedWeaponType: " + str(equippedWeaponType))
 			print("++++++++++++++++++++++")
 	
 	# Check if the player has the ability to take an action
@@ -473,37 +479,13 @@ func _process(delta):
 			close_inventory()
 			end_turn()
 		elif (itemsType[itemChooseIndex] == 'weaponMelee' || itemsType[itemChooseIndex] == 'weaponRanged'):
-			# Equip weapon (if its ID is different than equippedWeaponID)
-			if (equippedWeaponID != itemsID[itemChooseIndex]):
-				# Check if a weapon is already equipped and unequip it
-				if (hasEquippedWeapon == true):
-					var index = itemsID.find(equippedWeaponID)
-					itemsState[index] = "unequipped"
-				
-				# Equip
-				hasEquippedWeapon = true
-				equippedWeaponID = itemsID[itemChooseIndex]
-				equippedWeaponDamage = itemsDamage[itemChooseIndex]
-				equippedWeaponType = itemsType[itemChooseIndex]
-				itemsState[itemChooseIndex] = 'equipped'
-				
-				# Show *equip* text
-				GameManager.create_status_text(self, "*equip*", '#ffffff')
-			# Unequip weapon if the item pressed's ID is the same as equippedWeaponID
-			else:
-				hasEquippedWeapon = false
-				equippedWeaponID = null
-				equippedWeaponDamage = Vector2(0, 1)
-				equippedWeaponType = null
-				itemsState[itemChooseIndex] = 'unequipped'
-				
-				# Show *unequip* text
-				GameManager.create_status_text(self, "*unequip*", '#ffffff')
-				
-			# Refresh HUD item details
-			show_item_details()
+			PlayerItems.equip_weapon(itemsID[itemChooseIndex])
+			close_inventory()
+			end_turn()
 		elif (itemsType[itemChooseIndex] == 'armor'):
-			print('this item is an armor')
+			PlayerItems.equip_armor(itemsID[itemChooseIndex])
+			close_inventory()
+			end_turn()
 	
 	# Drop Item
 	elif (itemsMode == true && Input.is_action_just_pressed("key_ctrl") && itemChooseIndex != -1):
@@ -840,6 +822,8 @@ func add_item(itemName):
 			itemsDescription[index] = GameManager.itemsDescription[libraryIndex]
 			itemsType[index] = GameManager.itemsType[libraryIndex]
 			itemsDamage[index] = GameManager.itemsDamage[libraryIndex]
+			itemsResistance[index] = GameManager.itemsResistance[libraryIndex]
+			itemsEvasionReduce[index] = GameManager.itemsEvasionReduce[libraryIndex]
 			itemsState[index] = GameManager.itemsState[libraryIndex]
 			
 			break # stop searching
@@ -864,6 +848,7 @@ func drop_item(itemID):
 		items[itemChooseIndex] = null
 		itemsID[itemChooseIndex] = null
 		itemsDamage[itemChooseIndex] = null
+		itemsResistance[itemChooseIndex] = null
 		itemsDescription[itemChooseIndex] = null
 		itemsState[itemChooseIndex] = null
 		itemsType[itemChooseIndex] = null
@@ -877,6 +862,7 @@ func drop_item(itemID):
 				items[index - 1] = items[index]
 				itemsID[index - 1] = itemsID[index]
 				itemsDamage[index - 1] = itemsDamage[index]
+				itemsResistance[index - 1] = itemsResistance[index]
 				itemsDescription[index - 1] = itemsDescription[index]
 				itemsState[index - 1] = itemsState[index]
 				itemsType[index - 1] = itemsType[index]
@@ -885,6 +871,7 @@ func drop_item(itemID):
 				items[index] = null
 				itemsID[index] = null
 				itemsDamage[index] = null
+				itemsResistance[index] = null
 				itemsDescription[index] = null
 				itemsState[index] = null
 				itemsType[index] = null
@@ -902,6 +889,7 @@ func remove_item(itemID):
 	items[itemChooseIndex] = null
 	itemsID[itemChooseIndex] = null
 	itemsDamage[itemChooseIndex] = null
+	itemsResistance[itemChooseIndex] = null
 	itemsDescription[itemChooseIndex] = null
 	itemsState[itemChooseIndex] = null
 	itemsType[itemChooseIndex] = null
@@ -915,6 +903,7 @@ func remove_item(itemID):
 			items[index - 1] = items[index]
 			itemsID[index - 1] = itemsID[index]
 			itemsDamage[index - 1] = itemsDamage[index]
+			itemsResistance[index - 1] = itemsResistance[index]
 			itemsDescription[index - 1] = itemsDescription[index]
 			itemsState[index - 1] = itemsState[index]
 			itemsType[index - 1] = itemsType[index]
@@ -923,6 +912,7 @@ func remove_item(itemID):
 			items[index] = null
 			itemsID[index] = null
 			itemsDamage[index] = null
+			itemsResistance[index] = null
 			itemsDescription[index] = null
 			itemsState[index] = null
 			itemsType[index] = null
@@ -966,6 +956,9 @@ func show_item_details():
 	elif (itemsType[itemChooseIndex] == 'weaponRanged'):
 		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
 		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+	elif (itemsType[itemChooseIndex] == 'armor'):
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
 	elif (itemsType[itemChooseIndex] == 'consumable'):
 		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
 		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'

@@ -119,11 +119,9 @@ func attack(target):
 				queue_free()
 				
 		# Damage Calculation (check for shields first)
-		var damageTotal
+		var damageTotal = strength - ceil(strength * target.equippedArmorResistance)
 		if (target.arcaneShield == true):
-			damageTotal = ceil(strength * 0.8) - target.equippedArmorResistance
-		else:
-			damageTotal = strength - target.equippedArmorResistance
+			damageTotal = ceil(strength * 0.8)
 			
 		if (damageTotal < 0):
 			damageTotal = 0
