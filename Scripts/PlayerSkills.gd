@@ -186,11 +186,12 @@ func use_skill(skillName):
 			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
 			
 			# Player + Skill Animation
-			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, PlayerSprite.scale * 1.3, 0.6, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
+			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, PlayerSprite.scale * 1.3, 0.8, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
 			Player.Tween.start()
-			yield(get_tree().create_timer(0.9), "timeout")
-			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale , PlayerSprite.scale * 0.7, 0.6, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+			yield(get_tree().create_timer(1), "timeout")
+			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, PlayerSprite.scale * 0.7, 0.5, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
 			Player.Tween.start()
+			yield(get_tree().create_timer(0.2), "timeout")
 			
 			# Play particle animation
 			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
@@ -203,7 +204,7 @@ func use_skill(skillName):
 			yield(get_tree().create_timer(0.1), "timeout") # (!) makes sure the collisions register on Area2D (hitbox)
 			
 			# Camera Shake
-			CameraNode.shake(10, 0.01, 0.2)
+			CameraNode.shake(16, 0.04, 0.5)
 			
 			# Find targets around player & deal damage to them
 			for enemy in instance.enemiesToHit:
@@ -236,7 +237,8 @@ func use_skill(skillName):
 					enemy.queue_free()
 			
 			# Reset player scale
-			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, Vector2(1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			yield(get_tree().create_timer(0.3), "timeout")
+			Player.Tween.interpolate_property(PlayerSprite, "scale", PlayerSprite.scale, Vector2(1, 1), 0.3, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
 			Player.Tween.start()
 			
 			# End Turn
