@@ -229,25 +229,34 @@ var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy
 # ITEMS LIBRARY (is referred after item is granted to a player)
 var itemsNames = ['Dagger',
 'Health Potion',
-'Leather Armor']
+'Leather Armor',
+'Iron Armor']
 var itemsDescription = ["A sharp dagger made of steel.",
 "Restores 10% of the user's health.",
-"Lowers incoming damage by 10%."]
+"Lowers incoming damage by 10%.",
+"Lowers incoming damage by 15%, but reduces Evasion by 20%."]
 var itemsSlotSprites = ['res://Sprites/item_dagger.png',
 'res://Sprites/item_potion_health.png',
-'res://Sprites/armor_leather.png']
+'res://Sprites/armor_leather.png',
+'res://Sprites/armor_iron.png']
 var itemsType = ['weaponMelee', 
 'consumable',
+'armor',
 'armor']
 var itemsState = ['unequipped', 
 '-',
+'unequipped',
 'unequipped']
 var itemsDamage = [Vector2(7, 10), 
 null,
+null,
 null]
+# itemsResistance: in decimals!
 var itemsResistance = [null, 
 null,
-0.1]
+0.1,
+0.15]
 var itemsEvasionReduce = [null, 
 null,
-0]
+0,
+20]

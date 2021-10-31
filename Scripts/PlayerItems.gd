@@ -46,10 +46,11 @@ func equip_weapon(itemID):
 func equip_armor(itemID):
 	# Equip armor (if it's ID is different than equippedArmorID)
 	if (Player.equippedArmorID != itemID):
-		# Check if an armor is already equipped and unequip it
+		# Check if an armor is already equipped, unequip it and remove its evasion reduction
 		if (Player.hasEquippedArmor == true):
 			var index = Player.itemsID.find(Player.equippedArmorID)
-			Player.itemsState[index] = "unequipped"
+			Player.itemsState[index] = 'unequipped'
+			Player.evasionPerc = Player.evasionPercPure
 		
 		# Equip
 		Player.hasEquippedArmor = true
@@ -58,15 +59,22 @@ func equip_armor(itemID):
 		Player.equippedArmorEvasionReduction = Player.itemsEvasionReduce[Player.itemChooseIndex]
 		Player.itemsState[Player.itemChooseIndex] = 'equipped'
 		
+		# Apply Evasion reduction
+		Player.evasionPerc = clamp(Player.evasionPerc - Player.equippedArmorEvasionReduction, 0, 50)
+		
 		# Show *equip* text
 		GameManager.create_status_text(Player, "*equip*", '#ffffff')
-	# Unequip weapon if the item pressed's ID is the same as equippedWeaponID
+	# Unequip armor if the item pressed's ID is the same as equippedArmorID
 	else:
-		Player.hasEquippedWeapon = false
+		# Reset equipped armor settings
+		Player.hasEquippedArmor = false
 		Player.equippedArmorID = null
 		Player.equippedArmorResistance = 0
 		Player.equippedArmorEvasionReduction = 0
 		Player.itemsState[Player.itemChooseIndex] = 'unequipped'
+		
+		# Remove Evasion reduction
+		Player.evasionPerc = Player.evasionPercPure
 		
 		# Show *unequip* text
 		GameManager.create_status_text(Player, "*unequip*", '#ffffff')

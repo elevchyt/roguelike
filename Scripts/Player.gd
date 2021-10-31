@@ -87,6 +87,7 @@ onready var mana = manaMax
 var xpCurrent = 0
 onready var xpToLevel = ceil(10 + level * 2)
 onready var evasionPerc = clamp(dexterity * 1.4, 0, 50) # clamp to 50%
+onready var evasionPercPure = clamp(dexterity * 1.4, 0, 50) # clamp to 50% (non-armor evasion)
 
 # Status variables (poisoned, cursed etc.)
 var cursed = false
@@ -227,6 +228,7 @@ func _ready():
 	healthMax = ceil(5 + strength * 1.2 + level * 2)
 	manaMax = ceil(5 + intelligence * 1.2 + level * 2)
 	evasionPerc =  clamp(dexterity * 1.4, 0, 50)
+	evasionPercPure =  clamp(dexterity * 1.4, 0, 50)
 	health = healthMax
 	mana = manaMax
 
@@ -775,7 +777,8 @@ func level_up_check():
 		manaMax = ceil(5 + intelligence * 1.2 + level * 2)
 		health = healthMax
 		mana = manaMax
-		evasionPerc = clamp(dexterity * 1.4, 0, 50)
+		evasionPercPure = clamp(dexterity * 1.4, 0, 50)
+		evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction, 0, 50)
 		
 		# Check shadow walk & leap on level-up, too
 		check_leap()
@@ -957,8 +960,8 @@ func show_item_details():
 		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
 		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
 	elif (itemsType[itemChooseIndex] == 'armor'):
-		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex]) + '%' + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex]) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
 	elif (itemsType[itemChooseIndex] == 'consumable'):
 		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Consumable'
 		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]Consumable[/color]'
