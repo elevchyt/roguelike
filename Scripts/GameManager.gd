@@ -153,6 +153,18 @@ func create_healing_text(target, healing):
 	Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
 	Tween.start()
 
+# Create independent mana recover text
+func create_mana_recover_text(target, manaRestore):
+	var damageText = objDamageTextIndependent.instance()
+	damageText.position = to_local(target.position)
+	add_child(damageText)
+	
+	z_index = 3
+	damageText.get_node('TextDamage').bbcode_text = '[center][color=#ff68c2d3]' + '+' + str(manaRestore) + '[/color][/center]'
+	damageText.get_node('TextDamageShadow').bbcode_text = '[center][color=#ff212123]' + '+' + str(manaRestore) + '[/color][/center]'
+	Tween.interpolate_property(damageText, "position", to_local(target.position), to_local(target.position) + Vector2(0, -128), 0.3, Tween.EASE_IN, Tween.EASE_OUT)
+	Tween.start()
+
 # Create independent status text
 func create_status_text(target, text, colorHex):
 	var statusText = objDamageTextIndependent.instance()
@@ -229,34 +241,50 @@ var skillsTargetType = ['target+enemy', 'around+enemy', 'passive', 'target+enemy
 # ITEMS LIBRARY (is referred after item is granted to a player)
 var itemsNames = ['Dagger',
 'Health Potion',
+'Mana Potion',
 'Leather Armor',
-'Iron Armor']
+'Iron Armor',
+'Chainmail Armor']
 var itemsDescription = ["A sharp dagger made of steel.",
 "Restores 10% of the user's health.",
+"Restores 10% of the user's mana.",
 "Lowers incoming damage by 10%.",
-"Lowers incoming damage by 15%, but reduces Evasion by 20%."]
+"Lowers incoming damage by 15%, but reduces Evasion by 20%.",
+"Lowers incoming damage by 25%, but reduces Evasion by 40%.",]
 var itemsSlotSprites = ['res://Sprites/item_dagger.png',
 'res://Sprites/item_potion_health.png',
+'res://Sprites/item_potion_mana.png',
 'res://Sprites/armor_leather.png',
-'res://Sprites/armor_iron.png']
+'res://Sprites/armor_iron.png',
+'res://Sprites/armor_chainmail.png',]
 var itemsType = ['weaponMelee', 
 'consumable',
+'consumable',
+'armor',
 'armor',
 'armor']
 var itemsState = ['unequipped', 
 '-',
+'-',
+'unequipped',
 'unequipped',
 'unequipped']
 var itemsDamage = [Vector2(7, 10), 
+null,
+null,
 null,
 null,
 null]
 # itemsResistance: in decimals!
 var itemsResistance = [null, 
 null,
+null,
 0.1,
-0.15]
+0.15,
+0.25]
 var itemsEvasionReduce = [null, 
 null,
+null,
 0,
-20]
+20,
+40]

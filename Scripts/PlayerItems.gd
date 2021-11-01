@@ -13,10 +13,15 @@ func consume_item(itemName):
 			
 			# Show health added number text
 			GameManager.create_healing_text(Player, str(amount) + " HP")
+		"Mana Potion":
+			var amount = ceil(Player.manaMax * 0.1)
+			Player.mana = clamp(Player.mana + amount, Player.mana, Player.manaMax)
 			
+			# Show health added number text
+			GameManager.create_mana_recover_text(Player, str(amount) + " MP")
 
 func equip_weapon(itemID):
-	# Equip weapon (if it's ID is different than equippedWeaponID)
+	# Equip weapon (if its ID is different than equippedWeaponID)
 	if (Player.equippedWeaponID != itemID):
 		# Check if a weapon is already equipped and unequip it
 		if (Player.hasEquippedWeapon == true):
@@ -44,7 +49,7 @@ func equip_weapon(itemID):
 		GameManager.create_status_text(Player, "*unequip*", '#ffffff')
 
 func equip_armor(itemID):
-	# Equip armor (if it's ID is different than equippedArmorID)
+	# Equip armor (if its ID is different than equippedArmorID)
 	if (Player.equippedArmorID != itemID):
 		# Check if an armor is already equipped, unequip it and remove its evasion reduction
 		if (Player.hasEquippedArmor == true):
