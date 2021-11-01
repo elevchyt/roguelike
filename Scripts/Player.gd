@@ -848,17 +848,18 @@ func drop_item(itemID):
 		RootNode.add_child(instance)
 		
 		# Check if item is equipped & reset its equip type status & remove evasion reduction for armor
-		if (itemsType[itemChooseIndex] == 'weaponMelee' || itemsType[itemChooseIndex] == 'weaponRanged'):
-			hasEquippedWeapon = false
-			equippedWeaponID = null
-			equippedWeaponDamage = Vector2(0, 1)
-			equippedWeaponType = null
-		elif (itemsType[itemChooseIndex] == 'armor'):
-			hasEquippedArmor = false
-			equippedArmorID = null
-			equippedArmorResistance = 0
-			equippedArmorEvasionReduction = 0
-			evasionPerc = evasionPercPure
+		if (itemsState[itemChooseIndex] == 'equipped'):
+			if (itemsType[itemChooseIndex] == 'weaponMelee' || itemsType[itemChooseIndex] == 'weaponRanged'):
+				hasEquippedWeapon = false
+				equippedWeaponID = null
+				equippedWeaponDamage = Vector2(0, 1)
+				equippedWeaponType = null
+			elif (itemsType[itemChooseIndex] == 'armor'):
+				hasEquippedArmor = false
+				equippedArmorID = null
+				equippedArmorResistance = 0
+				equippedArmorEvasionReduction = 0
+				evasionPerc = evasionPercPure
 		
 		# Empty the inventory slot
 		items[itemChooseIndex] = null
