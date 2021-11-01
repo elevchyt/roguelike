@@ -19,7 +19,7 @@ export(int) var level
 export(int) var strength
 export(int) var dexterity
 export(int) var intelligence
-export(int) var damageResistance
+export(int) var damageResistance = 0
 onready var healthMax = ceil(strength * 1.2 + level * 2)
 onready var health = healthMax
 onready var manaMax = ceil(intelligence * 1.2 + level * 2)

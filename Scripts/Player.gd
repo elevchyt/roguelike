@@ -620,12 +620,8 @@ func attack(target):
 		else:
 			# Reduce health
 			randomize()
-			var weaponDamage = int(equippedWeaponDamage.x) + randi() % int(equippedWeaponDamage.y)
+			var weaponDamage = randi() % int(equippedWeaponDamage.y) + int(equippedWeaponDamage.x)
 			var damageTotal = strength + weaponDamage - target.damageResistance
-			
-			print("////////////////")
-			print(weaponDamage)
-			print("////////////////")
 			
 			if (target.cursed == true):
 				damageTotal = damageTotal * 1.2
