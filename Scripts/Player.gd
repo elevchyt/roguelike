@@ -619,9 +619,7 @@ func attack(target):
 		# NORMAL ATTACK !!!
 		else:
 			# Reduce health
-			randomize()
-			var weaponDamage = randi() % int(equippedWeaponDamage.y) + int(equippedWeaponDamage.x)
-			var damageTotal = strength + weaponDamage - target.damageResistance
+			var damageTotal = strength + ceil(equippedWeaponDamage * strength)
 			
 			if (target.cursed == true):
 				damageTotal = damageTotal * 1.2
@@ -964,11 +962,11 @@ func show_item_details():
 	HUD.get_node('ItemDetails/ItemDescriptionShadow').bbcode_text = '[color=#ff212123]' + itemsDescription[itemChooseIndex] + '[/color]'
 	
 	if (itemsType[itemChooseIndex] == 'weaponMelee'):
-		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Melee Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Melee Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Melee Weapon, Damage: +' + str(itemsDamage[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Melee Weapon, Damage: +' + str(itemsDamage[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
 	elif (itemsType[itemChooseIndex] == 'weaponRanged'):
-		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex]
-		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Ranged Weapon, Damage: ' + str(itemsDamage[itemChooseIndex].x) + ' - ' + str(itemsDamage[itemChooseIndex].y) + ', ' + itemsState[itemChooseIndex] + '[/color]'
+		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Ranged Weapon, Damage: +' + str(itemsDamage[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex]
+		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Ranged Weapon, Damage: +' + str(itemsDamage[itemChooseIndex] * 100) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
 	elif (itemsType[itemChooseIndex] == 'armor'):
 		HUD.get_node('ItemDetails/ItemInfo').bbcode_text = 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex]) + '%' + ', ' + itemsState[itemChooseIndex]
 		HUD.get_node('ItemDetails/ItemInfoShadow').bbcode_text = '[color=#ff212123]' + 'Armor, Resistance: ' + str(itemsResistance[itemChooseIndex] * 100) + '%' + ', Evasion Penalty: ' + str(itemsEvasionReduce[itemChooseIndex]) + '%' + ', ' + itemsState[itemChooseIndex] + '[/color]'
