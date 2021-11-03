@@ -47,6 +47,7 @@ var equippedWeaponID = null
 var equippedArmorID = null
 var equippedWeaponDamage = Vector2(0, 1)
 var equippedWeaponType = null
+var equippedWeaponEvasionReduction = 0
 var equippedArmorResistance = 0
 var equippedArmorEvasionReduction = 0
 
@@ -301,6 +302,7 @@ func _process(delta):
 			print("equippedWeaponDamage: " + str(equippedWeaponDamage))
 			print("equippedArmorResistance: " + str(equippedArmorResistance))
 			print("equippedArmorEvasionReduction: " + str(equippedArmorEvasionReduction))
+			print("equippedWeaponEvasionReduction: " + str(equippedWeaponEvasionReduction))
 			print("equippedWeaponType: " + str(equippedWeaponType))
 			print("++++++++++++++++++++++")
 	
@@ -772,7 +774,7 @@ func level_up_check():
 		health = healthMax
 		mana = manaMax
 		evasionPercPure = clamp(dexterity * 1.4, 0, 50)
-		evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction, 0, 50)
+		evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction - equippedWeaponEvasionReduction, 0, 50)
 		
 		# Check shadow walk & leap on level-up, too
 		check_leap()
@@ -848,12 +850,14 @@ func drop_item(itemID):
 				equippedWeaponID = null
 				equippedWeaponDamage = Vector2(0, 1)
 				equippedWeaponType = null
+				equippedWeaponEvasionReduction = 0
+				evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction - equippedWeaponEvasionReduction, 0, 50)
 			elif (itemsType[itemChooseIndex] == 'armor'):
 				hasEquippedArmor = false
 				equippedArmorID = null
 				equippedArmorResistance = 0
 				equippedArmorEvasionReduction = 0
-				evasionPerc = evasionPercPure
+				evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction - equippedWeaponEvasionReduction, 0, 50)
 		
 		# Empty the inventory slot
 		items[itemChooseIndex] = null

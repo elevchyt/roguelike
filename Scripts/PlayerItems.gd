@@ -33,7 +33,11 @@ func equip_weapon(itemID):
 		Player.equippedWeaponID = Player.itemsID[Player.itemChooseIndex]
 		Player.equippedWeaponDamage = Player.itemsDamage[Player.itemChooseIndex]
 		Player.equippedWeaponType = Player.itemsType[Player.itemChooseIndex]
+		Player.equippedWeaponEvasionReduction = Player.itemsEvasionReduce[Player.itemChooseIndex]
 		Player.itemsState[Player.itemChooseIndex] = 'equipped'
+		
+		# Apply Evasion reduction
+		Player.evasionPerc = clamp(Player.dexterity * 1.4 - Player.equippedArmorEvasionReduction - Player.equippedWeaponEvasionReduction, 0, 50)
 		
 		# Show *equip* text
 		GameManager.create_status_text(Player, "*equip*", '#ffffff')
@@ -44,6 +48,10 @@ func equip_weapon(itemID):
 		Player.equippedWeaponDamage = Vector2(0, 1)
 		Player.equippedWeaponType = null
 		Player.itemsState[Player.itemChooseIndex] = 'unequipped'
+		Player.equippedWeaponEvasionReduction = 0
+		
+		# Apply Evasion reduction
+		Player.evasionPerc = clamp(Player.dexterity * 1.4 - Player.equippedArmorEvasionReduction - Player.equippedWeaponEvasionReduction, 0, 50)
 		
 		# Show *unequip* text
 		GameManager.create_status_text(Player, "*unequip*", '#ffffff')
@@ -65,7 +73,7 @@ func equip_armor(itemID):
 		Player.itemsState[Player.itemChooseIndex] = 'equipped'
 		
 		# Apply Evasion reduction
-		Player.evasionPerc = clamp(Player.evasionPerc - Player.equippedArmorEvasionReduction, 0, 50)
+		Player.evasionPerc = clamp(Player.dexterity * 1.4 - Player.equippedArmorEvasionReduction - Player.equippedWeaponEvasionReduction, 0, 50)
 		
 		# Show *equip* text
 		GameManager.create_status_text(Player, "*equip*", '#ffffff')
@@ -79,7 +87,7 @@ func equip_armor(itemID):
 		Player.itemsState[Player.itemChooseIndex] = 'unequipped'
 		
 		# Remove Evasion reduction
-		Player.evasionPerc = Player.evasionPercPure
+		Player.evasionPerc = clamp(Player.dexterity * 1.4 - Player.equippedArmorEvasionReduction - Player.equippedWeaponEvasionReduction, 0, 50)
 		
 		# Show *unequip* text
 		GameManager.create_status_text(Player, "*unequip*", '#ffffff')
