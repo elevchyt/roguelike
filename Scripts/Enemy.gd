@@ -178,8 +178,9 @@ func status_check():
 				ensnareNode.queue_free()
 			
 			# Check for level-up
-			playerWhoPoisonedMe.xpCurrent += level
-			playerWhoPoisonedMe.level_up_check()
+			for player in GameManager.players:
+				player.xpCurrent += level
+				player.level_up_check()
 			
 			# Destroy self
 			queue_free()

@@ -45,7 +45,7 @@ var hasEquippedWeapon = false
 var hasEquippedArmor = false
 var equippedWeaponID = null
 var equippedArmorID = null
-var equippedWeaponDamage = Vector2(0, 1)
+var equippedWeaponDamage = 0
 var equippedWeaponType = null
 var equippedWeaponEvasionReduction = 0
 var equippedArmorResistance = 0
@@ -643,9 +643,10 @@ func attack(target):
 				if (target.ensnared == true):
 					target.ensnareNode.queue_free()
 				
-				# Check for level-up
-				xpCurrent += target.level
-				level_up_check()
+				# Check for level-up (every player)
+				for player in GameManager.players:
+					player.xpCurrent += target.level
+					player.level_up_check()
 				
 				# Destroy target
 				target.queue_free()
@@ -848,7 +849,7 @@ func drop_item(itemID):
 			if (itemsType[itemChooseIndex] == 'weaponMelee' || itemsType[itemChooseIndex] == 'weaponRanged'):
 				hasEquippedWeapon = false
 				equippedWeaponID = null
-				equippedWeaponDamage = Vector2(0, 1)
+				equippedWeaponDamage = 0
 				equippedWeaponType = null
 				equippedWeaponEvasionReduction = 0
 				evasionPerc = clamp(dexterity * 1.4 - equippedArmorEvasionReduction - equippedWeaponEvasionReduction, 0, 50)

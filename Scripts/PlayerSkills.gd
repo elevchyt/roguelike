@@ -150,8 +150,9 @@ func use_skill(skillName):
 									targetCreature.ensnareNode.queue_free()
 								
 								# Check for level-up
-								Player.xpCurrent += targetCreature.level
-								Player.level_up_check()
+								for player in GameManager.players:
+									player.xpCurrent += targetCreature.level
+									player.level_up_check()
 								
 								# Destroy target
 								targetCreature.queue_free()
@@ -230,8 +231,9 @@ func use_skill(skillName):
 						enemy.ensnareNode.queue_free()
 					
 					# Check for level-up
-					Player.xpCurrent += enemy.level
-					Player.level_up_check()
+					for player in GameManager.players:
+						player.xpCurrent += enemy.level
+						player.level_up_check()
 				
 					# Destroy target
 					enemy.queue_free()
@@ -404,8 +406,9 @@ func use_skill(skillName):
 								targetCreature.ensnareNode.queue_free()
 							
 							# Check for level-up
-							Player.xpCurrent += targetCreature.level
-							Player.level_up_check()
+							for player in GameManager.players:
+								player.xpCurrent += targetCreature.level
+								player.level_up_check()
 							
 							# Destroy target
 							targetCreature.queue_free()
@@ -803,9 +806,10 @@ func cleave_check(target):
 						if (adjEnemy.ensnared == true):
 							adjEnemy.ensnareNode.queue_free()
 						
-						# Check for level-up
-						Player.xpCurrent += adjEnemy.level
-						Player.level_up_check()
+						# Check for level-up (every player)
+						for player in GameManager.players:
+							player.xpCurrent += adjEnemy.level
+							player.level_up_check()
 						
 						# Destroy target
 						adjEnemy.queue_free()
@@ -825,9 +829,9 @@ func execute_target(target):
 	if (target.health <= 0):
 		target.health = 0
 		
-		# Check for level-up
-		Player.xpCurrent += target.level
-		Player.level_up_check()
+		for player in GameManager.players:
+			player.xpCurrent += target.level
+			player.level_up_check()
 		
 		# Destroy target
 		target.queue_free()

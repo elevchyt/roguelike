@@ -151,9 +151,23 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Creatures" type="Node2D" parent="."]
 
 [node name="Rat" parent="Creatures" instance=ExtResource( 1 )]
-position = Vector2( 288, 576 )
+position = Vector2( 864, 576 )
 level = 1
-strength = 25
+strength = 1
+dexterity = 1
+intelligence = 1
+
+[node name="Rat2" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 384, 576 )
+level = 1
+strength = 1
+dexterity = 1
+intelligence = 1
+
+[node name="Rat3" parent="Creatures" instance=ExtResource( 1 )]
+position = Vector2( 192, 96 )
+level = 1
+strength = 1
 dexterity = 1
 intelligence = 1
 
@@ -161,6 +175,11 @@ intelligence = 1
 position = Vector2( 768, 192 )
 playerClass = "Mage"
 playerColor = "blue"
+
+[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 960, 96 )
+playerClass = "Warrior"
+playerColor = "pink"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
@@ -831,6 +850,7 @@ offset = Vector2( -48, -48 )
 [node name="Tween" type="Tween" parent="HUD/Inventory"]
 
 [node name="ItemDetails" type="Sprite" parent="HUD"]
+visible = false
 
 [node name="ItemTitleShadow" type="RichTextLabel" parent="HUD/ItemDetails"]
 margin_left = 4.0
