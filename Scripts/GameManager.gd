@@ -194,7 +194,7 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 '(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.',
 'For the next 2 turns, every melee attack directed at you will also deal STR / 3 + DEX / 2 damage to the attacker.',
 '(PASSIVE) Your melee attacks have a 25% chance to execute targets whose health is under 30%.',
-'For the next 3 turns, your melee attacks deal double damage & have 100% chance to Cleave, but attacking reduces your health by 5% of your max health.',
+'For the next 3 turns, your melee attacks deal x1.5 damage & have 100% chance to cleave, but attacking reduces your health by 5% of your max health.',
 'Shoots a poisonous dart that inflicts STR damage with a 50% chance to poison its target for 3 turns. Poisoned targets take INT / 2 damage every time they finish their turn.',
 'Tosses a net onto a target, rendering them unable to move and reducing their Evasion to 0% for the next 2 turns.',
 'Leaps up to DEX / 4 steps towards any direction. (max. 10 steps)',

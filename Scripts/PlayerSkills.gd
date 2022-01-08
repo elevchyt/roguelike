@@ -30,7 +30,6 @@ onready var objPurify = preload('res://Scenes/Skills/Purify.tscn')
 onready var objDivineShield = preload('res://Scenes/Skills/Divine Shield.tscn')
 onready var objRessurect = preload('res://Scenes/Skills/Ressurect.tscn')
 
-
 ################################################################################################################
 # Skill Use Function
 func use_skill(skillName):

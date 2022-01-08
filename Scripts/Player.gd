@@ -632,6 +632,9 @@ func attack(target):
 				damageTotal = damageTotal * 1.2
 			if (invisible == true):
 				damageTotal = damageTotal + ceil((dexterity + 2) / 3)
+			if (berserk == true):
+				damageTotal = ceil(damageTotal * 1.5)
+				health -= ceil(healthMax * 0.05)
 			
 			if (damageTotal < 0):
 				damageTotal = 0
@@ -1022,6 +1025,7 @@ func status_check():
 		if (berserkCounter < 0):
 			berserkCounter = 0
 			berserk = false
+			cleaveChancePerc = 50
 			berserkNode.queue_free()
 		
 	# Check leap range (Rogue only)
