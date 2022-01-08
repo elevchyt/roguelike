@@ -106,13 +106,16 @@ func use_skill(skillName):
 			yield(get_tree().create_timer(0.1), "timeout") # build tension
 			
 			# Camera Shake
-			CameraNode.shake(15, 0.03, 2)
+			CameraNode.shake(7, 0.03, 1.5)
 			
 			# Apply berserk effect
 			Player.berserk = true
 			Player.berserkCounter = 3
 			instanceSprite.playing = true
 			Player.berserkNode = instance
+			
+			Player.cleaveChancePerc = 100
+			
 			
 			# End Turn
 			yield(get_tree().create_timer(2), "timeout")
@@ -833,7 +836,7 @@ func cleave_check(target):
 				var hitChance = randi() % 100
 				if (hitChance <= Player.cleaveChancePerc):
 					# Reduce health
-					var damageTotal = ceil(Player.strength / 3.0)
+					var damageTotal = ceil(Player.strength / 2.0)
 					adjEnemy.health -= damageTotal
 					
 					# Show damage text
