@@ -69,9 +69,7 @@ var targetMode = false # true when using targeted skills
 var skillInVision = true # to check if the current position of the target is within vision (e.g. the player has a clear shot)
 
 # Warrior variables
-var cleave = false
-var cleaveChancePerc = 50
-var execute = false
+
 
 # Mage variables
 var arcaneShield = false
@@ -103,9 +101,15 @@ var invisible = false
 var invisibleCounter = 0
 var invulnerable = false
 var invulnerableCounter = 0
+var cleave = false
+var cleaveChancePerc = 50
+var execute = false
 var retaliation = false
 var retaliationCounter = 0
 var retaliationNode
+var berserk = false
+var berserkCounter = 0
+var berserkNode
 
 # Sprites
 export(String, "Warrior", "Mage", "Rogue", "Priest", "Monk") var playerClass
@@ -141,6 +145,7 @@ func _ready():
 			skillsClass.append('Cleave')
 			skillsClass.append('Retaliation')
 			skillsClass.append('Execute')
+			skillsClass.append('Berserk')
 			
 			match playerColor:
 				"blue":
@@ -1005,10 +1010,19 @@ func status_check():
 	if (retaliation == true):
 		retaliationCounter -= 1
 		
-		if (retaliationCounter == 0):
+		if (retaliationCounter < 0):
 			retaliationCounter = 0
 			retaliation = false
 			retaliationNode.queue_free()
+		
+	# Check berserk counter (Warrior only)
+	if (berserk == true):
+		berserkCounter -= 1
+		
+		if (berserkCounter < 0):
+			berserkCounter = 0
+			berserk = false
+			berserkNode.queue_free()
 		
 	# Check leap range (Rogue only)
 	check_leap()
@@ -1020,7 +1034,7 @@ func status_check():
 	if (invisible == true):
 		invisibleCounter -= 1
 		
-		if (invisibleCounter == 0):
+		if (invisibleCounter < 0):
 			invisibleCounter = 0
 			invisible = false
 			$Sprite.modulate = Color(1, 1, 1, 1)
@@ -1029,7 +1043,7 @@ func status_check():
 	if (invulnerable == true):
 		invulnerableCounter -= 1
 		
-		if (invulnerableCounter == 0):
+		if (invulnerableCounter < 0):
 			invulnerableCounter = 0
 			invulnerable = false
 

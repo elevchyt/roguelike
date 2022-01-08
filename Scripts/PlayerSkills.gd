@@ -19,6 +19,7 @@ var hitSuccess = false
 # Skill Instances Pre-Load
 onready var objCleave = preload('res://Scenes/Skills/Cleave.tscn')
 onready var objRetaliation = preload('res://Scenes/Skills/Retaliation.tscn')
+onready var objBerserk = preload('res://Scenes/Skills/Berserk.tscn')
 onready var objFlare = preload('res://Scenes/Skills/Flare.tscn')
 onready var objThunderclap = preload('res://Scenes/Skills/Thunderclap.tscn')
 onready var objCurse = preload('res://Scenes/Skills/Curse.tscn')
@@ -75,6 +76,46 @@ func use_skill(skillName):
 			
 			# End Turn
 			yield(get_tree().create_timer(0.6), "timeout")
+			Player.end_turn()
+		'Berserk':
+			Player.skillInVision = true # make sure non-targeted skills can be cast
+			
+			# End Turn Variables
+			Player.hasPlayed = true
+			Player.active = false
+			
+			# Reduce player mana & set cooldown
+			Player.mana -= Player.skillsManaCost[Player.skillChooseIndex]
+			Player.skillsCooldownCurrent[Player.skillChooseIndex] = Player.skillsCooldown[Player.skillChooseIndex]
+			
+			# Leave skills toolbar
+			HUD.get_node('Tween').stop_all()
+			HUD.get_node('SkillsConfirmCancelButtons').position = Vector2(0, 0)
+			HUD.get_node('SkillDetails').visible = false
+			Player.skillSlots[Player.skillChooseIndex].scale = Vector2(1, 1)
+			Player.skillSlots[Player.skillChooseIndex].modulate.a = 1
+			
+			# Play particle animation
+			print(Player.name + ' used ' + Player.skills[Player.skillChooseIndex])
+			var instance = objBerserk.instance()
+			var instanceSprite = instance.get_node("AnimatedSprite")
+			instance.z_index = -2
+			add_child(instance)
+			instanceSprite.playing = true
+			
+			yield(get_tree().create_timer(0.1), "timeout") # build tension
+			
+			# Camera Shake
+			CameraNode.shake(15, 0.03, 2)
+			
+			# Apply berserk effect
+			Player.berserk = true
+			Player.berserkCounter = 3
+			instanceSprite.playing = true
+			Player.berserkNode = instance
+			
+			# End Turn
+			yield(get_tree().create_timer(2), "timeout")
 			Player.end_turn()
 		'Flare':
 			# Find eligible target

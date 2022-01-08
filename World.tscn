@@ -173,8 +173,13 @@ intelligence = 1
 
 [node name="Player" parent="Creatures" instance=ExtResource( 5 )]
 position = Vector2( 768, 192 )
-playerClass = "Warrior"
+playerClass = "Priest"
 playerColor = "blue"
+
+[node name="Player2" parent="Creatures" instance=ExtResource( 5 )]
+position = Vector2( 864, 96 )
+playerClass = "Priest"
+playerColor = "pink"
 
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource( 8 )

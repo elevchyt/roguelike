@@ -189,7 +189,7 @@ var skillsDescription = ['Shoots a flare that inflicts INT / 2 + STR / 4 damage 
 'Casts a curse on a target for 3 turns. Cursed targets take 20% more damage from all sources & have their Evasion reduced to 0%. (Cannot be evaded)',
 'Heals a friendly target for INT * 0.8.',
 'Removes all debuffs from a friendly target.',
-'Renders a friendly target invulnerable until the start of its next turn.',
+'Renders a friendly target invulnerable for the next 2 turns.',
 'Brings a friendly target back to life with 20% of their health & mana restored.',
 '(PASSIVE) Melee attacks have a 50% chance to cleave; inflicting STR / 2 damage to enemies adjacent to the target.',
 'For the next 2 turns, every melee attack directed at you will also deal STR / 3 + DEX / 2 damage to the attacker.',
