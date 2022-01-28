@@ -37,6 +37,8 @@ func _process(delta):
 		$INTShadow.bbcode_text = '[color=#ff212123]INT: ' + str(currentPlayer.intelligence) + '[/color]'
 		$Evasion.bbcode_text = 'Ev: ' + str(currentPlayer.evasionPerc) + '%'
 		$EvasionShadow.bbcode_text = '[color=#ff212123]Ev: ' + str(currentPlayer.evasionPerc) + '%' + '[/color]'
+		$Score.bbcode_text = 'Score: 9320'
+		$ScoreShadow.bbcode_text = '[color=#ff212123]Score: 9320' + '[/color]'
 		
 		# Cooldowns Text
 		if (currentPlayer.skillsCooldownCurrent[0] > 0):
